@@ -1,0 +1,11 @@
+{
+    "verison" : 2,
+    "builds" : [{
+        "src" : "./serve.js",
+        "use": "@vercel/node"
+    }],
+    "routes" : [{
+        "src": "/(.*)",
+        "dest": "/server.js"
+    }]
+}
