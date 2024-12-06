@@ -3,17 +3,39 @@ import { IoMdClose } from 'react-icons/io';
 import videoLogo from "/Logo2.png";
 import { AiOutlineGoogle } from "react-icons/ai";
 
+import  api  from '../utils/api';
+
+
 const Index = () => {
 
     const [type, setType] = useState('');
     const [show, setShow] = useState(false);
-
+    const [loader, setLoader] = useState(false)
 
     const [state, setState] = useState({
         name: '',
         email: '',
         password: ''
     })
+
+    const inputHandle = (e) => {
+        setState({
+            ...state,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const user_register = async (e) => {
+        e.preventDefault()
+        try{
+            setLoader(true)
+            const {data} = await api.post('/api/user-register', state)
+            setLoader(false)
+        } catch (error){
+            setLoader(false)
+        }
+        
+    }
 
     return (
         <div className="bg-[#18191b] min-h-screen w-full">
@@ -27,33 +49,33 @@ const Index = () => {
                     {
                         type === 'singin' &&
                         <form>
-        <div className="flex flex-col gap-3 mb-3 text-white">
-            <label htmlFor="email">Email</label>
-            <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="email"
-                value={state.email}
-                
-                className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent"
-            />
-        </div>
-        <div className="flex flex-col gap-3 mb-3 text-white">
-            <label htmlFor="password">Contraseña</label>
-            <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="password"
-                value={state.password}
-                
-                className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent"
-            />
-        </div>
-        <div>
-            <button className="px-3 py-2 rounded-md bg-purple-500 w-full outline-none hover:bg-purple-600 text-white">Iniciar sesión</button>
-        </div>
+                            <div className="flex flex-col gap-3 mb-3 text-white">
+                                <label htmlFor="email">Email</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    placeholder="email"
+                                    value={state.email}
+                                    onChange={inputHandle} // Agrega esta línea
+                                    className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent"
+                                />
+                            </div>
+                            <div className="flex flex-col gap-3 mb-3 text-white">
+                                <label htmlFor="password">Contraseña</label>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="password"
+                                    value={state.password}
+                                    onChange={inputHandle} // Agrega esta línea
+                                    className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent"
+                                />
+                            </div>
+                            <div>
+                                <button className="px-3 py-2 rounded-md bg-purple-500 w-full outline-none hover:bg-purple-600 text-white">Iniciar sesión</button>
+                            </div>
                             <div className="flex py-4 justify-between items-center px-3">
                                 <div className="w-[45%] h-[1px] bg-[#434449]"></div>
                                 <div className="w-[6%] text-center flex pb-1 px-1 text-white" >o</div>
@@ -68,18 +90,18 @@ const Index = () => {
                         </form>
                     }
                     {
-                        type === 'singup' && <form>
+                        type === 'singup' && <form onSubmit={user_register}>
                             <div className="flex flex-col gap-3 mb-3 text-white">
                                 <label htmlFor="name">Nombre</label>
-                                <input type="text" value={state.name} name='name' id='name' placeholder="name"  className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent" />
+                                <input type="text" onChange={inputHandle} value={state.name} name='name' id='name' placeholder="name" className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent" />
                             </div>
                             <div className="flex flex-col gap-3 mb-3 text-white">
                                 <label htmlFor="email">Email</label>
-                                <input type="email" value={state.email} name='email' id='email' placeholder="email" className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent" />
+                                <input type="email" onChange={inputHandle} value={state.email} name='email' id='email' placeholder="email" className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent" />
                             </div>
                             <div className="flex flex-col gap-3 mb-3 text-white">
                                 <label htmlFor="password">Contraseña</label>
-                                <input type="password" value={state.password} name='password' id='password' placeholder="password" className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent" />
+                                <input type="password" onChange={inputHandle} value={state.password} name='password' id='password' placeholder="password" className="px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent" />
                             </div>
                             <div>
                                 <button className="px-3 py-2 rounded-md bg-purple-500 w-full ounline-none hover:bg-purple-600 text-white">Registrarse</button>

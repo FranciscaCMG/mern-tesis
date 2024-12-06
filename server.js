@@ -6,11 +6,11 @@ const cors = require('cors')
 const path = require('path')
 
 dotenv.config()
-app.use(express.static(path.join(__dirname,"./frontend/dist")))
+app.use(express.json())
 
 if(process.env.NODE_ENV === 'local') {
     app.use(cors({
-        origin: 'http://localhost:3000',
+        origin: 'http://localhost:5173',
         credentials : true
     }))
 } else{
@@ -19,6 +19,7 @@ if(process.env.NODE_ENV === 'local') {
         }))
 }
 
+app.use('/api', require('./routes/authRoutes'))
 
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static(path.join(__dirname,"./frontend/dist")))
