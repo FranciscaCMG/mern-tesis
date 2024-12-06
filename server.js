@@ -6,6 +6,7 @@ const cors = require('cors')
 const path = require('path')
 
 dotenv.config()
+app.use(express.static(path.join(__dirname,"./frontend/dist")))
 
 if(process.env.NODE_ENV === 'local') {
     app.use(cors({
@@ -17,7 +18,6 @@ if(process.env.NODE_ENV === 'local') {
         credentials : true
         }))
 }
-
 
 
 if(process.env.NODE_ENV === 'production'){
@@ -40,6 +40,7 @@ const dbConnect = async()=>{
         console.log('database connection failed')
     }
 }
+
 dbConnect()
 
 const PORT = process.env.PORT || 3000;
