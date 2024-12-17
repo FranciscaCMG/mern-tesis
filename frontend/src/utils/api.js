@@ -1,12 +1,12 @@
-import axios from 'axios';
+import axios from 'axios'
 const local_api = 'http://localhost:5000'
-const production_api =''
+const production_api = ''
 
-const token = localStorage.getItem('videoclases_token')
+const token = localStorage.getItem('canva_token')
 
 const api = axios.create({
-    baseURL: local_api,
-    headers:{
+    baseURL: production_api,
+    headers: {
         'Authorization': token ? `Bearer ${token}` : ""
     },
     withCredentials: true

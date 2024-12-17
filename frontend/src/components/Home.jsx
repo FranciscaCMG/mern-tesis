@@ -65,11 +65,11 @@ const Home = () => {
                     <div className='grid grid-cols-2 pb-4 gap-3 '>
                         <div className='flex gap-2 justify-center items-start flex-col'>
                             <label htmlFor='width'>Ancho</label>
-                            <input onChange={inputHandle} type='number' name='width' className='w-full outline-none px-2 py-[4px] bg-[#1b1a1a] border border-[#404040] rounded-md' id='width' />
+                            <input required onChange={inputHandle} type='number' name='width' className='w-full outline-none px-2 py-[4px] bg-[#1b1a1a] border border-[#404040] rounded-md' id='width' />
                         </div>
                         <div className='flex gap-2 justify-center items-start flex-col'>
                             <label htmlFor='height'>Alto</label>
-                            <input onChange={inputHandle} type='number' name='height' className='w-full outline-none px-2 py-[4px] bg-[#1b1a1a] border border-[#404040] rounded-md' id='height' />
+                            <input onChange={inputHandle} type='number' name='height' required className='w-full outline-none px-2 py-[4px] bg-[#1b1a1a] border border-[#404040] rounded-md' id='height' />
                         </div>
                     </div>
                     <button  onClick={create} className='px-4 py-2 text-[13px] overflow-hidden text-center bg-[#8b3dffad] text-white rounded-[3px] font-medium hover:bg-[#8b3dffd3] w-full'>Crear un diseño nuevo</button>

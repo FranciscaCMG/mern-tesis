@@ -10,11 +10,15 @@ import Templates from "./components/Templates";
 import Projects from "./components/Projects";
 import CreateDesing from "./components/CreateDesing";
 import './App.css'
+import Prueba from "./components/Prueba";
+import { token_decode } from './utils/index'
+
+const userInfo = token_decode(localStorage.getItem('canva_token'))
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Index />,
+    element: userInfo ? <Layout /> : <Index />,
     children : [
       {
         path: '/',
@@ -35,8 +39,12 @@ const router = createBrowserRouter([
     element : <CreateDesing/>
   },
   {
-    path : '/desing/:id/edit',
-    element : <Main/>
+    path: '/design/:design_id/edit',
+    element: userInfo ? <Main /> : <Navigate to='/' />
+  },
+  {
+    path : '/prueba',
+    element : <Prueba/>
   }
 ]);
 

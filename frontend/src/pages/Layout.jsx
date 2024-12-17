@@ -1,15 +1,34 @@
 import React, { useState } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import videoLogo from "/Logo2.png";
 import userLogo from "/Logo_User2.png";
+import { token_decode } from '../utils/index'
 import { FaHome} from 'react-icons/fa';
 import { BsGrid1X2, BsFolder } from 'react-icons/bs';
 
 
 const Layout = () => {
 
-  const { pathname } = useLocation();
-  const [show, setShow] = useState(false);
+  const userInfo = token_decode(localStorage.getItem('canva_token'))
+
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const [show, setShow] = useState(false)
+
+  const create = () => {
+      navigate('/design/create', {
+          state: {
+              type: 'create',
+              width: 600,
+              height: 450
+          }
+      })
+  }
+
+  const logout = () => {
+      localStorage.removeItem('canva_token')
+      window.location.href = '/'
+  }
 
   return (
     <div className='bg-[#18191b] min-h-screen w-full'>
@@ -24,7 +43,7 @@ const Layout = () => {
                 Crear un diseño
               </button>
               <div onClick={() => setShow(!show)} className='cursor-pointer'>
-                <img src={userLogo} className='w-[45px] h-[45px] rounded-full' alt='Usuario logo' />
+              <img src={userInfo?.image ? userImage?.image : userLogo} className='w-[45px] h-[45px] rounded-full' alt='Usuario logo' />
               </div>
               <div className={`absolute top-[60px] right-0 w-[350px] bg-[#313030] p-3 border border-gray-700 transition duration-500 ${show ? 'visible opacity-100' : 'invisible opacity-30'}`}>
                 <div className='px-2 py-2 flex justify-start gap-5 items-center'>

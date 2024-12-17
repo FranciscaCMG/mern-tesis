@@ -334,7 +334,8 @@ const Main = () => {
 
                     <div onClick={() => setElements('activepause', 'activepause')} className={`${show.name === 'shape' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
                         <span className='text-2xl'><FaQuestion /></span>
-                        <span className='text-xs font-medium'>Pausa activa</span>
+                        <span className='text-xs font-medium'>Pausa </span>
+                        <span className='text-xs font-medium'>activa</span>
                     </div>
 
                     <div onClick={() => setElements('image', 'uploadImage')} className={`${show.name === 'uploadImage' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
