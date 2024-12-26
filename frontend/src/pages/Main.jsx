@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import Header from '../components/Header'
 import Projects from '../components/Projects'
-import Myimages from '../components/Myimages'
+import MyImages from '../components/MyImages'
+import InitialImage from '../components/InitialImage'
+import BackgroundImages from '../components/BackgroundImages'
 import Code from '../components/Code'
 import Table from '../components/Table'
 import ActivePause from '../components/ActivePause'
-import Image from '../components/Image'
 import CreateComponent from '../components/CreateComponent'
 import usachLogo from '/Logo_Usach.jpg'
 import { BsGrid1X2, BsFillImageFill, BsFolder } from 'react-icons/bs'
@@ -13,10 +15,12 @@ import { FaShapes, FaCloudUploadAlt, FaCode, FaTable, FaQuestion } from 'react-i
 import { TfiText } from 'react-icons/tfi'
 import { RxTransparencyGrid } from 'react-icons/rx'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
-import TemplateDesing from '../components/main/TemplateDesing'
+import TemplateDesign from '../components/main/TemplateDesign'
+import api from '../utils/api'
 
 const Main = () => {
-
+    const [selectItem, setSelectItem] = useState('')
+    const { design_id } = useParams()
     const [state, setState] = useState('')
     const [current_component, setCurrentComponent] = useState('')
     const [color, setColor] = useState('')
@@ -44,6 +48,20 @@ const Main = () => {
         name: ''
     })
 
+    const [components, setComponents] = useState([
+        {
+            name: "main_frame",
+            type: "rect",
+            id: Math.floor((Math.random() * 100) + 1),
+            height: 450,
+            width: 650,
+            z_index: 1,
+            color: '#fff',
+            image: "",
+            setCurrentComponent: (a) => setCurrentComponent(a)
+        }
+    ])
+
     const setElements = (type, name) => {
         setState(type)
         setShow({
@@ -60,6 +78,7 @@ const Main = () => {
         const currentDiv = document.getElementById(id)
 
         const mouseMove = ({ movementX, movementY }) => {
+            setSelectItem("")
             const getStyle = window.getComputedStyle(currentDiv)
             const left = parseInt(getStyle.left)
             const top = parseInt(getStyle.top)
@@ -79,6 +98,9 @@ const Main = () => {
 
         window.addEventListener('mousemove', mouseMove)
         window.addEventListener('mouseup', mouseUp)
+        currentDiv.ondragstart = function () {
+            return false;
+        };
     }
 
 
@@ -110,6 +132,9 @@ const Main = () => {
 
         window.addEventListener('mousemove', mouseMove)
         window.addEventListener('mouseup', mouseUp)
+        currentDiv.ondragstart = function () {
+            return false;
+        };
     }
 
     const rotateElement = (id, currentInfo) => {
@@ -134,8 +159,6 @@ const Main = () => {
             }
 
             target.style.transform = `rotate(${deg}deg)`
-
-
         }
 
         const mouseUp = (e) => {
@@ -150,6 +173,10 @@ const Main = () => {
 
         window.addEventListener('mousemove', mouseMove)
         window.addEventListener('mouseup', mouseUp)
+
+        target.ondragstart = function () {
+            return false;
+        };
     }
 
     const removeComponent = (id) => {
@@ -158,44 +185,34 @@ const Main = () => {
         setComponents(temp)
     }
 
-    const remove_background = () => {
-        const updatedComponents = components.map(c => {
-            if (c.id === current_component.id) {
-                return { ...c, image: '' };
-            }
-            return c;
-        });
+    const duplicate = (current) => {
+        if (current) {
+            setComponents([...components, { ...current, id: Date.now() }])
+        }
+    }
 
-        setImage('');
-        setComponents(updatedComponents);
-    };
+    const remove_background = () => {
+        const com = components.find(c => c.id === current_component.id)
+        const temp = components.filter(c => c.id !== current_component.id)
+        com.image = ''
+        setImage("")
+        setComponents([...temp, com])
+    }
 
     const opacityHandle = (e) => {
         setOpacity(parseFloat(e.target.value))
     }
 
-    const [components, setComponents] = useState([
-        {
-            name: "main_frame",
-            type: "rect",
-            id: Math.floor((Math.random() * 100) + 1),
-            height: 450,
-            width: 650,
-            z_index: 1,
-            color: '#fff',
-            image: "",
-            setCurrentComponent: (a) => setCurrentComponent(a)
-        }
-    ])
-
     const createShape = (name, type) => {
+        setCurrentComponent('')
+        const id = Date.now()
         const style = {
-            id: components.length + 1,
+            id: id,
             name: name,
             type,
             left: 10,
             top: 10,
-            opacity: 200,
+            opacity: 1,
             width: 200,
             height: 150,
             rotate,
@@ -206,17 +223,21 @@ const Main = () => {
             resizeElement,
             rotateElement
         }
+        setSelectItem(id)
+        setCurrentComponent(style)
         setComponents([...components, style])
     }
 
     const add_text = (name, type, titleName, titleSize, font) => {
+        setCurrentComponent('')
+        const id = Date.now()
         const style = {
-            id: components.length + 1,
+            id: id,
             name: name,
             type,
             left: 10,
             top: 10,
-            opacity: 200,
+            opacity: 1,
             rotate,
             z_index: 10,
             padding: 6,
@@ -234,6 +255,7 @@ const Main = () => {
 
         setWeight('')
         setFont('')
+        setSelectItem(id)
         setCurrentComponent(style)
         setComponents([...components, style])
 
@@ -242,8 +264,10 @@ const Main = () => {
     }
 
     const add_image = (img) => {
+        setCurrentComponent('')
+        const id = Date.now()
         const style = {
-            id: components.length + 1,
+            id: id,
             name: 'image',
             type: 'image',
             left: 10,
@@ -260,7 +284,8 @@ const Main = () => {
             resizeElement,
             rotateElement
         }
-
+        
+        setSelectItem(id)
         setCurrentComponent(style)
         setComponents([...components, style])
 
@@ -301,12 +326,35 @@ const Main = () => {
         }
     }, [color, image, left, top, width, height, opacity, text])
 
+    useEffect(() => {
+        const get_design = async () => {
+            try {
+                const { data } = await api.get(`/api/user-design/${design_id}`)
+                const { design } = data
+
+                for (let i = 0; i < design.length; i++) {
+                    console.log('entré al for')
+                    design[i].setCurrentComponent = (a) => setCurrentComponent(a)
+                    design[i].moveElement = moveElement
+                    design[i].resizeElement = resizeElement
+                    design[i].rotateElement = rotateElement
+                    design[i].remove_background = remove_background
+
+                }
+                setComponents(design)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        get_design()
+    }, [design_id])
+
     return (
         <div className='min-w-screen h-screen bg-black'>
-            <Header />
+            <Header components={components} design_id={design_id} />
             <div className='flex h-[calc(100%-60px)] w-screen'>
                 <div className='w-[80px] bg-[#18191b] z-50 h-full text-gray-400 overflow-y-auto'>
-                    <div onClick={() => setElements('desing', 'desing')} className={` ${show.name === 'desing' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
+                    <div onClick={() => setElements('design', 'design')} className={` ${show.name === 'design' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
                         <span className='text-2xl'><BsGrid1X2 /></span>
                         <span className='text-xs font-medium'>Diseño</span>
                     </div>
@@ -364,11 +412,9 @@ const Main = () => {
                     <div className={`${show.status ? 'p-0 -left-[350px]' : 'px-8 left-[75px] py-5'} bg-[#252627] h-full fixed transition-all w-[350px] z-30 duration-700`}>
                         <div onClick={() => setShow({ name: '', status: true })} className='flex absolute justify-center items-center bg-[#252627] w-[20px] -right-2 text-slate-300 top-[40%] cursor-pointer h-[100px] rounded-full'><MdKeyboardArrowLeft /></div>
                         {
-                            state === 'desing' && <div>
-                                <div className='grid grid-cols-2 gap-2'>
-                                    <TemplateDesing />
-                                </div>
-                            </div>
+                            state === 'design' && <div>
+                            <TemplateDesign type='main' />
+                        </div>
                         }
                         {
                             state === 'text' && <div className="space-y-4">
@@ -391,7 +437,7 @@ const Main = () => {
                         {
                             state === 'table' && <div>
                                 <Table />
-                                </div> 
+                            </div>
                         }
                         {
                             state === 'shape' && <div className='grid grid-cols-3 gap-2'>
@@ -403,36 +449,28 @@ const Main = () => {
                         {
                             state === 'activepause' && <ActivePause />
                         }
-                                                {
-                            state === 'initImage' && <div className='h-[80vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
-                                <Image add_image={add_image} />
+                        {
+                            state === 'initImage' && <div className='h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
+                                <InitialImage add_image={add_image} />
                             </div>
                         }
-                                                {
-                            state === 'project' && <Projects />
+                        {
+                            state === 'project' && <Projects type='main' design_id={design_id} />
                         }
                         {
-                            state === 'image' && <Myimages />
+                            state === 'image' && <MyImages add_image={add_image} />
                         }
                         {
-                            state === 'background' && <div className='h-[80vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
-                                <div className='grid grid-cols-2 gap-2'>
-                                    {
-                                        [1, 2, 3, 4].map((img, i) => <div onClick={() => setImage(usachLogo)} key={i} className='w-full h-[200px] overflow-hidden rounded-sm cursor-pointer'>
-                                            <img className='w-full h-full object-fill' src={usachLogo} alt="image" />
-
-                                        </div>)
-                                    }
-
-                                </div>
-                            </div>
+                            state === 'background' && <div className='h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
+                            <BackgroundImages type='background' setImage={setImage} />
+                        </div>
                         }
 
                     </div>
                     <div className='w-full flex h-full' >
                         <div className={`flex justify-center relative items-center h-full ${!current_component ? 'w-full' : "w-[calc(100%-250px)] overflow-hidden"}`}>
                             <div className='m-w-[650px] m-h-[480px] flex justify-center items-center overflow-hidden'>
-                                <div id='main_desing' className='w-auto relative h-auto overflow-hidden'>
+                                <div id='main_design' className='w-auto relative h-auto overflow-hidden'>
                                     {
                                         components.map((c) => <CreateComponent key={c.id} info={c} current_component={current_component} removeComponent={removeComponent} />)
 
@@ -455,7 +493,7 @@ const Main = () => {
                                         </div>
                                     }
                                     {
-                                        current_component.name !== 'main_frame'  && <div
+                                        current_component.name !== 'main_frame' && <div
                                             className='flex gap-3 flex-col'>
                                             <div className='flex gap-1 justify-start items-start'>
                                                 <span className='text-md w-[70px]'>Opacidad: </span>
