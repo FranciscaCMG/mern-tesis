@@ -60,6 +60,7 @@ const CreateDesign = () => {
             navigate('/')
         }
     }, [state, ref])
+    
     return (
         <div className='w-screen h-screen flex justify-center items-center relative'>
             <div ref={ref} className='relative w-auto h-auto overflow-auto'>

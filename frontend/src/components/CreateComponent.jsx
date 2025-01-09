@@ -1,6 +1,8 @@
 import React from 'react'
 import { BsTrash } from 'react-icons/bs'
 import Element from './Element'
+import Table from './Table'
+import List from './List'
 
 const CreateComponent = ({ info, current_component, removeComponent }) => {
 
@@ -34,7 +36,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
         }}
             className='absolute group hover:border-[2px] hover:border-indigo-500'
         >
-            <Element id={randValue} info ={info} exId="" />
+            <Element id={randValue} info={info} exId="" />
             {
                 current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
                     <BsTrash />
@@ -54,7 +56,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
         }}
             className='absolute group hover:border-[2px] hover:border-indigo-500'
         >
-            <Element id={randValue} info ={info} exId={`${randValue}c`} />
+            <Element id={randValue} info={info} exId={`${randValue}c`} />
             <div id={`${randValue}c`} className='rounded-full' style={{
                 width: info.width + 'px',
                 height: info.width + 'px',
@@ -83,7 +85,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
         }}
             className='absolute group hover:border-[2px] hover:border-indigo-500'
         >
-            <Element id={randValue} info ={info} exId={`${randValue}t`} />
+            <Element id={randValue} info={info} exId={`${randValue}t`} />
             <div id={`${randValue}t`} style={{
                 width: info.width + 'px',
                 height: info.height + 'px',
@@ -103,22 +105,22 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
         </div>
     }
 
-    if(info.name === 'text'){
+    if (info.name === 'text') {
         html = <div id={randValue} onClick={() => info.setCurrentComponent(info)} style={{
 
             left: info.left + 'px',
             top: info.top + 'px',
             zIndex: info.z_index,
             transform: info.rotate ? `rotate(${info.rotate}deg)` : 'rotate(0deg)',
-            padding : info.padding + 'px',
-            color : info.color,
+            padding: info.padding + 'px',
+            color: info.color,
             opacity: info.opacity,
         }}
             className='absolute group hover:border-[2px] hover:border-indigo-500'
         >
-            <Element id={randValue} info ={info} exId="" />
+            <Element id={randValue} info={info} exId="" />
 
-            <h2 style={{fontSize : info.font + 'px', fontWeight: info.weight }} className='w-full h-full'>{info.title}</h2>
+            <h2 style={{ fontSize: info.font + 'px', fontWeight: info.weight }} className='w-full h-full'>{info.title}</h2>
 
             {
                 current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
@@ -129,7 +131,120 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
         </div>
     }
 
-    if(info.name === 'image'){
+    if (info.name === 'code') {
+        html = <div id={randValue} onClick={() => info.setCurrentComponent(info)} style={{
+
+            left: info.left + 'px',
+            top: info.top + 'px',
+            zIndex: info.z_index,
+            transform: info.rotate ? `rotate(${info.rotate}deg)` : 'rotate(0deg)',
+            padding: info.padding + 'px',
+            color: info.color,
+            backgroundColor: '#2a2b2c',
+            fontFamily: 'Source Code Pro',
+            opacity: info.opacity,
+        }}
+            className='absolute group hover:border-[2px] hover:border-indigo-500'
+        >
+            <Element id={randValue} info={info} exId="" />
+
+            <h2 style={{ fontSize: info.font + 'px', fontWeight: info.weight }} className='w-full h-full'>{info.title}</h2>
+
+            {
+                current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
+                    <BsTrash />
+                </div>
+            }
+
+        </div>
+    }
+
+    if (info.name === 'list') {
+        html = (
+            <div
+                id={randValue}
+                onClick={() => info.setCurrentComponent(info)}
+                style={{
+                    left: info.left + 'px',
+                    top: info.top + 'px',
+                    zIndex: info.z_index,
+                    padding: info.padding + 'px',
+                    color: info.color,
+                    backgroundColor: '#fff',
+                    fontFamily: 'Source Code Pro',
+                    opacity: info.opacity,
+                }}
+                className="absolute group hover:border-[2px] hover:border-indigo-500"
+            >
+                <List
+                    initialItems={info.listItems || []}
+                    isOrdered={info.isOrdered}
+                    updateListData={(updatedList) => {
+                        info.setCurrentComponent({
+                            ...info,
+                            listItems: updatedList, 
+                        });
+                    }}
+                />
+
+                {current_component.id === info.id && (
+                    <div
+                        onClick={() => removeComponent(info.id)}
+                        className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
+                    >
+                        <BsTrash />
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+    if (info.name === 'table') {
+        html = (
+            <div
+                id={randValue}
+                onClick={() => info.setCurrentComponent(info)}
+                style={{
+                    left: info.left + 'px',
+                    top: info.top + 'px',
+                    zIndex: info.z_index,
+                    transform: info.rotate ? `rotate(${info.rotate}deg)` : 'rotate(0deg)',
+                    padding: info.padding + 'px',
+                    color: info.color,
+                    backgroundColor: '#fff',
+                    fontFamily: 'Source Code Pro',
+                    opacity: info.opacity,
+                }}
+                className="absolute group hover:border-[2px] hover:border-indigo-500"
+            >
+                <Element id={randValue} info={info} exId="" />
+
+                <Table
+                    rows={info.rows}
+                    columns={info.columns}
+                    tableData={info.tableData}
+                    updateTableData={(updatedData) => {
+                        info.setCurrentComponent({
+                            ...info,
+                            tableData: updatedData, // Actualizar los datos en el estado principal
+                        });
+                    }}
+                />
+
+                {current_component.id === info.id && (
+                    <div
+                        onClick={() => removeComponent(info.id)}
+                        className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
+                    >
+                        <BsTrash />
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+
+    if (info.name === 'image') {
         html = <div id={randValue} onClick={() => info.setCurrentComponent(info)} style={{
 
             left: info.left + 'px',
@@ -140,7 +255,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
         }}
             className='absolute group hover:border-[2px] hover:border-indigo-500'
         >
-            <Element id={randValue} info ={info} exId={`${randValue}img`} />
+            <Element id={randValue} info={info} exId={`${randValue}img`} />
             <div id={`${randValue}img`} style={{
                 width: info.width + 'px',
                 height: info.height + 'px',

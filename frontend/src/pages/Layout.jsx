@@ -19,8 +19,8 @@ const Layout = () => {
     navigate('/design/create', {
       state: {
         type: 'create',
-        width: 600,
-        height: 450
+        width: 826,
+        height: 480
       }
     })
   }

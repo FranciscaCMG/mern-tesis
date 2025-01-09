@@ -1,47 +1,51 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import Projects from '../components/Projects'
 import MyImages from '../components/MyImages'
 import InitialImage from '../components/InitialImage'
 import BackgroundImages from '../components/BackgroundImages'
-import Code from '../components/Code'
-import Table from '../components/Table'
+import { IoDuplicateOutline } from "react-icons/io5";
 import ActivePause from '../components/ActivePause'
-import CreateComponent from '../components/CreateComponent'
 import usachLogo from '/Logo_Usach.jpg'
 import { BsGrid1X2, BsFillImageFill, BsFolder } from 'react-icons/bs'
-import { FaShapes, FaCloudUploadAlt, FaCode, FaTable, FaQuestion } from 'react-icons/fa'
+import { FaShapes, FaCloudUploadAlt, FaCode, FaTable, FaQuestion, FaList } from 'react-icons/fa'
 import { TfiText } from 'react-icons/tfi'
 import { RxTransparencyGrid } from 'react-icons/rx'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
 import TemplateDesign from '../components/main/TemplateDesign'
 import api from '../utils/api'
 
+import ViewSlide from '../components/slide/ViewSlide'
+
 const Main = () => {
     const [selectItem, setSelectItem] = useState('')
     const { design_id } = useParams()
     const [state, setState] = useState('')
     const [current_component, setCurrentComponent] = useState('')
-    const [color, setColor] = useState('')
-    const [image, setImage] = useState('')
-    const [rotate, setRotate] = useState(0)
-    const [left, setLeft] = useState('')
-    const [top, setTop] = useState('')
-    const [width, setWidth] = useState('')
-    const [height, setHeight] = useState('')
-    const [padding, setPadding] = useState('')
-    const [font, setFont] = useState('')
-    const [weight, setWeight] = useState('')
-    const [opacity, setOpacity] = useState('')
-    const [text, setText] = useState('')
-    const [radius, setRadius] = useState(0)
+
+    const [attributes, setAttributes] = useState({
+        color: '',
+        image: '',
+        left: '',
+        top: '',
+        text: ''
+    })
+
+    const handleSetAttributes = (key, value) => {
+        setAttributes({
+            ...attributes,
+            [key]: value
+        })
+    }
 
     const titles = [
         { id: 1, size: "text-6xl", font: 48, label: "Titulo" },
         { id: 2, size: "text-4xl", font: 36, label: "Subtitulo" },
         { id: 3, size: "text-2xl", font: 24, label: "Parrafo" },
     ];
+
+    const [dimensions, setDimensions] = useState({ rows: 0, columns: 0 });
 
     const [show, setShow] = useState({
         status: true,
@@ -92,89 +96,14 @@ const Main = () => {
             isMoving = false
             window.removeEventListener('mousemove', mouseMove)
             window.removeEventListener('mouseup', mouseUp)
-            setLeft(parseInt(currentDiv.style.left))
-            setTop(parseInt(currentDiv.style.top))
+
+            handleSetAttributes('left', parseInt(currentDiv.style.left))
+            handleSetAttributes('top', parseInt(currentDiv.style.top))
         }
 
         window.addEventListener('mousemove', mouseMove)
         window.addEventListener('mouseup', mouseUp)
         currentDiv.ondragstart = function () {
-            return false;
-        };
-    }
-
-
-
-    const resizeElement = (id, currentInfo) => {
-        setCurrentComponent(currentInfo)
-
-        let isMoving = true
-
-        const currentDiv = document.getElementById(id)
-
-        const mouseMove = ({ movementX, movementY }) => {
-            const getStyle = window.getComputedStyle(currentDiv)
-            const width = parseInt(getStyle.width)
-            const height = parseInt(getStyle.height)
-            if (isMoving) {
-                currentDiv.style.width = `${width + movementX}px`
-                currentDiv.style.height = `${height + movementY}px`
-            }
-        }
-
-        const mouseUp = (e) => {
-            isMoving = false
-            window.removeEventListener('mousemove', mouseMove)
-            window.removeEventListener('mouseup', mouseUp)
-            setWidth(parseInt(currentDiv.style.width))
-            setHeight(parseInt(currentDiv.style.height))
-        }
-
-        window.addEventListener('mousemove', mouseMove)
-        window.addEventListener('mouseup', mouseUp)
-        currentDiv.ondragstart = function () {
-            return false;
-        };
-    }
-
-    const rotateElement = (id, currentInfo) => {
-        setCurrentComponent("")
-        setCurrentComponent(currentInfo)
-
-        const target = document.getElementById(id)
-
-        const mouseMove = ({ movementX, movementY }) => {
-            const getStyle = window.getComputedStyle(target)
-
-            const trans = getStyle.transform
-
-            const values = trans.split('(')[1].split(')')[0].split(',')
-
-            const angle = Math.round(Math.atan2(values[1], values[0]) * (180 / Math.PI))
-
-            let deg = angle < 0 ? angle + 360 : angle
-
-            if (movementX) {
-                deg = deg + movementX
-            }
-
-            target.style.transform = `rotate(${deg}deg)`
-        }
-
-        const mouseUp = (e) => {
-            window.removeEventListener('mousemove', mouseMove)
-            window.removeEventListener('mouseup', mouseUp)
-            const getStyle = window.getComputedStyle(target)
-            const trans = getStyle.transform
-            const values = trans.split('(')[1].split(')')[0].split(',')
-            const angle = Math.round(Math.atan2(values[1], values[0]) * (180 / Math.PI))
-            setRotate(deg)
-        }
-
-        window.addEventListener('mousemove', mouseMove)
-        window.addEventListener('mouseup', mouseUp)
-
-        target.ondragstart = function () {
             return false;
         };
     }
@@ -185,22 +114,12 @@ const Main = () => {
         setComponents(temp)
     }
 
-    const duplicate = (current) => {
-        if (current) {
-            setComponents([...components, { ...current, id: Date.now() }])
-        }
-    }
-
     const remove_background = () => {
         const com = components.find(c => c.id === current_component.id)
         const temp = components.filter(c => c.id !== current_component.id)
         com.image = ''
-        setImage("")
+        handleSetAttributes('image', '')
         setComponents([...temp, com])
-    }
-
-    const opacityHandle = (e) => {
-        setOpacity(parseFloat(e.target.value))
     }
 
     const createShape = (name, type) => {
@@ -215,13 +134,10 @@ const Main = () => {
             opacity: 1,
             width: 200,
             height: 150,
-            rotate,
             z_index: 2,
             color: '#3c3c3d',
             setCurrentComponent: (a) => setCurrentComponent(a),
-            moveElement,
-            resizeElement,
-            rotateElement
+            moveElement
         }
         setSelectItem(id)
         setCurrentComponent(style)
@@ -238,7 +154,6 @@ const Main = () => {
             left: 10,
             top: 10,
             opacity: 1,
-            rotate,
             z_index: 10,
             padding: 6,
             font: font,
@@ -248,13 +163,9 @@ const Main = () => {
             weight: 400,
             color: '#3c3c3d',
             setCurrentComponent: (a) => setCurrentComponent(a),
-            moveElement,
-            resizeElement,
-            rotateElement
+            moveElement
         }
 
-        setWeight('')
-        setFont('')
         setSelectItem(id)
         setCurrentComponent(style)
         setComponents([...components, style])
@@ -262,6 +173,98 @@ const Main = () => {
         console.log(`Seleccionaste: ${titleName} con tamaño ${titleSize}`);
 
     }
+
+    useEffect(() => {
+        console.log(components);
+    }, [components]);
+
+    const add_table = (name, rows, columns) => {
+        setCurrentComponent('');
+        const id = Date.now();
+
+        const tableData = Array.from({ length: rows }, () =>
+            Array.from({ length: columns }, () => '')
+        );
+
+        const style = {
+            id: id,
+            name: name,
+            type: 'table',
+            rows: rows,
+            columns: columns,
+            left: 10,
+            top: 10,
+            opacity: 1,
+            z_index: 10,
+            padding: 6,
+            color: '#3c3c3d',
+            title: "Título de la tabla",
+            tableData: tableData,
+            setCurrentComponent: (a) => setCurrentComponent(a),
+            moveElement
+        };
+
+        setSelectItem(id);
+        setCurrentComponent(style);
+        setComponents([...components, style]);
+
+        console.log(`Tabla creada con ${rows} filas y ${columns} columnas.`);
+    };
+
+    const add_code = (name, type) => {
+        setCurrentComponent('')
+        const id = Date.now()
+        const style = {
+            id: id,
+            name: name,
+            type,
+            left: 10,
+            top: 10,
+            opacity: 1,
+            z_index: 10,
+            padding: 6,
+            font: 22,
+            title: "<Agregar código>",
+            weight: 400,
+            color: '#3c3c3d',
+            setCurrentComponent: (a) => setCurrentComponent(a),
+            moveElement
+        }
+
+        setSelectItem(id)
+        setCurrentComponent(style)
+        setComponents([...components, style])
+
+    }
+
+    const add_list = (name, type, isOrdered = false) => {
+        setCurrentComponent(''); // Resetear el componente actual
+        const id = Date.now();
+
+        const style = {
+            id: id,
+            name: name,
+            type: type,
+            left: 10,
+            top: 10,
+            opacity: 1,
+            z_index: 10,
+            padding: 6,
+            font: 22,
+            title: "<Agregar lista>",
+            weight: 400,
+            color: '#3c3c3d',
+            textColor: 'text-white',
+            isOrdered: isOrdered,
+            listItems: ['Elemento 1'], // Inicializar la lista con un ítem
+            setCurrentComponent: (a) => setCurrentComponent(a),
+            moveElement
+        };
+
+        setSelectItem(id);
+        setCurrentComponent(style); // Establecer el componente actual
+        setComponents([...components, style]); // Agregar el nuevo componente a la lista de componentes
+    };
 
     const add_image = (img) => {
         setCurrentComponent('')
@@ -275,16 +278,13 @@ const Main = () => {
             opacity: 1,
             width: 200,
             height: 150,
-            rotate,
             z_index: 2,
             ratius: 0,
             image: img,
             setCurrentComponent: (a) => setCurrentComponent(a),
-            moveElement,
-            resizeElement,
-            rotateElement
+            moveElement
         }
-        
+
         setSelectItem(id)
         setCurrentComponent(style)
         setComponents([...components, style])
@@ -295,36 +295,33 @@ const Main = () => {
         if (current_component) {
             const index = components.findIndex(c => c.id === current_component.id)
             const temp = components.filter(c => c.id !== current_component.id)
-            if (current_component.name !== 'text') {
-                components[index].width = width || current_component.width
-                components[index].height = height || current_component.height
-                components[index].rotate = rotate || current_component.rotate
-            }
             if (current_component.name === 'text') {
-                components[index].title = text || current_component.title
+                components[index].title = attributes.text || current_component.title
             }
-            if (current_component.name === 'main_frame' && image) {
-                components[index].image = image || current_component.image
+            if (current_component.name === 'code') {
+                components[index].title = attributes.text || current_component.title
             }
-            components[index].color = color || current_component.color
+            if (current_component.name === 'table') {
+                components[index].title = attributes.text || current_component.title
+                components[index].title2 = attributes.text || current_component.title2
+            }
+            if (current_component.name === 'main_frame' && attributes.image) {
+                components[index].image = attributes.image || current_component.image
+            }
+            components[index].color = attributes.color || current_component.color
             if (current_component.name !== 'main_frame') {
-                components[index].left = left || current_component.left
-                components[index].top = top || current_component.top
-                components[index].opacity = opacity || current_component.opacity
+                components[index].left = attributes.left || current_component.left
+                components[index].top = attributes.top || current_component.top
             }
             setComponents([...temp, components[index]])
 
-            setColor('')
-            setWidth('')
-            setHeight('')
-            setTop('')
-            setLeft('')
-            setRotate(0)
-            setOpacity('')
-            setText('')
+            handleSetAttributes('color', '')
+            handleSetAttributes('top', '')
+            handleSetAttributes('left', '')
+            handleSetAttributes('text', '')
 
         }
-    }, [color, image, left, top, width, height, opacity, text])
+    }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text])
 
     useEffect(() => {
         const get_design = async () => {
@@ -336,8 +333,6 @@ const Main = () => {
                     console.log('entré al for')
                     design[i].setCurrentComponent = (a) => setCurrentComponent(a)
                     design[i].moveElement = moveElement
-                    design[i].resizeElement = resizeElement
-                    design[i].rotateElement = rotateElement
                     design[i].remove_background = remove_background
 
                 }
@@ -348,10 +343,21 @@ const Main = () => {
         }
         get_design()
     }, [design_id])
+    const navigate = useNavigate()
+    const create = () => {
+        navigate('/design/create', {
+            state: {
+                type: 'create',
+                width: 600,
+                height: 450
+            }
+        })
+    }
 
     return (
         <div className='min-w-screen h-screen bg-black'>
             <Header components={components} design_id={design_id} />
+
             <div className='flex h-[calc(100%-60px)] w-screen'>
                 <div className='w-[80px] bg-[#18191b] z-50 h-full text-gray-400 overflow-y-auto'>
                     <div onClick={() => setElements('design', 'design')} className={` ${show.name === 'design' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
@@ -365,12 +371,17 @@ const Main = () => {
 
                     </div>
 
-                    <div onClick={() => setElements('code', 'code')} className={`${show.name === 'shape' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
+                    <div onClick={() => setElements('code', 'code')} className={`${show.name === 'code' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
                         <span className='text-2xl'><FaCode /></span>
                         <span className='text-xs font-medium'>Código</span>
                     </div>
 
-                    <div onClick={() => setElements('table', 'table')} className={`${show.name === 'shape' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
+                    <div onClick={() => setElements('list', 'list')} className={`${show.name === 'list' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
+                        <span className='text-2xl'><FaList /></span>
+                        <span className='text-xs font-medium'>Lista</span>
+                    </div>
+
+                    <div onClick={() => setElements('table', 'table')} className={`${show.name === 'table' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
                         <span className='text-2xl'><FaTable /></span>
                         <span className='text-xs font-medium'>Tabla</span>
                     </div>
@@ -380,7 +391,7 @@ const Main = () => {
                         <span className='text-xs font-medium'>Formas</span>
                     </div>
 
-                    <div onClick={() => setElements('activepause', 'activepause')} className={`${show.name === 'shape' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
+                    <div onClick={() => setElements('activepause', 'activepause')} className={`${show.name === 'activepause' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
                         <span className='text-2xl'><FaQuestion /></span>
                         <span className='text-xs font-medium'>Pausa </span>
                         <span className='text-xs font-medium'>activa</span>
@@ -413,8 +424,8 @@ const Main = () => {
                         <div onClick={() => setShow({ name: '', status: true })} className='flex absolute justify-center items-center bg-[#252627] w-[20px] -right-2 text-slate-300 top-[40%] cursor-pointer h-[100px] rounded-full'><MdKeyboardArrowLeft /></div>
                         {
                             state === 'design' && <div>
-                            <TemplateDesign type='main' />
-                        </div>
+                                <TemplateDesign type='main' />
+                            </div>
                         }
                         {
                             state === 'text' && <div className="space-y-4">
@@ -432,13 +443,68 @@ const Main = () => {
                             </div>
                         }
                         {
-                            state === 'code' && <Code />
-                        }
-                        {
-                            state === 'table' && <div>
-                                <Table />
+                            state === 'code' && <div>
+                                <div className='grid grid-cols-1 gap-2'>
+                                    <div onClick={() => add_code('code', 'code')} className='bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm'>
+                                        <h2>Código</h2>
+                                    </div>
+                                </div>
                             </div>
                         }
+                        {
+                            state === 'list' && (
+                                <div>
+                                    <div className="grid grid-cols-1 gap-2">
+                                        {/* Botón para agregar lista desordenada */}
+                                        <div
+                                            onClick={() => add_list('list', 'unordered', false)}
+                                            className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm"
+                                        >
+                                            <h2>Lista Desordenada</h2>
+                                        </div>
+
+                                        {/* Botón para agregar lista ordenada */}
+                                        <div
+                                            onClick={() => add_list('list', 'ordered', true)}
+                                            className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm"
+                                        >
+                                            <h2>Lista Ordenada</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        }
+                        {
+                            state === 'table' && (
+                                <div className="space-y-4">
+                                    <h2 className="text-lg font-bold text-white ">Insertar tabla</h2>
+                                    <div className="flex flex-col items-start space-y-2">
+                                        <div className="grid grid-cols-6 grid-rows-5 gap-1 w-[180px] h-[150px] border border-gray-300 relative">
+                                            {Array.from({ length: 30 }).map((_, index) => {
+                                                const row = Math.floor(index / 6) + 1; // Máximo 5 filas
+                                                const col = (index % 6) + 1; // Máximo 6 columnas
+
+                                                return (
+                                                    <div
+                                                        key={index}
+                                                        onMouseEnter={() => setDimensions({ rows: row, columns: col })}
+                                                        onClick={() => add_table('table', row, col)}
+                                                        className={`w-full h-full border hover:bg-blue-300 ${row <= dimensions.rows && col <= dimensions.columns
+                                                            ? 'bg-blue-500'
+                                                            : ''
+                                                            }`}
+                                                    ></div>
+                                                );
+                                            })}
+                                        </div>
+                                        <span className="text-sm text-gray-500">
+                                            {dimensions.rows} x {dimensions.columns}
+                                        </span>
+                                    </div>
+                                </div>
+                            )
+                        }
+
                         {
                             state === 'shape' && <div className='grid grid-cols-3 gap-2'>
                                 <div onClick={() => createShape('shape', 'rect')} className='h-[90px] bg-[#3c3c3d] cursor-pointer'></div>
@@ -462,62 +528,28 @@ const Main = () => {
                         }
                         {
                             state === 'background' && <div className='h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
-                            <BackgroundImages type='background' setImage={setImage} />
-                        </div>
-                        }
-
-                    </div>
-                    <div className='w-full flex h-full' >
-                        <div className={`flex justify-center relative items-center h-full ${!current_component ? 'w-full' : "w-[calc(100%-250px)] overflow-hidden"}`}>
-                            <div className='m-w-[650px] m-h-[480px] flex justify-center items-center overflow-hidden'>
-                                <div id='main_design' className='w-auto relative h-auto overflow-hidden'>
-                                    {
-                                        components.map((c) => <CreateComponent key={c.id} info={c} current_component={current_component} removeComponent={removeComponent} />)
-
-                                    }
-                                </div>
-
-                            </div>
-                        </div>
-                        {
-                            current_component && <div className='h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2'>
-                                <div className='flex gap-3 flex-col items-start h-full px-3 justify-start'>
-                                    <div className='flex gap-4 justify-start items-start'>
-                                        <span>Color: </span>
-                                        <label className='w-[30px] h-[30px] cursor-pointer rounded-sm' style={{ background: `${current_component.color && current_component.color !== '#fff' ? current_component.color : 'gray'}` }} htmlFor="color"></label>
-                                        <input onChange={(e) => setColor(e.target.value)} type="color" className='invisible' id='color' />
-                                    </div>
-                                    {
-                                        (current_component.name === 'main_frame' && image) && <div>
-                                            <button className='p-[6px] bg-slate-700 text-white rounded-sm' onClick={remove_background}>Eliminar fondo</button>
-                                        </div>
-                                    }
-                                    {
-                                        current_component.name !== 'main_frame' && <div
-                                            className='flex gap-3 flex-col'>
-                                            <div className='flex gap-1 justify-start items-start'>
-                                                <span className='text-md w-[70px]'>Opacidad: </span>
-                                                <input onChange={opacityHandle} className='w-[70px] border border-gray-700 bf-transparent outline-none px-2 rounded-md' type="number" step={0.1} min={0.1} max={1} value={current_component.opacity} />
-                                            </div>
-
-                                            <div className='flex gap-2 flex-col justify-start items-start'>
-                                                <input onChange={(e) => setCurrentComponent({
-                                                    ...current_component,
-                                                    title: e.target.value
-                                                })} className=' border border-gray-700 bf-transparent outline-none p-2 rounded-md' type="text" value={current_component.title} />
-                                                <button onClick={() => setText(current_component.title)} className='px-4 py-2 bg-purple-500 text-xs text-white rounded-sm'>Agregar</button>
-
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
+                                <BackgroundImages type='background' setImage={handleSetAttributes} />
                             </div>
                         }
 
                     </div>
+                    
+                    {
+                        <ViewSlide
+                            current_component={current_component}
+                            components={components}
+                            removeComponent={removeComponent}
+                            create={create}
+                            attributes={attributes}
+                            handleSetAttributes={handleSetAttributes}
+                            setCurrentComponent={setCurrentComponent}
+                        />
+                    }
 
                 </div>
             </div>
+
+
         </div>
     )
 }
