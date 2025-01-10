@@ -75,6 +75,34 @@ const Main = () => {
         }
     ]);
 
+    const addComponent = (component) => {
+        const updatedSlides = slides.map(slide => {
+            if (slide.id === currentSlideId) {
+                return {
+                    ...slide,
+                    components: [...slide.components, component]
+                };
+            }
+            return slide;
+        });
+
+        setSlides(updatedSlides);
+    };
+
+    const changeComponentsInSlide = (slideId, components) => {
+        const updatedSlides = slides.map(slide => {
+            if (slide.id === slideId) {
+                return {
+                    ...slide,
+                    components: components
+                };
+            }
+            return slide;
+        });
+
+        setSlides(updatedSlides);
+    };
+
     const [components, setComponents] = useState([]);
 
     const addSlide = () => {
@@ -96,25 +124,6 @@ const Main = () => {
         };
         setSlides([...slides, newSlide]);
     };
-
-    const removeSlide = (id) => {
-        const temp = slides.filter(s => s.id !== id)
-        setSlides(temp)
-    };
-
-    const handleSaveComponentInSlide = (slideId, component) => {
-        const temp = slides.map(s => {
-            if (s.id === slideId) {
-                return {
-                    ...s,
-                    components: [...s.components, component]
-                }
-            }
-            return s
-        })
-        setSlides(temp)
-    };
-
 
     const setElements = (type, name) => {
         setState(type)
@@ -159,24 +168,22 @@ const Main = () => {
     }
 
     const removeComponent = (id) => {
-        const temp = components.filter(c => c.id !== id)
-        setCurrentComponent('')
-        setComponents(temp)
-    }
-
-    const remove_background = () => {
-        const com = components.find(c => c.id === current_component.id)
-        const temp = components.filter(c => c.id !== current_component.id)
-        com.image = ''
-        handleSetAttributes('image', '')
-        setComponents([...temp, com])
+        const updatedSlides = slides.map(slide => {
+            return {
+                ...slide,
+                components: slide.components.filter(c => c.id !== id)
+            };
+        });
+        setSlides(updatedSlides);
+        setCurrentComponent('');
     }
 
     const createShape = (name, type) => {
         setCurrentComponent('')
-        const id = Date.now()
+        const id =  Date.now();
         const style = {
             id: id,
+            slide_id: currentSlideId,
             name: name,
             type,
             left: 10,
@@ -189,16 +196,17 @@ const Main = () => {
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         }
-        setSelectItem(id)
-        setCurrentComponent(style)
-        setComponents([...components, style])
+        setSelectItem(id);
+        setCurrentComponent(style);
+        addComponent(style);
     }
 
     const add_text = (name, type, titleName, titleSize, font) => {
         setCurrentComponent('')
-        const id = Date.now()
+        const id =  Date.now();
         const style = {
             id: id,
+            slide_id: currentSlideId,
             name: name,
             type,
             left: 10,
@@ -216,21 +224,14 @@ const Main = () => {
             moveElement
         }
 
-        setSelectItem(id)
-        setCurrentComponent(style)
-        setComponents([...components, style])
-
-        console.log(`Seleccionaste: ${titleName} con tamaño ${titleSize}`);
-
+        setSelectItem(id);
+        setCurrentComponent(style);
+        addComponent(style);
     }
-
-    useEffect(() => {
-        console.log(currentSlideId);
-    }, [currentSlideId]);
 
     const add_table = (name, rows, columns) => {
         setCurrentComponent('');
-        const id = Date.now();
+        const id =  Date.now();
 
         const tableData = Array.from({ length: rows }, () =>
             Array.from({ length: columns }, () => '')
@@ -238,6 +239,7 @@ const Main = () => {
 
         const style = {
             id: id,
+            slide_id: currentSlideId,
             name: name,
             type: 'table',
             rows: rows,
@@ -256,16 +258,15 @@ const Main = () => {
 
         setSelectItem(id);
         setCurrentComponent(style);
-        setComponents([...components, style]);
-
-        console.log(`Tabla creada con ${rows} filas y ${columns} columnas.`);
+        addComponent(style);
     };
 
     const add_code = (name, type) => {
         setCurrentComponent('')
-        const id = Date.now()
+        const id =  Date.now();
         const style = {
             id: id,
+            slide_id: currentSlideId,
             name: name,
             type,
             left: 10,
@@ -281,18 +282,19 @@ const Main = () => {
             moveElement
         }
 
-        setSelectItem(id)
-        setCurrentComponent(style)
-        setComponents([...components, style])
+        setSelectItem(id);
+        setCurrentComponent(style);
+        addComponent(style);
 
     }
 
     const add_list = (name, type, isOrdered = false) => {
         setCurrentComponent(''); // Resetear el componente actual
-        const id = Date.now();
+        const id =  Date.now();  
 
         const style = {
             id: id,
+            slide_id: currentSlideId,
             name: name,
             type: type,
             left: 10,
@@ -306,21 +308,22 @@ const Main = () => {
             color: '#3c3c3d',
             textColor: 'text-white',
             isOrdered: isOrdered,
-            listItems: ['Elemento 1'], // Inicializar la lista con un ítem
+            listItems: ['Elemento 1'],
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         };
 
         setSelectItem(id);
-        setCurrentComponent(style); // Establecer el componente actual
-        setComponents([...components, style]); // Agregar el nuevo componente a la lista de componentes
+        setCurrentComponent(style);
+        addComponent(style);
     };
 
     const add_image = (img) => {
         setCurrentComponent('')
-        const id = Date.now()
+        const id =  Date.now();
         const style = {
             id: id,
+            slide_id: currentSlideId,
             name: 'image',
             type: 'image',
             left: 10,
@@ -335,35 +338,36 @@ const Main = () => {
             moveElement
         }
 
-        setSelectItem(id)
-        setCurrentComponent(style)
-        setComponents([...components, style])
+        setSelectItem(id);
+        setCurrentComponent(style);
+        addComponent(style);
 
     }
 
     useEffect(() => {
         if (current_component) {
-            const index = components.findIndex(c => c.id === current_component.id)
-            const temp = components.filter(c => c.id !== current_component.id)
+            const index = slides[currentSlideId].components.findIndex(c => c.id === current_component.id)
+            const temp = slides[currentSlideId].components.filter(c => c.id !== current_component.id)
+
             if (current_component.name === 'text') {
-                components[index].title = attributes.text || current_component.title
+                slides[currentSlideId].components[index].title = attributes.text || current_component.title
             }
             if (current_component.name === 'code') {
-                components[index].title = attributes.text || current_component.title
+                slides[currentSlideId].components[index].title = attributes.text || current_component.title
             }
             if (current_component.name === 'table') {
-                components[index].title = attributes.text || current_component.title
-                components[index].title2 = attributes.text || current_component.title2
+                slides[currentSlideId].components[index].title = attributes.text || current_component.title
+                slides[currentSlideId].components[index].title2 = attributes.text || current_component.title2
             }
             if (current_component.name === 'main_frame' && attributes.image) {
-                components[index].image = attributes.image || current_component.image
+                slides[currentSlideId].components[index].image = attributes.image || current_component.image
             }
-            components[index].color = attributes.color || current_component.color
             if (current_component.name !== 'main_frame') {
-                components[index].left = attributes.left || current_component.left
-                components[index].top = attributes.top || current_component.top
+                slides[currentSlideId].components[index].left = attributes.left || current_component.left
+                slides[currentSlideId].components[index].top = attributes.top || current_component.top
             }
-            setComponents([...temp, components[index]])
+            
+            slides[currentSlideId].components[index].color = attributes.color || current_component.color
 
             handleSetAttributes('color', '')
             handleSetAttributes('top', '')
@@ -379,14 +383,15 @@ const Main = () => {
                 const { data } = await api.get(`/api/user-design/${design_id}`)
                 const { design } = data
 
-                for (let i = 0; i < design.length; i++) {
-                    console.log('entré al for')
-                    design[i].setCurrentComponent = (a) => setCurrentComponent(a)
-                    design[i].moveElement = moveElement
-                    design[i].remove_background = remove_background
+                design.map((slide, index) => {
+                    slide.components.map((c) => {
+                        c.setCurrentComponent = (a) => setCurrentComponent(a)
+                        c.moveElement = moveElement
+                    })
+                });
 
-                }
-                setComponents(design)
+                setSlides(design);
+
             } catch (error) {
                 console.log(error)
             }
@@ -396,7 +401,7 @@ const Main = () => {
 
     return (
         <div className='min-w-screen h-screen bg-black'>
-            <Header components={components} design_id={design_id} />
+            <Header slides={slides} design_id={design_id} />
 
             <div className='flex h-[calc(100%-60px)] w-screen'>
                 <div className='w-[80px] bg-[#18191b] z-50 h-full text-gray-400 overflow-y-auto'>
@@ -476,7 +481,7 @@ const Main = () => {
                                             className="bg-[#3c3c3d] cursor-pointer font-normal p-3 text-white text-xl rounded-sm"
                                         >
 
-                                            <h2 className={title.size}>{console.log(title.size)}{title.label}</h2>
+                                            <h2 className={title.size}>{title.label}</h2>
                                         </div>
                                     </div>
                                 ))}
@@ -579,7 +584,6 @@ const Main = () => {
                             <ViewSlide
                                 current_component={current_component}
                                 slides={slides}
-                                components={components}
                                 removeComponent={removeComponent}
                                 attributes={attributes}
                                 handleSetAttributes={handleSetAttributes}

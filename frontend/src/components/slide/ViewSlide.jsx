@@ -4,11 +4,11 @@ import CreateComponent from "../CreateComponent";
 
 const ViewSlide = ({ current_component, slides, addSlide, removeComponent, attributes, handleSetAttributes, setCurrentComponent, setCurrentSlideId }) => {
     return (
-        <div className='w-full flex h-full scrollbar-hide'>
-            <div className={`flex flex-col items-center h-full ${!current_component ? 'w-full' : "w-[calc(100%-250px)] overflow-hidden"}`}>
+        <div className='w-full flex h-full'>
+            <div className={`flex flex-col items-center h-full ${!current_component ? 'w-full' : "w-[calc(100%-250px)]"}`}>
 
-                <div className='m-w-[826px] m-h-[240px] flex justify-center items-center overflow-auto'>
-                    <div id='main_design' className='w-auto relative h-auto overflow-auto'>
+                <div className='m-w-[826px] m-h-[240px] flex justify-center items-center'>
+                    <div id='main_design' className='w-auto relative h-auto'>
                         {
                             slides.map((slide, index) => {
                                 return (
@@ -16,7 +16,7 @@ const ViewSlide = ({ current_component, slides, addSlide, removeComponent, attri
                                         key={index} 
                                         className='w-full h-full flex flex-col justify-center items-center'
                                         onClick={() => setCurrentSlideId(slide.id)}
-                                    >
+                                        >
                                         <div className='w-full h-full flex justify-center items-center'>
                                             {
                                                 slide.components.map((c) => <CreateComponent key={c.id} info={c} current_component={current_component} removeComponent={removeComponent} />)
@@ -36,7 +36,7 @@ const ViewSlide = ({ current_component, slides, addSlide, removeComponent, attri
             </div>
 
             {
-                current_component && <div className='h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2 overflow-auto'>
+                current_component && <div className='h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2'>
 
                     <div className='flex gap-3 flex-col items-start h-full px-3 justify-start'>
                         <div className='flex gap-4 justify-start items-start'>

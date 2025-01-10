@@ -5,7 +5,7 @@ import * as htmlToImage from 'html-to-image';
 import api from '../utils/api'
 import toast from 'react-hot-toast'
 
-const Header = ({ components, design_id }) => {
+const Header = ({ slides, design_id }) => {
   const navigate = useNavigate()
   const [loader, setLoader] = useState(false)
 
@@ -16,9 +16,8 @@ const Header = ({ components, design_id }) => {
 
     if (image) {
       const obj = {
-          design: components
+          design: slides
       }
-      console.log(obj)
       const formData = new FormData()
       formData.append('design', JSON.stringify(obj))
       formData.append('image', image)
