@@ -24,7 +24,7 @@ const TemplateSlide = ({handleOptionClick, setShowModal}) => {
             <h2 className='text-white text-center text-lg font-bold mb-4'>Elige un diseño</h2>
             <div className='grid grid-cols-3 gap-4 justify-center'>
               <button
-                onClick={() => handleOptionClick(1920, 1080)}
+                onClick={() => handleOptionClick(1)}
                 className='w-[250px] h-[120px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
               >
                 <img
@@ -34,7 +34,7 @@ const TemplateSlide = ({handleOptionClick, setShowModal}) => {
                 />
               </button>
               <button
-                onClick={() => handleOptionClick(1920, 1080)}
+                onClick={() => handleOptionClick(2)}
                 className='w-[250px] h-[120px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
               >
                 <img
@@ -44,7 +44,7 @@ const TemplateSlide = ({handleOptionClick, setShowModal}) => {
                 />
               </button>
               <button
-                onClick={() => handleOptionClick(1920, 1080)}
+                onClick={() => handleOptionClick(3)}
                 className='w-[250px] h-[120px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
               >
                 <img
@@ -54,7 +54,7 @@ const TemplateSlide = ({handleOptionClick, setShowModal}) => {
                 />
               </button>
               <button
-                onClick={() => handleOptionClick(1920, 1080)}
+                onClick={() => handleOptionClick(4)}
                 className='w-[250px] h-[120px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
               >
                 <img
@@ -64,7 +64,7 @@ const TemplateSlide = ({handleOptionClick, setShowModal}) => {
                 />
               </button>
               <button
-                onClick={() => handleOptionClick(1920, 1080)}
+                onClick={() => handleOptionClick(5)}
                 className='w-[250px] h-[120px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
               >
                 <img
@@ -74,7 +74,7 @@ const TemplateSlide = ({handleOptionClick, setShowModal}) => {
                 />
               </button>
               <button
-                onClick={() => handleOptionClick(1920, 1080)}
+                onClick={() => handleOptionClick(6)}
                 className='w-[250px] h-[120px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
               >
                 <img
@@ -84,7 +84,7 @@ const TemplateSlide = ({handleOptionClick, setShowModal}) => {
                 />
               </button>
               <button
-                onClick={() => handleOptionClick(1920, 1080)}
+                onClick={() => handleOptionClick(7)}
                 className='w-[250px] h-[120px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
               >
                 <img
@@ -94,7 +94,7 @@ const TemplateSlide = ({handleOptionClick, setShowModal}) => {
                 />
               </button>
               <button
-                onClick={() => handleOptionClick(1920, 1080)}
+                onClick={() => handleOptionClick(8)}
                 className='w-[250px] h-[120px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
               >
                 <img
@@ -104,7 +104,7 @@ const TemplateSlide = ({handleOptionClick, setShowModal}) => {
                 />
               </button>
               <button
-                onClick={() => handleOptionClick(1920, 1080)}
+                onClick={() => handleOptionClick(9)}
                 className='w-[250px] h-[120px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
               >
                 <img

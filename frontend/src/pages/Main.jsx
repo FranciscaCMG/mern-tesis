@@ -15,6 +15,7 @@ import BackgroundImages from '../components/BackgroundImages'
 import ViewSlide from '../components/slide/ViewSlide'
 import TemplateDesign from '../components/main/TemplateDesign'
 import ActivePause from '../components/ActivePause'
+import TemplateSlide from '../components/slide/TemplateSlide'
 
 import usachLogo from '/Logo_Usach.jpg'
 
@@ -26,6 +27,8 @@ const Main = () => {
     const [state, setState] = useState('')
     const [current_component, setCurrentComponent] = useState('')
     const [currentSlideId, setCurrentSlideId] = useState(0);
+
+    const [showModal, setShowModal] = useState(false);
 
     const [attributes, setAttributes] = useState({
         color: '',
@@ -53,7 +56,12 @@ const Main = () => {
     const [show, setShow] = useState({
         status: true,
         name: ''
-    })
+    });
+
+    const handleOptionClick = (numberTemplate) => {
+        setShowModal(false);
+        addSlide(numberTemplate);
+    };
 
     const [slides, setSlides] = useState([
         {
@@ -89,23 +97,7 @@ const Main = () => {
         setSlides(updatedSlides);
     };
 
-    const changeComponentsInSlide = (slideId, components) => {
-        const updatedSlides = slides.map(slide => {
-            if (slide.id === slideId) {
-                return {
-                    ...slide,
-                    components: components
-                };
-            }
-            return slide;
-        });
-
-        setSlides(updatedSlides);
-    };
-
-    const [components, setComponents] = useState([]);
-
-    const addSlide = () => {
+    const addSlide = (numberTemplate) => {
         const newSlide = {
             id: slides.length,
             components: [
@@ -123,6 +115,40 @@ const Main = () => {
             ]
         };
         setSlides([...slides, newSlide]);
+        
+        switch (numberTemplate) {
+            case 1:
+                // Código para la plantilla 1
+                break;
+            case 2:
+                // Código para la plantilla 2
+                break;
+            case 3:
+                // Código para la plantilla 3
+                break;
+            case 4:
+                // Código para la plantilla 4
+                break;
+            case 5:
+                // Código para la plantilla 5
+                break;
+            case 6:
+                // Código para la plantilla 6
+                break;
+            case 7:
+                // Código para la plantilla 7
+                break;
+            case 8:
+                // Código para la plantilla 8
+                break;
+            case 9:
+                // Código para la plantilla 9
+                break;
+            default:
+                // Código para cualquier otro caso
+                break;
+        }
+
     };
 
     const setElements = (type, name) => {
@@ -180,7 +206,7 @@ const Main = () => {
 
     const createShape = (name, type) => {
         setCurrentComponent('')
-        const id =  Date.now();
+        const id = Date.now();
         const style = {
             id: id,
             slide_id: currentSlideId,
@@ -203,7 +229,7 @@ const Main = () => {
 
     const add_text = (name, type, titleName, titleSize, font) => {
         setCurrentComponent('')
-        const id =  Date.now();
+        const id = Date.now();
         const style = {
             id: id,
             slide_id: currentSlideId,
@@ -231,7 +257,7 @@ const Main = () => {
 
     const add_table = (name, rows, columns) => {
         setCurrentComponent('');
-        const id =  Date.now();
+        const id = Date.now();
 
         const tableData = Array.from({ length: rows }, () =>
             Array.from({ length: columns }, () => '')
@@ -263,7 +289,7 @@ const Main = () => {
 
     const add_code = (name, type) => {
         setCurrentComponent('')
-        const id =  Date.now();
+        const id = Date.now();
         const style = {
             id: id,
             slide_id: currentSlideId,
@@ -290,7 +316,7 @@ const Main = () => {
 
     const add_list = (name, type, isOrdered = false) => {
         setCurrentComponent(''); // Resetear el componente actual
-        const id =  Date.now();  
+        const id = Date.now();
 
         const style = {
             id: id,
@@ -320,7 +346,7 @@ const Main = () => {
 
     const add_image = (img) => {
         setCurrentComponent('')
-        const id =  Date.now();
+        const id = Date.now();
         const style = {
             id: id,
             slide_id: currentSlideId,
@@ -366,7 +392,7 @@ const Main = () => {
                 slides[currentSlideId].components[index].left = attributes.left || current_component.left
                 slides[currentSlideId].components[index].top = attributes.top || current_component.top
             }
-            
+
             slides[currentSlideId].components[index].color = attributes.color || current_component.color
 
             handleSetAttributes('color', '')
@@ -579,21 +605,24 @@ const Main = () => {
 
                     </div>
 
-                    {
-                        <>
-                            <ViewSlide
-                                current_component={current_component}
-                                slides={slides}
-                                removeComponent={removeComponent}
-                                attributes={attributes}
-                                handleSetAttributes={handleSetAttributes}
-                                setCurrentComponent={setCurrentComponent}
-                                addSlide={addSlide}
-                                setCurrentSlideId={setCurrentSlideId}
-                            />
+                    <ViewSlide
+                        current_component={current_component}
+                        slides={slides}
+                        removeComponent={removeComponent}
+                        attributes={attributes}
+                        handleSetAttributes={handleSetAttributes}
+                        setCurrentComponent={setCurrentComponent}
+                        addSlide={addSlide}
+                        setCurrentSlideId={setCurrentSlideId}
+                        setShowModal={setShowModal}
+                    />
 
-                        </>
-                    }
+                    {showModal && (
+                        <TemplateSlide
+                            handleOptionClick={handleOptionClick}
+                            setShowModal={setShowModal}
+                        />
+                    )}
 
                 </div>
             </div>

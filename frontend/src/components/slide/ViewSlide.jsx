@@ -2,7 +2,7 @@ import React from "react";
 
 import CreateComponent from "../CreateComponent";
 
-const ViewSlide = ({ current_component, slides, addSlide, removeComponent, attributes, handleSetAttributes, setCurrentComponent, setCurrentSlideId }) => {
+const ViewSlide = ({ current_component, slides, addSlide, removeComponent, attributes, handleSetAttributes, setCurrentComponent, setCurrentSlideId, setShowModal }) => {
     return (
         <div className='w-full flex h-full'>
             <div className={`flex flex-col items-center h-full ${!current_component ? 'w-full' : "w-[calc(100%-250px)]"}`}>
@@ -30,7 +30,7 @@ const ViewSlide = ({ current_component, slides, addSlide, removeComponent, attri
                     </div>
                 </div>
 
-                <button onClick={addSlide} className='mt-4 py-2 px-56 overflow-hidden text-center bg-[#f0f1f5] text-black rounded-[3px] font-medium hover:bg-[#9553f8]'>
+                <button onClick={() => setShowModal(true)} className='mt-4 py-2 px-56 overflow-hidden text-center bg-[#f0f1f5] text-black rounded-[3px] font-medium hover:bg-[#9553f8]'>
                     Añadir una página
                 </button>
             </div>
