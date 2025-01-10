@@ -20,6 +20,7 @@ import TemplateSlide from '../components/slide/TemplateSlide'
 import usachLogo from '/Logo_Usach.jpg'
 
 import api from '../utils/api'
+import { use } from 'react'
 
 const Main = () => {
     const [selectItem, setSelectItem] = useState('')
@@ -97,31 +98,52 @@ const Main = () => {
         setSlides(updatedSlides);
     };
 
-    const addSlide = (numberTemplate) => {
-        const newSlide = {
-            id: slides.length,
-            components: [
-                {
-                    name: "main_frame",
-                    type: "rect",
-                    id: Date.now(),
-                    height: 450,
-                    width: 650,
-                    z_index: 1,
-                    color: '#fff',
-                    image: "",
-                    setCurrentComponent: (a) => setCurrentComponent(a)
-                }
-            ]
-        };
-        setSlides([...slides, newSlide]);
-        
+    useEffect(() => {
+        console.log(currentSlideId)
+    }, [currentSlideId])
+
+    const addSlide = (numberTemplate) => {  
         switch (numberTemplate) {
             case 1:
                 // Código para la plantilla 1
                 break;
             case 2:
-                // Código para la plantilla 2
+                const newSlide = {
+                    id: slides.length,
+                    components: [
+                        {
+                            name: "main_frame",
+                            type: "rect",
+                            id: Date.now(),
+                            height: 450,
+                            width: 650,
+                            z_index: 1,
+                            color: '#fff',
+                            image: "",
+                            setCurrentComponent: (a) => setCurrentComponent(a)
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 180,
+                            top: (450 * (slides.length)) + (20 * slides.length) + 150,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 48,
+                            title: "Ingresa Titulo",
+                            titleId: "Titulo",
+                            titleSize: 48,
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        }
+                    ]
+                };
+                setSlides([...slides, newSlide]);
                 break;
             case 3:
                 // Código para la plantilla 3
