@@ -27,6 +27,16 @@ const Layout = () => {
         setShowModal(false); // Cierra el modal
     };
 
+    const create = () => {
+        navigate('/design/create', {
+            state: {
+                type: 'create',
+                width: 480,
+                height: 826
+            }
+        })
+    }
+
     return (
         <div className='bg-[#18191b] min-h-screen w-full'>
             {/* Header */}
@@ -38,7 +48,7 @@ const Layout = () => {
                         </div>
                         <div className='flex gap-4 justify-center items-center relative'>
                             <button
-                                onClick={() => setShowModal(true)}
+                                onClick={create()}
                                 className='py-2 px-6 overflow-hidden text-center bg-[#8b3dff] text-white rounded-[3px] font-medium hover:bg-[#9553f8]'
                             >
                                 Crear un diseño

@@ -30,7 +30,7 @@ const ViewSlide = ({ current_component, slides, addSlide, removeComponent, attri
                     </div>
                 </div>
 
-                <button onClick={() => setShowModal(true)} className='mt-4 py-2 px-56 overflow-hidden text-center bg-[#f0f1f5] text-black rounded-[3px] font-medium hover:bg-[#9553f8]'>
+                <button onClick={() => setShowModal(true)} className='mt-4 py-2 px-[346px] overflow-hidden text-center bg-[#0000002e] border-2 text-white rounded-[3px] mb-[16px] font-medium hover:bg-[#9553f8]' style={{ borderColor: '#252627' }}>
                     Añadir una página
                 </button>
             </div>

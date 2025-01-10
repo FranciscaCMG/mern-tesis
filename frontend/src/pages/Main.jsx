@@ -72,8 +72,8 @@ const Main = () => {
                     name: "main_frame",
                     type: "rect",
                     id: 0,
-                    height: 450,
-                    width: 650,
+                    height: 480,
+                    width: 826,
                     z_index: 1,
                     color: '#fff',
                     image: "",
@@ -105,7 +105,42 @@ const Main = () => {
     const addSlide = (numberTemplate) => {  
         switch (numberTemplate) {
             case 1:
-                // Código para la plantilla 1
+                const newSlide1 = {
+                    id: slides.length,
+                    components: [
+                        {
+                            name: "main_frame",
+                            type: "rect",
+                            id: Date.now(),
+                            height: 480,
+                            width: 826,
+                            z_index: 1,
+                            color: '#fff',
+                            image: "",
+                            setCurrentComponent: (a) => setCurrentComponent(a)
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 327.8,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 204,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-6xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                    ]
+                };
+                setSlides([...slides, newSlide1]);
                 break;
             case 2:
                 const newSlide = {
@@ -115,8 +150,502 @@ const Main = () => {
                             name: "main_frame",
                             type: "rect",
                             id: Date.now(),
-                            height: 450,
-                            width: 650,
+                            height: 480,
+                            width: 826,
+                            z_index: 1,
+                            color: '#fff',
+                            image: "",
+                            setCurrentComponent: (a) => setCurrentComponent(a)
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 327.8,
+                            top: (480 * (slides.length)) + (20 * slides.length) + 204,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 48,
+                            title: "Titulo",
+                            titleId: "Titulo",
+                            titleSize: "text-6xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                    ]
+                };
+                setSlides([...slides, newSlide]);
+                break;
+            case 3:
+                const newSlide3 = {
+                    id: slides.length,
+                    components: [
+                        {
+                            name: "main_frame",
+                            type: "rect",
+                            id: Date.now(),
+                            height: 480,
+                            width: 826,
+                            z_index: 1,
+                            color: '#fff',
+                            image: "",
+                            setCurrentComponent: (a) => setCurrentComponent(a)
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 84,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-4xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 84,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-6xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 571.6,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-4xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 571.6,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-6xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                    ]
+                };
+                setSlides([...slides, newSlide3]);
+                break;
+            case 4:
+                const newSlide4 = {
+                    id: slides.length,
+                    components: [
+                        {
+                            name: "main_frame",
+                            type: "rect",
+                            id: Date.now(),
+                            height: 480,
+                            width: 826,
+                            z_index: 1,
+                            color: '#fff',
+                            image: "",
+                            setCurrentComponent: (a) => setCurrentComponent(a)
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 84,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 204,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-6xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 571.6,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-4xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 571.6,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-6xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                    ]
+                };
+                setSlides([...slides, newSlide4]);
+                break;
+            case 5:
+                const newSlide5 = {
+                    id: slides.length,
+                    components: [
+                        {
+                            name: "main_frame",
+                            type: "rect",
+                            id: Date.now(),
+                            height: 480,
+                            width: 826,
+                            z_index: 1,
+                            color: '#fff',
+                            image: "",
+                            setCurrentComponent: (a) => setCurrentComponent(a)
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 84,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-4xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 84,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-6xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 571.6,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 204,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-4xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                    ]
+                };
+                setSlides([...slides, newSlide5]);
+                break;
+            case 6:
+                const newSlide6 = {
+                    id: slides.length,
+                    components: [
+                        {
+                            name: "main_frame",
+                            type: "rect",
+                            id: Date.now(),
+                            height: 480,
+                            width: 826,
+                            z_index: 1,
+                            color: '#fff',
+                            image: "",
+                            setCurrentComponent: (a) => setCurrentComponent(a)
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 84,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-6xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 327.8,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-4xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 571.6,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-6xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                    ]
+                };
+                setSlides([...slides, newSlide6]);
+                break;
+            case 7:
+                const newSlide7 = {
+                    id: slides.length,
+                    components: [
+                        {
+                            name: "main_frame",
+                            type: "rect",
+                            id: Date.now(),
+                            height: 480,
+                            width: 826,
+                            z_index: 1,
+                            color: '#fff',
+                            image: "",
+                            setCurrentComponent: (a) => setCurrentComponent(a)
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 84,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-4xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 327.8,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-6xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 571.6,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-4xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                    ]
+                };
+                setSlides([...slides, newSlide7]);
+                break;
+            case 8:
+                const newSlide8 = {
+                    id: slides.length,
+                    components: [
+                        {
+                            name: "main_frame",
+                            type: "rect",
+                            id: Date.now(),
+                            height: 480,
+                            width: 826,
+                            z_index: 1,
+                            color: '#fff',
+                            image: "",
+                            setCurrentComponent: (a) => setCurrentComponent(a)
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 84,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 204,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-6xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 571.6,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 204,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Subtitulo",
+                            titleId: "Subtitulo",
+                            titleSize: "text-4xl",
+                            weight: 400,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
+                    ]
+                };
+                setSlides([...slides, newSlide8]);
+                break;
+            case 9:
+                const newSlide9 = {
+                    id: slides.length,
+                    components: [
+                        {
+                            name: "main_frame",
+                            type: "rect",
+                            id: Date.now(),
+                            height: 480,
+                            width: 826,
                             z_index: 1,
                             color: '#fff',
                             image: "",
@@ -128,43 +657,41 @@ const Main = () => {
                             name: 'text',
                             type: 'title',
                             left: 180,
-                            top: (450 * (slides.length)) + (20 * slides.length) + 150,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 75,
                             opacity: 1,
                             z_index: 10,
                             padding: 6,
-                            font: 48,
-                            title: "Ingresa Titulo",
-                            titleId: "Titulo",
-                            titleSize: 48,
-                            weight: 400,
+                            font: Subtitulo,
+                            title: "Agregar",
+                            titleId: "Subtitulo",
+                            titleSize: "text-4xl",
+                            weight: 200,
                             color: '#3c3c3d',
                             setCurrentComponent: (a) => setCurrentComponent(a),
                             moveElement
-                        }
+                        },
+                        {
+                            id: Date.now() + Math.floor(Math.random() * 1000),
+                            slide_id: currentSlideId,
+                            name: 'text',
+                            type: 'title',
+                            left: 180,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 250,
+                            opacity: 1,
+                            z_index: 10,
+                            padding: 6,
+                            font: 36,
+                            title: "Agregar",
+                            titleId: "Subtitulo",
+                            titleSize: "text-6xl",
+                            weight: 200,
+                            color: '#3c3c3d',
+                            setCurrentComponent: (a) => setCurrentComponent(a),
+                            moveElement
+                        },
                     ]
                 };
-                setSlides([...slides, newSlide]);
-                break;
-            case 3:
-                // Código para la plantilla 3
-                break;
-            case 4:
-                // Código para la plantilla 4
-                break;
-            case 5:
-                // Código para la plantilla 5
-                break;
-            case 6:
-                // Código para la plantilla 6
-                break;
-            case 7:
-                // Código para la plantilla 7
-                break;
-            case 8:
-                // Código para la plantilla 8
-                break;
-            case 9:
-                // Código para la plantilla 9
+                setSlides([...slides, newSlide9]);
                 break;
             default:
                 // Código para cualquier otro caso
@@ -275,6 +802,7 @@ const Main = () => {
         setSelectItem(id);
         setCurrentComponent(style);
         addComponent(style);
+        console.log(style)
     }
 
     const add_table = (name, rows, columns) => {
@@ -448,7 +976,7 @@ const Main = () => {
     }, [design_id])
 
     return (
-        <div className='min-w-screen h-screen bg-black'>
+        <div className='min-w-screen min-h-screen bg-black'>
             <Header slides={slides} design_id={design_id} />
 
             <div className='flex h-[calc(100%-60px)] w-screen'>
