@@ -2,24 +2,41 @@ import React from "react";
 
 import CreateComponent from "../CreateComponent";
 
-const ViewSlide = ({current_component, components, removeComponent, create, attributes, handleSetAttributes, setCurrentComponent}) => {
+const ViewSlide = ({ current_component, slides, addSlide, removeComponent, attributes, handleSetAttributes, setCurrentComponent, setCurrentSlideId }) => {
     return (
-        <div className='w-full flex h-full' >
+        <div className='w-full flex h-full scrollbar-hide'>
             <div className={`flex flex-col items-center h-full ${!current_component ? 'w-full' : "w-[calc(100%-250px)] overflow-hidden"}`}>
-                <div className='m-w-[826px] m-h-[240px] flex justify-center items-center overflow-hidden'>
-                    <div id='main_design' className='w-auto relative h-auto overflow-hidden'>
+
+                <div className='m-w-[826px] m-h-[240px] flex justify-center items-center overflow-auto'>
+                    <div id='main_design' className='w-auto relative h-auto overflow-auto'>
                         {
-                            components.map((c) => <CreateComponent key={c.id} info={c} current_component={current_component} removeComponent={removeComponent} />)
+                            slides.map((slide, index) => {
+                                return (
+                                    <div 
+                                        key={index} 
+                                        className='w-full h-full flex flex-col justify-center items-center'
+                                        onClick={() => setCurrentSlideId(slide.id)}
+                                    >
+                                        <div className='w-full h-full flex justify-center items-center'>
+                                            {
+                                                slide.components.map((c) => <CreateComponent key={c.id} info={c} current_component={current_component} removeComponent={removeComponent} />)
+                                            }
+                                        </div>
+                                        {index < slides.length - 1 && <div className='h-4'></div>}
+                                    </div>
+                                )
+                            })
                         }
                     </div>
                 </div>
-                <button onClick={create} className='mt-4 py-2 px-56 overflow-hidden text-center bg-[#f0f1f5] text-black rounded-[3px] font-medium hover:bg-[#9553f8]'>
+
+                <button onClick={addSlide} className='mt-4 py-2 px-56 overflow-hidden text-center bg-[#f0f1f5] text-black rounded-[3px] font-medium hover:bg-[#9553f8]'>
                     Añadir una página
                 </button>
             </div>
 
             {
-                current_component && <div className='h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2'>
+                current_component && <div className='h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2 overflow-auto'>
 
                     <div className='flex gap-3 flex-col items-start h-full px-3 justify-start'>
                         <div className='flex gap-4 justify-start items-start'>
@@ -54,7 +71,7 @@ const ViewSlide = ({current_component, components, removeComponent, create, attr
                                     ></textarea>
 
                                     <button
-                                        onClick={() => handleSetAttributes('text',current_component.title)}
+                                        onClick={() => handleSetAttributes('text', current_component.title)}
                                         className="px-4 py-2 bg-purple-500 text-xs text-white rounded-sm"
                                     >
                                         Agregar

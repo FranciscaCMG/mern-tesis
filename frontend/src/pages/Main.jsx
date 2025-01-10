@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import Header from '../components/Header'
-import Projects from '../components/Projects'
-import MyImages from '../components/MyImages'
-import InitialImage from '../components/InitialImage'
-import BackgroundImages from '../components/BackgroundImages'
-import { IoDuplicateOutline } from "react-icons/io5";
-import ActivePause from '../components/ActivePause'
-import usachLogo from '/Logo_Usach.jpg'
+import { useParams } from 'react-router-dom'
+
 import { BsGrid1X2, BsFillImageFill, BsFolder } from 'react-icons/bs'
 import { FaShapes, FaCloudUploadAlt, FaCode, FaTable, FaQuestion, FaList } from 'react-icons/fa'
 import { TfiText } from 'react-icons/tfi'
 import { RxTransparencyGrid } from 'react-icons/rx'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
-import TemplateDesign from '../components/main/TemplateDesign'
-import api from '../utils/api'
 
+import Header from '../components/Header'
+import Projects from '../components/Projects'
+import MyImages from '../components/MyImages'
+import InitialImage from '../components/InitialImage'
+import BackgroundImages from '../components/BackgroundImages'
 import ViewSlide from '../components/slide/ViewSlide'
+import TemplateDesign from '../components/main/TemplateDesign'
+import ActivePause from '../components/ActivePause'
+
+import usachLogo from '/Logo_Usach.jpg'
+
+import api from '../utils/api'
 
 const Main = () => {
     const [selectItem, setSelectItem] = useState('')
     const { design_id } = useParams()
     const [state, setState] = useState('')
     const [current_component, setCurrentComponent] = useState('')
+    const [currentSlideId, setCurrentSlideId] = useState(0);
 
     const [attributes, setAttributes] = useState({
         color: '',
@@ -52,19 +55,66 @@ const Main = () => {
         name: ''
     })
 
-    const [components, setComponents] = useState([
+    const [slides, setSlides] = useState([
         {
-            name: "main_frame",
-            type: "rect",
-            id: Math.floor((Math.random() * 100) + 1),
-            height: 450,
-            width: 650,
-            z_index: 1,
-            color: '#fff',
-            image: "",
-            setCurrentComponent: (a) => setCurrentComponent(a)
+            id: 0,
+            components: [
+                {
+                    name: "main_frame",
+                    type: "rect",
+                    id: 0,
+                    height: 450,
+                    width: 650,
+                    z_index: 1,
+                    color: '#fff',
+                    image: "",
+                    setCurrentComponent: (a) => setCurrentComponent(a)
+                }
+            ]
+
         }
-    ])
+    ]);
+
+    const [components, setComponents] = useState([]);
+
+    const addSlide = () => {
+        const newSlide = {
+            id: slides.length,
+            components: [
+                {
+                    name: "main_frame",
+                    type: "rect",
+                    id: Date.now(),
+                    height: 450,
+                    width: 650,
+                    z_index: 1,
+                    color: '#fff',
+                    image: "",
+                    setCurrentComponent: (a) => setCurrentComponent(a)
+                }
+            ]
+        };
+        setSlides([...slides, newSlide]);
+    };
+
+    const removeSlide = (id) => {
+        const temp = slides.filter(s => s.id !== id)
+        setSlides(temp)
+    };
+
+    const handleSaveComponentInSlide = (slideId, component) => {
+        const temp = slides.map(s => {
+            if (s.id === slideId) {
+                return {
+                    ...s,
+                    components: [...s.components, component]
+                }
+            }
+            return s
+        })
+        setSlides(temp)
+    };
+
 
     const setElements = (type, name) => {
         setState(type)
@@ -175,8 +225,8 @@ const Main = () => {
     }
 
     useEffect(() => {
-        console.log(components);
-    }, [components]);
+        console.log(currentSlideId);
+    }, [currentSlideId]);
 
     const add_table = (name, rows, columns) => {
         setCurrentComponent('');
@@ -343,16 +393,6 @@ const Main = () => {
         }
         get_design()
     }, [design_id])
-    const navigate = useNavigate()
-    const create = () => {
-        navigate('/design/create', {
-            state: {
-                type: 'create',
-                width: 600,
-                height: 450
-            }
-        })
-    }
 
     return (
         <div className='min-w-screen h-screen bg-black'>
@@ -533,17 +573,22 @@ const Main = () => {
                         }
 
                     </div>
-                    
+
                     {
-                        <ViewSlide
-                            current_component={current_component}
-                            components={components}
-                            removeComponent={removeComponent}
-                            create={create}
-                            attributes={attributes}
-                            handleSetAttributes={handleSetAttributes}
-                            setCurrentComponent={setCurrentComponent}
-                        />
+                        <>
+                            <ViewSlide
+                                current_component={current_component}
+                                slides={slides}
+                                components={components}
+                                removeComponent={removeComponent}
+                                attributes={attributes}
+                                handleSetAttributes={handleSetAttributes}
+                                setCurrentComponent={setCurrentComponent}
+                                addSlide={addSlide}
+                                setCurrentSlideId={setCurrentSlideId}
+                            />
+
+                        </>
                     }
 
                 </div>
