@@ -37,36 +37,47 @@ class authController {
         }
     }
 
+
     user_login = async (req, res) => {
-
-        let { email, password } = req.body
+        let { email, password } = req.body;
         try {
-            const user = await userModel.findOne({ email }).select('+password')
-
+            const user = await userModel.findOne({ email }).select('+password');
+    
             if (user) {
-                const match = await bcrypt.compare(password, user.password)
-
+                const match = await bcrypt.compare(password, user.password);
+    
                 if (match) {
-                    const token = await jwt.sign({
-                        name: user.name,
+                    const token = await jwt.sign(
+                        {
+                            name: user.name,
+                            email: user.email,
+                            _id: user.id,
+                        },
+                        'bN67@X2#oOp^F93?2L89$aBc3DE',
+                        {
+                            expiresIn: '2d',
+                        }
+                    );
+    
+                    // Devolver también el email y el name
+                    return res.status(200).json({
+                        message: "Signin success",
+                        token,
                         email: user.email,
-                        _id: user.id
-                    }, 'farid', {
-                        expiresIn: '2d'
-                    })
-
-                    return res.status(200).json({ message: "Signin success", token })
+                        name: user.name,
+                    });
                 } else {
-                    return res.status(404).json({ message: "Password invalid" })
+                    return res.status(404).json({ message: "Password invalid" });
                 }
             } else {
-                return res.status(404).json({ message: "Email does't exit" })
+                return res.status(404).json({ message: "Email doesn't exist" });
             }
         } catch (error) {
-            console.log(error.message)
-            return res.status(500).json({ message: "Internal server error" })
+            console.log(error.message);
+            return res.status(500).json({ message: "Internal server error" });
         }
-    }
+    };
+    
 }
 
 module.exports = new authController()

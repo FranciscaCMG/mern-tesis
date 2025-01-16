@@ -11,6 +11,11 @@ import TemplateSlide from '../components/slide/TemplateSlide';
 
 const Layout = () => {
     const userInfo = token_decode(localStorage.getItem('canva_token'));
+    const userEmail = (localStorage.getItem('user_email'));
+    const userName = localStorage.getItem('user_name')?.toUpperCase() || 'USUARIO';
+    console.log(userInfo);
+    console.log(userEmail);
+    console.log(userName);
 
     const navigate = useNavigate();
     const { pathname } = useLocation();
@@ -67,8 +72,8 @@ const Layout = () => {
                                 <div className='px-2 py-2 flex justify-start gap-5 items-center'>
                                     <img src={userLogo} className='w-[40px] h-[40px] rounded-full' alt='Usuario logo' />
                                     <div className='flex justify-center flex-col items-start'>
-                                        <span className='text-[#e0ddddd] font-bold text-md'>Francisca Márquez</span>
-                                        <span className='text-[#c4c4c0] font-bold text-md'>francisca.marquez@usach.cl</span>
+                                        <span className='text-[#e0ddddd] font-bold text-md'>{userName || 'Usuario'}</span>
+                                        <span className='text-[#c4c4c0] font-bold text-md'>{userEmail || 'email@example.com'}</span>
                                     </div>
                                 </div>
                                 <ul className='text-[#e0dddd] font-semibold'>
@@ -102,8 +107,7 @@ const Layout = () => {
                     <div className='px-2 py-2 flex justify-start gap-5 items-center mb-3'>
                         <img src={userLogo} className='w-[40px] h-[40px] rounded-full' />
                         <div className='flex justify-center flex-col items-start'>
-                            <span className='text-[#e0dddd] font-bold text-md'>Francisca Márquez</span>
-                            <span className='text-[#c4c0c0]'>Free</span>
+                            <span className='text-[#e0dddd] font-bold text-md'>{userName || 'Usuario'}</span>
                         </div>
                     </div>
                     <div>

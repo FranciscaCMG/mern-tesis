@@ -46,24 +46,32 @@ const Index = () => {
     }
 
     const user_login = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         try {
-            setLoader(true)
-            const { data } = await api.post('/api/user-login', state)
-            setLoader(false)
-            localStorage.setItem('canva_token', data.token)
+            setLoader(true);
+            const { data } = await api.post('/api/user-login', state); // Supone que la API ahora retorna token, email y name
+            setLoader(false);
+    
+            // Guardar token, email y name en el localStorage
+            localStorage.setItem('canva_token', data.token);
+            localStorage.setItem('user_email', data.email); // Almacena el email
+            localStorage.setItem('user_name', data.name);   // Almacena el nombre
+    
+            // Reiniciar el estado
             setState({
                 email: '',
                 password: ''
-            })
-            window.location.href = '/'
-
+            });
+    
+            // Redirigir al usuario a la página principal
+            window.location.href = '/';
         } catch (error) {
-            console.log(error)
-            setLoader(false)
-            toast.error(error.response.data.message)
-        }
-    }
+            console.log(error);
+            setLoader(false);
+    
+            // Mostrar el mensaje de error como notificación
+            toast.error(error.response?.data?.message || "Error inesperado");
+        }}
 
     return (
         <div className='bg-[#18191b] min-h-screen w-full'>

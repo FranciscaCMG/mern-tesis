@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { BsGrid1X2, BsFillImageFill, BsFolder } from 'react-icons/bs'
-import { FaShapes, FaCloudUploadAlt, FaCode, FaTable, FaQuestion, FaList } from 'react-icons/fa'
+import { FaCloudUploadAlt, FaCode, FaTable, FaQuestion, FaList } from 'react-icons/fa'
 import { TfiText } from 'react-icons/tfi'
 import { RxTransparencyGrid } from 'react-icons/rx'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
@@ -11,9 +11,7 @@ import Header from '../components/Header'
 import Projects from '../components/Projects'
 import MyImages from '../components/MyImages'
 import InitialImage from '../components/InitialImage'
-import BackgroundImages from '../components/BackgroundImages'
 import ViewSlide from '../components/slide/ViewSlide'
-import TemplateDesign from '../components/main/TemplateDesign'
 import ActivePause from '../components/ActivePause'
 import TemplateSlide from '../components/slide/TemplateSlide'
 
@@ -83,25 +81,25 @@ const Main = () => {
         }
     ]);
 
-    const  replaceComponentInSlide = (component) => {
+    const replaceComponentInSlide = (component) => {
         // Encuentra la slide específica por el ID
         const slideIndex = slides.findIndex(slide => slide.id === currentSlideId);
-    
+
         if (slideIndex === -1) {
             console.error('Slide no encontrada');
             return slides; // Retorna el arreglo original si no encuentra la slide
         }
-    
+
         // Busca el índice del componente actual dentro de la slide
         const componentIndex = slides[slideIndex].components.findIndex(
             comp => comp.id === current_component.id
         );
-    
+
         if (componentIndex === -1) {
             console.error('Componente no encontrado');
             return slides; // Retorna el arreglo original si no encuentra el componente
         }
-    
+
         // Reemplaza el componente actual con el nuevo componente
         const updatedSlide = {
             ...slides[slideIndex],
@@ -109,616 +107,119 @@ const Main = () => {
                 index === componentIndex ? { ...component } : comp
             ),
         };
-    
+
         // Actualiza la lista de slides con la slide modificada
         const updatedSlides = slides.map((slide, index) =>
             index === slideIndex ? updatedSlide : slide
         );
-    
+
         setSlides(updatedSlides); // Retorna el nuevo arreglo de slides
     }
-    
+
 
     useEffect(() => {
         console.log(slides)
     }, [slides])
 
-    const addSlide = (numberTemplate) => {  
+    const positionLeft = {
+        1: 84,
+        2: 327.8,
+        3: 571.6
+    };
+    
+    const topPositions = {
+        1: (index) => (480 * index) + (16 * index) + 121,
+        2: (index) => (480 * index) + (20 * index) + 204,
+        3: (index) => (480 * index) + (16 * index) + 302
+    };
+
+
+    const createComponent = (position = {}, title = "Subtitulo", fontSize = "text-4xl", leftPosition = 1, topPosition = 1) => ({
+        id: Date.now() + Math.floor(Math.random() * 1000),
+        slide_id: currentSlideId,
+        name: 'text',
+        type: 'title',
+        left: positionLeft[leftPosition], // Usando la posición de left según la plantilla
+        top: topPositions[topPosition](slides.length),
+        opacity: 1,
+        z_index: 10,
+        padding: 6,
+        font: 36,
+        title: title,
+        titleId: title,
+        titleSize: fontSize,
+        weight: 400,
+        color: '#3c3c3d',
+        setCurrentComponent: (a) => setCurrentComponent(a),
+        moveElement
+    });
+
+    const addSlide = (numberTemplate) => {
+        const baseFrame = {
+            name: "main_frame",
+            type: "rect",
+            id: Date.now(),
+            height: 480,
+            width: 826,
+            z_index: 1,
+            color: '#fff',
+            image: "",
+            setCurrentComponent: (a) => setCurrentComponent(a)
+        };
+
+        let components = [baseFrame];
+
         switch (numberTemplate) {
             case 1:
-                const newSlide1 = {
-                    id: slides.length,
-                    components: [
-                        {
-                            name: "main_frame",
-                            type: "rect",
-                            id: Date.now(),
-                            height: 480,
-                            width: 826,
-                            z_index: 1,
-                            color: '#fff',
-                            image: "",
-                            setCurrentComponent: (a) => setCurrentComponent(a)
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 327.8,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 204,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-6xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                    ]
-                };
-                setSlides([...slides, newSlide1]);
+                components.push(createComponent({}, "Subtitulo", "text-6xl", 2, 2));
                 break;
             case 2:
-                const newSlide = {
-                    id: slides.length,
-                    components: [
-                        {
-                            name: "main_frame",
-                            type: "rect",
-                            id: Date.now(),
-                            height: 480,
-                            width: 826,
-                            z_index: 1,
-                            color: '#fff',
-                            image: "",
-                            setCurrentComponent: (a) => setCurrentComponent(a)
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 327.8,
-                            top: (480 * (slides.length)) + (20 * slides.length) + 204,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 48,
-                            title: "Titulo",
-                            titleId: "Titulo",
-                            titleSize: "text-6xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                    ]
-                };
-                setSlides([...slides, newSlide]);
+                components.push(createComponent({}, "Titulo", "text-6xl", 2, 2));
                 break;
             case 3:
-                const newSlide3 = {
-                    id: slides.length,
-                    components: [
-                        {
-                            name: "main_frame",
-                            type: "rect",
-                            id: Date.now(),
-                            height: 480,
-                            width: 826,
-                            z_index: 1,
-                            color: '#fff',
-                            image: "",
-                            setCurrentComponent: (a) => setCurrentComponent(a)
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 84,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-4xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 84,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-6xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 571.6,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-4xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 571.6,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-6xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                    ]
-                };
-                setSlides([...slides, newSlide3]);
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 1));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 3));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 1));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 3));
                 break;
             case 4:
-                const newSlide4 = {
-                    id: slides.length,
-                    components: [
-                        {
-                            name: "main_frame",
-                            type: "rect",
-                            id: Date.now(),
-                            height: 480,
-                            width: 826,
-                            z_index: 1,
-                            color: '#fff',
-                            image: "",
-                            setCurrentComponent: (a) => setCurrentComponent(a)
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 84,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 204,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-6xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 571.6,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-4xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 571.6,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-6xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                    ]
-                };
-                setSlides([...slides, newSlide4]);
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 2));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 1));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 3));
                 break;
             case 5:
-                const newSlide5 = {
-                    id: slides.length,
-                    components: [
-                        {
-                            name: "main_frame",
-                            type: "rect",
-                            id: Date.now(),
-                            height: 480,
-                            width: 826,
-                            z_index: 1,
-                            color: '#fff',
-                            image: "",
-                            setCurrentComponent: (a) => setCurrentComponent(a)
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 84,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-4xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 84,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-6xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 571.6,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 204,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-4xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                    ]
-                };
-                setSlides([...slides, newSlide5]);
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 1));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 3));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 2));
                 break;
             case 6:
-                const newSlide6 = {
-                    id: slides.length,
-                    components: [
-                        {
-                            name: "main_frame",
-                            type: "rect",
-                            id: Date.now(),
-                            height: 480,
-                            width: 826,
-                            z_index: 1,
-                            color: '#fff',
-                            image: "",
-                            setCurrentComponent: (a) => setCurrentComponent(a)
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 84,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-6xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 327.8,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-4xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 571.6,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-6xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                    ]
-                };
-                setSlides([...slides, newSlide6]);
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 3));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 1));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 3));
                 break;
             case 7:
-                const newSlide7 = {
-                    id: slides.length,
-                    components: [
-                        {
-                            name: "main_frame",
-                            type: "rect",
-                            id: Date.now(),
-                            height: 480,
-                            width: 826,
-                            z_index: 1,
-                            color: '#fff',
-                            image: "",
-                            setCurrentComponent: (a) => setCurrentComponent(a)
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 84,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-4xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 327.8,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-6xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 571.6,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-4xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                    ]
-                };
-                setSlides([...slides, newSlide7]);
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 1));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 3));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 1));
                 break;
             case 8:
-                const newSlide8 = {
-                    id: slides.length,
-                    components: [
-                        {
-                            name: "main_frame",
-                            type: "rect",
-                            id: Date.now(),
-                            height: 480,
-                            width: 826,
-                            z_index: 1,
-                            color: '#fff',
-                            image: "",
-                            setCurrentComponent: (a) => setCurrentComponent(a)
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 84,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 204,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-6xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 571.6,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 204,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-4xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                    ]
-                };
-                setSlides([...slides, newSlide8]);
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 2));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 2));
                 break;
             case 9:
-                const newSlide9 = {
-                    id: slides.length,
-                    components: [
-                        {
-                            name: "main_frame",
-                            type: "rect",
-                            id: Date.now(),
-                            height: 480,
-                            width: 826,
-                            z_index: 1,
-                            color: '#fff',
-                            image: "",
-                            setCurrentComponent: (a) => setCurrentComponent(a)
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 327.8,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-4xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                        {
-                            id: Date.now() + Math.floor(Math.random() * 1000),
-                            slide_id: currentSlideId,
-                            name: 'text',
-                            type: 'title',
-                            left: 327.8,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
-                            opacity: 1,
-                            z_index: 10,
-                            padding: 6,
-                            font: 36,
-                            title: "Subtitulo",
-                            titleId: "Subtitulo",
-                            titleSize: "text-4xl",
-                            weight: 400,
-                            color: '#3c3c3d',
-                            setCurrentComponent: (a) => setCurrentComponent(a),
-                            moveElement
-                        },
-                    ]
-                };
-                setSlides([...slides, newSlide9]);
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 1));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 3));
                 break;
             default:
-                // Código para cualquier otro caso
-                break;
+                return;
         }
 
+        const newSlide = {
+            id: slides.length,
+            components: components
+        };
+
+        setSlides([...slides, newSlide]);
     };
 
     const setElements = (type, name) => {
@@ -772,29 +273,6 @@ const Main = () => {
         });
         setSlides(updatedSlides);
         setCurrentComponent('');
-    }
-
-    const createShape = (name, type) => {
-        setCurrentComponent('')
-        const id = Date.now();
-        const style = {
-            id: id,
-            slide_id: currentSlideId,
-            name: name,
-            type,
-            left: 10,
-            top: 10,
-            opacity: 1,
-            width: 200,
-            height: 150,
-            z_index: 2,
-            color: '#3c3c3d',
-            setCurrentComponent: (a) => setCurrentComponent(a),
-            moveElement
-        }
-        setSelectItem(id);
-        setCurrentComponent(style);
-        replaceComponentInSlide(style);
     }
 
     const add_text = (name, type, titleName, titleSize, font) => {
@@ -1001,11 +479,6 @@ const Main = () => {
 
             <div className='flex h-[calc(100%-60px)] w-screen'>
                 <div className='w-[80px] bg-[#18191b] z-50 h-full text-gray-400 overflow-y-auto'>
-                    <div onClick={() => setElements('design', 'design')} className={` ${show.name === 'design' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
-                        <span className='text-2xl'><BsGrid1X2 /></span>
-                        <span className='text-xs font-medium'>Diseño</span>
-                    </div>
-
                     <div onClick={() => setElements('text', 'text')} className={`${show.name === 'text' ? 'bg-[#252627]' : ''}  w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
                         <span className='text-2xl'><TfiText /></span>
                         <span className='text-xs font-medium'>Texto</span>
@@ -1025,11 +498,6 @@ const Main = () => {
                     <div onClick={() => setElements('table', 'table')} className={`${show.name === 'table' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
                         <span className='text-2xl'><FaTable /></span>
                         <span className='text-xs font-medium'>Tabla</span>
-                    </div>
-
-                    <div onClick={() => setElements('shape', 'shape')} className={`${show.name === 'shape' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
-                        <span className='text-2xl'><FaShapes /></span>
-                        <span className='text-xs font-medium'>Formas</span>
                     </div>
 
                     <div onClick={() => setElements('activepause', 'activepause')} className={`${show.name === 'activepause' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
@@ -1055,19 +523,10 @@ const Main = () => {
                         <span className='text-xs font-medium'>Imagenes</span>
                     </div>
 
-                    <div onClick={() => setElements('background', 'background')} className={`${show.name === 'background' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
-                        <span className='text-2xl'><RxTransparencyGrid /></span>
-                        <span className='text-xs font-medium'>Fondo</span>
-                    </div>
                 </div>
                 <div className='h-full w-[calc(100%-75px)]'>
                     <div className={`${show.status ? 'p-0 -left-[350px]' : 'px-8 left-[75px] py-5'} bg-[#252627] h-full fixed transition-all w-[350px] z-30 duration-700`}>
                         <div onClick={() => setShow({ name: '', status: true })} className='flex absolute justify-center items-center bg-[#252627] w-[20px] -right-2 text-slate-300 top-[40%] cursor-pointer h-[100px] rounded-full'><MdKeyboardArrowLeft /></div>
-                        {
-                            state === 'design' && <div>
-                                <TemplateDesign type='main' />
-                            </div>
-                        }
                         {
                             state === 'text' && <div className="space-y-4">
                                 {titles.map((title) => (
@@ -1147,13 +606,6 @@ const Main = () => {
                         }
 
                         {
-                            state === 'shape' && <div className='grid grid-cols-3 gap-2'>
-                                <div onClick={() => createShape('shape', 'rect')} className='h-[90px] bg-[#3c3c3d] cursor-pointer'></div>
-                                <div onClick={() => createShape('shape', 'circle')} className='h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full'></div>
-                                <div onClick={() => createShape('shape', 'trangle')} style={{ clipPath: 'polygon(50% 0,100% 100%,0 100%)' }} className='h-[90px] bg-[#3c3c3d] cursor-pointer'></div>
-                            </div>
-                        }
-                        {
                             state === 'activepause' && <ActivePause />
                         }
                         {
@@ -1166,11 +618,6 @@ const Main = () => {
                         }
                         {
                             state === 'image' && <MyImages add_image={add_image} />
-                        }
-                        {
-                            state === 'background' && <div className='h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
-                                <BackgroundImages type='background' setImage={handleSetAttributes} />
-                            </div>
                         }
 
                     </div>
