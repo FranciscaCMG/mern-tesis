@@ -20,7 +20,6 @@ import TemplateSlide from '../components/slide/TemplateSlide'
 import usachLogo from '/Logo_Usach.jpg'
 
 import api from '../utils/api'
-import { use } from 'react'
 
 const Main = () => {
     const [selectItem, setSelectItem] = useState('')
@@ -84,23 +83,45 @@ const Main = () => {
         }
     ]);
 
-    const addComponent = (component) => {
-        const updatedSlides = slides.map(slide => {
-            if (slide.id === currentSlideId) {
-                return {
-                    ...slide,
-                    components: [...slide.components, component]
-                };
-            }
-            return slide;
-        });
-
-        setSlides(updatedSlides);
-    };
+    const  replaceComponentInSlide = (component) => {
+        // Encuentra la slide específica por el ID
+        const slideIndex = slides.findIndex(slide => slide.id === currentSlideId);
+    
+        if (slideIndex === -1) {
+            console.error('Slide no encontrada');
+            return slides; // Retorna el arreglo original si no encuentra la slide
+        }
+    
+        // Busca el índice del componente actual dentro de la slide
+        const componentIndex = slides[slideIndex].components.findIndex(
+            comp => comp.id === current_component.id
+        );
+    
+        if (componentIndex === -1) {
+            console.error('Componente no encontrado');
+            return slides; // Retorna el arreglo original si no encuentra el componente
+        }
+    
+        // Reemplaza el componente actual con el nuevo componente
+        const updatedSlide = {
+            ...slides[slideIndex],
+            components: slides[slideIndex].components.map((comp, index) =>
+                index === componentIndex ? { ...component } : comp
+            ),
+        };
+    
+        // Actualiza la lista de slides con la slide modificada
+        const updatedSlides = slides.map((slide, index) =>
+            index === slideIndex ? updatedSlide : slide
+        );
+    
+        setSlides(updatedSlides); // Retorna el nuevo arreglo de slides
+    }
+    
 
     useEffect(() => {
-        console.log(currentSlideId)
-    }, [currentSlideId])
+        console.log(slides)
+    }, [slides])
 
     const addSlide = (numberTemplate) => {  
         switch (numberTemplate) {
@@ -656,16 +677,16 @@ const Main = () => {
                             slide_id: currentSlideId,
                             name: 'text',
                             type: 'title',
-                            left: 180,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 75,
+                            left: 327.8,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 121,
                             opacity: 1,
                             z_index: 10,
                             padding: 6,
-                            font: Subtitulo,
-                            title: "Agregar",
+                            font: 36,
+                            title: "Subtitulo",
                             titleId: "Subtitulo",
                             titleSize: "text-4xl",
-                            weight: 200,
+                            weight: 400,
                             color: '#3c3c3d',
                             setCurrentComponent: (a) => setCurrentComponent(a),
                             moveElement
@@ -675,16 +696,16 @@ const Main = () => {
                             slide_id: currentSlideId,
                             name: 'text',
                             type: 'title',
-                            left: 180,
-                            top: (480 * (slides.length)) + (16 * slides.length) + 250,
+                            left: 327.8,
+                            top: (480 * (slides.length)) + (16 * slides.length) + 302,
                             opacity: 1,
                             z_index: 10,
                             padding: 6,
                             font: 36,
-                            title: "Agregar",
+                            title: "Subtitulo",
                             titleId: "Subtitulo",
-                            titleSize: "text-6xl",
-                            weight: 200,
+                            titleSize: "text-4xl",
+                            weight: 400,
                             color: '#3c3c3d',
                             setCurrentComponent: (a) => setCurrentComponent(a),
                             moveElement
@@ -773,7 +794,7 @@ const Main = () => {
         }
         setSelectItem(id);
         setCurrentComponent(style);
-        addComponent(style);
+        replaceComponentInSlide(style);
     }
 
     const add_text = (name, type, titleName, titleSize, font) => {
@@ -784,8 +805,8 @@ const Main = () => {
             slide_id: currentSlideId,
             name: name,
             type,
-            left: 10,
-            top: 10,
+            left: current_component.left,
+            top: current_component.top,
             opacity: 1,
             z_index: 10,
             padding: 6,
@@ -801,8 +822,7 @@ const Main = () => {
 
         setSelectItem(id);
         setCurrentComponent(style);
-        addComponent(style);
-        console.log(style)
+        replaceComponentInSlide(style);
     }
 
     const add_table = (name, rows, columns) => {
@@ -820,8 +840,8 @@ const Main = () => {
             type: 'table',
             rows: rows,
             columns: columns,
-            left: 10,
-            top: 10,
+            left: current_component.left,
+            top: current_component.top,
             opacity: 1,
             z_index: 10,
             padding: 6,
@@ -834,7 +854,7 @@ const Main = () => {
 
         setSelectItem(id);
         setCurrentComponent(style);
-        addComponent(style);
+        replaceComponentInSlide(style);
     };
 
     const add_code = (name, type) => {
@@ -845,8 +865,8 @@ const Main = () => {
             slide_id: currentSlideId,
             name: name,
             type,
-            left: 10,
-            top: 10,
+            left: current_component.left,
+            top: current_component.top,
             opacity: 1,
             z_index: 10,
             padding: 6,
@@ -860,7 +880,7 @@ const Main = () => {
 
         setSelectItem(id);
         setCurrentComponent(style);
-        addComponent(style);
+        replaceComponentInSlide(style);
 
     }
 
@@ -873,8 +893,8 @@ const Main = () => {
             slide_id: currentSlideId,
             name: name,
             type: type,
-            left: 10,
-            top: 10,
+            left: current_component.left,
+            top: current_component.top,
             opacity: 1,
             z_index: 10,
             padding: 6,
@@ -891,7 +911,7 @@ const Main = () => {
 
         setSelectItem(id);
         setCurrentComponent(style);
-        addComponent(style);
+        replaceComponentInSlide(style);
     };
 
     const add_image = (img) => {
@@ -902,8 +922,8 @@ const Main = () => {
             slide_id: currentSlideId,
             name: 'image',
             type: 'image',
-            left: 10,
-            top: 10,
+            left: current_component.left,
+            top: current_component.top,
             opacity: 1,
             width: 200,
             height: 150,
@@ -916,7 +936,7 @@ const Main = () => {
 
         setSelectItem(id);
         setCurrentComponent(style);
-        addComponent(style);
+        replaceComponentInSlide(style);
 
     }
 
