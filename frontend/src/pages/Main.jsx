@@ -457,8 +457,8 @@ const Main = () => {
                 const { data } = await api.get(`/api/user-design/${design_id}`)
                 const { design } = data
 
-                design.map((slide, index) => {
-                    slide.components.map((c) => {
+                design.map((slides, index) => {
+                    slides.components.map((c) => {
                         c.setCurrentComponent = (a) => setCurrentComponent(a)
                         c.moveElement = moveElement
                     })

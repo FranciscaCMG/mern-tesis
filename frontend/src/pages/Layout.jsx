@@ -53,7 +53,7 @@ const Layout = () => {
                         </div>
                         <div className='flex gap-4 justify-center items-center relative'>
                             <button
-                                onClick={create()}
+                                onClick={create}
                                 className='py-2 px-6 overflow-hidden text-center bg-[#8b3dff] text-white rounded-[3px] font-medium hover:bg-[#9553f8]'
                             >
                                 Crear un diseño
