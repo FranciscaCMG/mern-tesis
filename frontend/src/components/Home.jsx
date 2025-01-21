@@ -59,17 +59,17 @@ const Home = () => {
 
     const get_user_design = async () => {
         try {
-            const { data } = await api.get('/api/user-designs')
-            setDesign(data.designs)
+          const { data } = await api.get('/api/user-designs');
+          setDesign(data.designs);
         } catch (error) {
-            console.log(error)
+          console.error('Error fetching designs:', error);
+          // Display an error message to the user
         }
-    }
+      };
 
-    useEffect(() => {
-
-        get_user_design()
-    }, [])
+      useEffect(() => {
+        get_user_design();
+      }, []); // Fetch designs on component mount
 
 
     const delete_design = async (design_id) => {
@@ -121,7 +121,7 @@ const Home = () => {
 
             </div>
             <div>
-                <h2 className='text-xl py-6 font-semibold text-white'>Diseños recientes</h2>
+                <h2 className='text-xl py-6 font-semibold text-black'>Diseños recientes</h2>
                 <div>
                     <Carousel
                         autoPlay={true}
@@ -130,7 +130,7 @@ const Home = () => {
                         transitionDuration={500}
                     >
                         {
-                            designs.map((d, i) => <Item delete_design={delete_design} design={d} key={i} />)
+                           designs.map((d, i) => <Item delete_design={delete_design} design={d} key={i} />)
                         }
                     </Carousel>
                 </div>

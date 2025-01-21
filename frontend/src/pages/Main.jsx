@@ -126,7 +126,7 @@ const Main = () => {
         2: 327.8,
         3: 571.6
     };
-    
+
     const topPositions = {
         1: (index) => (480 * index) + (16 * index) + 121,
         2: (index) => (480 * index) + (20 * index) + 204,
@@ -474,74 +474,139 @@ const Main = () => {
     }, [design_id])
 
     return (
-        <div className='min-w-screen min-h-screen bg-black'>
+        <div className="min-w-screen min-h-screen bg-[#f8f8f8]">
             <Header slides={slides} design_id={design_id} />
 
-            <div className='flex h-[calc(100%-60px)] w-screen'>
-                <div className='w-[80px] bg-[#18191b] z-50 h-full text-gray-400 overflow-y-auto'>
-                    <div onClick={() => setElements('text', 'text')} className={`${show.name === 'text' ? 'bg-[#252627]' : ''}  w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
-                        <span className='text-2xl'><TfiText /></span>
-                        <span className='text-xs font-medium'>Texto</span>
-
+            <div className="flex h-[calc(100%-60px)] w-screen">
+                {/* Barra lateral */}
+                <div className="w-[80px] bg-[#ffffff] shadow-md z-50 h-full text-gray-500 overflow-y-auto">
+                    {/* Opción: Texto */}
+                    <div
+                        onClick={() => setElements("text", "text")}
+                        className={`${show.name === "text" ? "bg-[#e8e8e8]" : ""
+                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
+                    >
+                        <span className="text-2xl text-blue-500">
+                            <TfiText />
+                        </span>
+                        <span className="text-xs font-medium">Texto</span>
                     </div>
 
-                    <div onClick={() => setElements('code', 'code')} className={`${show.name === 'code' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
-                        <span className='text-2xl'><FaCode /></span>
-                        <span className='text-xs font-medium'>Código</span>
+                    {/* Opción: Código */}
+                    <div
+                        onClick={() => setElements("code", "code")}
+                        className={`${show.name === "code" ? "bg-[#e8e8e8]" : ""
+                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
+                    >
+                        <span className="text-2xl text-purple-500">
+                            <FaCode />
+                        </span>
+                        <span className="text-xs font-medium">Código</span>
                     </div>
 
-                    <div onClick={() => setElements('list', 'list')} className={`${show.name === 'list' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
-                        <span className='text-2xl'><FaList /></span>
-                        <span className='text-xs font-medium'>Lista</span>
+                    {/* Opción: Lista */}
+                    <div
+                        onClick={() => setElements("list", "list")}
+                        className={`${show.name === "list" ? "bg-[#e8e8e8]" : ""
+                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
+                    >
+                        <span className="text-2xl text-green-500">
+                            <FaList />
+                        </span>
+                        <span className="text-xs font-medium">Lista</span>
                     </div>
 
-                    <div onClick={() => setElements('table', 'table')} className={`${show.name === 'table' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
-                        <span className='text-2xl'><FaTable /></span>
-                        <span className='text-xs font-medium'>Tabla</span>
+                    {/* Opción: Tabla */}
+                    <div
+                        onClick={() => setElements("table", "table")}
+                        className={`${show.name === "table" ? "bg-[#e8e8e8]" : ""
+                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
+                    >
+                        <span className="text-2xl text-orange-500">
+                            <FaTable />
+                        </span>
+                        <span className="text-xs font-medium">Tabla</span>
                     </div>
 
-                    <div onClick={() => setElements('activepause', 'activepause')} className={`${show.name === 'activepause' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
-                        <span className='text-2xl'><FaQuestion /></span>
-                        <span className='text-xs font-medium'>Pausa </span>
-                        <span className='text-xs font-medium'>activa</span>
+                    {/* Opción: Pausa activa */}
+                    <div
+                        onClick={() => setElements("activepause", "activepause")}
+                        className={`${show.name === "activepause" ? "bg-[#e8e8e8]" : ""
+                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
+                    >
+                        <span className="text-2xl text-red-500">
+                            <FaQuestion />
+                        </span>
+                        <span className="text-xs font-medium">Pausa</span>
+                        <span className="text-xs font-medium">activa</span>
                     </div>
 
-                    <div onClick={() => setElements('image', 'uploadImage')} className={`${show.name === 'uploadImage' ? 'bg-[#252627]' : ''} w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
-                        <span className='text-2xl'><FaCloudUploadAlt /></span>
-                        <span className='text-xs font-medium'>Subir</span>
-
+                    {/* Opción: Subir */}
+                    <div
+                        onClick={() => setElements("image", "uploadImage")}
+                        className={`${show.name === "uploadImage" ? "bg-[#e8e8e8]" : ""
+                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
+                    >
+                        <span className="text-2xl text-blue-400">
+                            <FaCloudUploadAlt />
+                        </span>
+                        <span className="text-xs font-medium">Subir</span>
                     </div>
 
-                    <div onClick={() => setElements('project', 'project')} className={`${show.name === 'project' ? 'bg-[#252627]' : ''}  w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
-                        <span className='text-2xl'><BsFolder /></span>
-                        <span className='text-xs font-medium'>Proyecto</span>
-
+                    {/* Opción: Proyecto */}
+                    <div
+                        onClick={() => setElements("project", "project")}
+                        className={`${show.name === "project" ? "bg-[#e8e8e8]" : ""
+                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
+                    >
+                        <span className="text-2xl text-teal-500">
+                            <BsFolder />
+                        </span>
+                        <span className="text-xs font-medium">Proyecto</span>
                     </div>
 
-                    <div onClick={() => setElements('initImage', 'images')} className={`${show.name === 'images' ? 'bg-[#252627]' : ''}  w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}>
-                        <span className='text-2xl'><BsFillImageFill /></span>
-                        <span className='text-xs font-medium'>Imagenes</span>
+                    {/* Opción: Imágenes */}
+                    <div
+                        onClick={() => setElements("initImage", "images")}
+                        className={`${show.name === "images" ? "bg-[#e8e8e8]" : ""
+                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
+                    >
+                        <span className="text-2xl text-pink-500">
+                            <BsFillImageFill />
+                        </span>
+                        <span className="text-xs font-medium">Imágenes</span>
                     </div>
-
                 </div>
-                <div className='h-full w-[calc(100%-75px)]'>
-                    <div className={`${show.status ? 'p-0 -left-[350px]' : 'px-8 left-[75px] py-5'} bg-[#252627] h-full fixed transition-all w-[350px] z-30 duration-700`}>
-                        <div onClick={() => setShow({ name: '', status: true })} className='flex absolute justify-center items-center bg-[#252627] w-[20px] -right-2 text-slate-300 top-[40%] cursor-pointer h-[100px] rounded-full'><MdKeyboardArrowLeft /></div>
-                        {
-                            state === 'text' && <div className="space-y-4">
-                                {titles.map((title) => (
-                                    <div key={title.id} className="grid grid-cols-1 gap-2">
-                                        <div
-                                            onClick={() => add_text('text', 'title', title.label, title.size, title.font)}
-                                            className="bg-[#3c3c3d] cursor-pointer font-normal p-3 text-white text-xl rounded-sm"
-                                        >
 
-                                            <h2 className={title.size}>{title.label}</h2>
-                                        </div>
+                {/* Contenido principal */}
+                <div className="h-full w-[calc(100%-80px)]">
+                    {/* Panel lateral (dependiente del estado) */}
+                    <div
+                        className={`${show.status ? "p-0 -left-[350px]" : "px-8 left-[80px] py-5"
+                            } bg-[#f0f0f0] h-full fixed transition-all w-[350px] z-30 duration-700 shadow-md`}
+                    >
+                        <div
+                            onClick={() => setShow({ name: "", status: true })}
+                            className="flex absolute justify-center items-center bg-[#e8e8e8] w-[20px] -right-2 text-gray-500 top-[40%] cursor-pointer h-[100px] rounded-full"
+                        >
+                            <MdKeyboardArrowLeft />
+                        </div>
+                        {/* Render dinámico del contenido según estado */}
+                        {state === "text" && (
+                            <div className="space-y-4">
+                                {titles.map((title) => (
+                                    <div
+                                        key={title.id}
+                                        onClick={() =>
+                                            add_text("text", "title", title.label, title.size, title.font)
+                                        }
+                                        className="bg-[#ffffff] border border-gray-300 cursor-pointer font-normal p-3 text-gray-700 text-xl rounded-sm hover:bg-gray-100"
+                                    >
+                                        <h2 className={title.size}>{title.label}</h2>
                                     </div>
                                 ))}
                             </div>
-                        }
+                        )}
                         {
                             state === 'code' && <div>
                                 <div className='grid grid-cols-1 gap-2'>
@@ -575,11 +640,14 @@ const Main = () => {
                             )
                         }
                         {
-                            state === 'table' && (
-                                <div className="space-y-4">
-                                    <h2 className="text-lg font-bold text-white ">Insertar tabla</h2>
-                                    <div className="flex flex-col items-start space-y-2">
-                                        <div className="grid grid-cols-6 grid-rows-5 gap-1 w-[180px] h-[150px] border border-gray-300 relative">
+                            state === "table" && (
+                                <div className="space-y-6 bg-[#ffffff] shadow-md p-6 rounded-md">
+                                    {/* Título */}
+                                    <h2 className="text-lg font-bold text-gray-800">Insertar tabla</h2>
+
+                                    {/* Contenedor de la tabla */}
+                                    <div className="flex flex-col items-start gap-4">
+                                        <div className="grid grid-cols-6 grid-rows-5 gap-1 w-[180px] h-[150px] border border-gray-300 rounded-md p-2 relative">
                                             {Array.from({ length: 30 }).map((_, index) => {
                                                 const row = Math.floor(index / 6) + 1; // Máximo 5 filas
                                                 const col = (index % 6) + 1; // Máximo 6 columnas
@@ -588,22 +656,25 @@ const Main = () => {
                                                     <div
                                                         key={index}
                                                         onMouseEnter={() => setDimensions({ rows: row, columns: col })}
-                                                        onClick={() => add_table('table', row, col)}
-                                                        className={`w-full h-full border hover:bg-blue-300 ${row <= dimensions.rows && col <= dimensions.columns
-                                                            ? 'bg-blue-500'
-                                                            : ''
+                                                        onClick={() => add_table("table", row, col)}
+                                                        className={`w-full h-full border rounded-sm transition-all duration-200 ${row <= dimensions.rows && col <= dimensions.columns
+                                                                ? "bg-blue-500"
+                                                                : "hover:bg-blue-100"
                                                             }`}
                                                     ></div>
                                                 );
                                             })}
                                         </div>
-                                        <span className="text-sm text-gray-500">
+
+                                        {/* Dimensiones seleccionadas */}
+                                        <span className="text-sm font-medium text-gray-600">
                                             {dimensions.rows} x {dimensions.columns}
                                         </span>
                                     </div>
                                 </div>
                             )
-                        }
+                            }
+
 
                         {
                             state === 'activepause' && <ActivePause />
@@ -620,8 +691,10 @@ const Main = () => {
                             state === 'image' && <MyImages add_image={add_image} />
                         }
 
+
                     </div>
 
+                    {/* Vista principal */}
                     <ViewSlide
                         current_component={current_component}
                         slides={slides}
@@ -640,13 +713,9 @@ const Main = () => {
                             setShowModal={setShowModal}
                         />
                     )}
-
                 </div>
             </div>
-
-
         </div>
-    )
+    );
 }
-
 export default Main

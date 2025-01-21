@@ -40,8 +40,8 @@ const MyImages = ({add_image}) => {
 
   return (
     <div>
-      <div className='w-full h-[40px] flex justify-center items-center bg-purple-500 rounded-sm text-white mb-3'>
-        <label className='text-center cursor-pointer' htmlFor="image">Upload image</label>
+      <div className='w-full h-[40px] flex justify-center items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-md shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300'>
+        <label className='text-center cursor-pointer' htmlFor="image">Subir imagen</label>
         <input readOnly={loader} onChange={image_upload} type="file" id='image' className='hidden' />
       </div>
       {

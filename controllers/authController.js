@@ -53,7 +53,7 @@ class authController {
                             email: user.email,
                             _id: user.id,
                         },
-                        'bN67@X2#oOp^F93?2L89$aBc3DE',
+                        'farid',
                         {
                             expiresIn: '2d',
                         }

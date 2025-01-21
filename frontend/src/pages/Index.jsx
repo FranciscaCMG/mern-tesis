@@ -1,187 +1,270 @@
-import React, { useState } from 'react'
-import { IoMdClose } from 'react-icons/io'
-import { AiOutlineGoogle } from 'react-icons/ai'
-import { FaFacebookF } from 'react-icons/fa'
-import api from '../utils/api'
-import toast from 'react-hot-toast'
+import React, { useState } from 'react';
+import { IoMdClose } from 'react-icons/io';
+import { motion } from "framer-motion";
+import api from '../utils/api';
+import toast from 'react-hot-toast';
 
 const Index = () => {
-
-    const [type, setType] = useState('')
-    const [show, setShow] = useState(false)
-    const [loader, setLoader] = useState(false)
+    const [type, setType] = useState('');
+    const [show, setShow] = useState(false);
+    const [loader, setLoader] = useState(false);
 
     const [state, setState] = useState({
         name: '',
         email: '',
         password: ''
-    })
+    });
 
     const inputHandle = (e) => {
         setState({
             ...state,
             [e.target.name]: e.target.value
-        })
-    }
+        });
+    };
 
     const user_register = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         try {
-
-            setLoader(true)
-            const { data } = await api.post('/api/user-register', state)
-            setLoader(false)
-            localStorage.setItem('canva_token', data.token)
-            setState({
-                name: '',
-                email: '',
-                password: ''
-            })
-            window.location.href = '/'
-
+            setLoader(true);
+            const { data } = await api.post('/api/user-register', state);
+            setLoader(false);
+            localStorage.setItem('canva_token', data.token);
+            setState({ name: '', email: '', password: '' });
+            window.location.href = '/';
         } catch (error) {
-            setLoader(false)
-            toast.error(error.response.data.message)
+            setLoader(false);
+            toast.error(error.response?.data?.message || "Error inesperado");
         }
-    }
+    };
 
     const user_login = async (e) => {
         e.preventDefault();
         try {
             setLoader(true);
-            const { data } = await api.post('/api/user-login', state); // Supone que la API ahora retorna token, email y name
+            const { data } = await api.post('/api/user-login', state);
             setLoader(false);
-    
-            // Guardar token, email y name en el localStorage
             localStorage.setItem('canva_token', data.token);
-            localStorage.setItem('user_email', data.email); // Almacena el email
-            localStorage.setItem('user_name', data.name);   // Almacena el nombre
-    
-            // Reiniciar el estado
-            setState({
-                email: '',
-                password: ''
-            });
-    
-            // Redirigir al usuario a la página principal
+            localStorage.setItem('user_email', data.email);
+            localStorage.setItem('user_name', data.name);
+            setState({ email: '', password: '' });
             window.location.href = '/';
         } catch (error) {
-            console.log(error);
             setLoader(false);
-    
-            // Mostrar el mensaje de error como notificación
             toast.error(error.response?.data?.message || "Error inesperado");
-        }}
+        }
+    };
 
     return (
-        <div className='bg-[#18191b] min-h-screen w-full'>
-            <div className={`w-screen ${show ? 'visible opacity-100' : 'invisible opacity-30'} transition-all duration-500 h-screen fixed bg-[#252627ad] flex justify-center items-center`}>
-                <div className='w-[350px] bg-[#323335] m-auto px-6 py-4 rounded-md relative'>
-                    <div onClick={() => setShow(false)} className='absolute right-4 top-4 text-xl cursor-pointer text-white'><IoMdClose /></div>
-                    <h2 className='text-white pb-4 text-center text-xl'>Login or sign up in seconds</h2>
-                    {
-                        type === 'signin' && <form onSubmit={user_login}>
-                            <div className='flex flex-col gap-3 mb-3 text-white'>
-                                <label htmlFor="email">Email</label>
-                                <input onChange={inputHandle} type="email" name='email' id='email' placeholder='email' value={state.email} className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent' />
-                            </div>
-                            <div className='flex flex-col gap-3 mb-3 text-white'>
-                                <label htmlFor="password">Password</label>
-                                <input onChange={inputHandle} type="password" name='password' id='password' placeholder='password' value={state.password} className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent' />
-                            </div>
-                            <div>
-                                <button disabled={loader} className='px-3 py-2 rounded-md bg-purple-500 w-full ounline-none hover:bg-purple-600 text-white'>{loader ? 'loading..' : 'Signin'}</button>
-                            </div>
-                            <div className='flex py-4 justify-between items-center px-3'>
-                                <div className='w-[45%] h-[1px] bg-[#434449]'></div>
-                                <div className='w-[6%] text-center flex pb-1 px-1 text-white'>or</div>
-                                <div className='w-[45%] h-[1px] bg-[#434449]'></div>
-                            </div>
-                            <div className='pb-4'>
-                                <button className='px-3 flex justify-center items-center gap-2 py-2 rounded-md bg-orange-700 w-full text-white outline-none hover:bg-orange-800'>
-                                    <span><AiOutlineGoogle /></span>
-                                    <span>Login with gamil</span>
-                                </button>
-                            </div>
-                            <div>
-                                <button className='px-3 flex justify-center 6tems-center gap-2 py-2 rounded-md bg-blue-700 w-full text-white outline-none hover:bg-blue-800'>
-                                    <span><FaFacebookF /></span>
-                                    <span>Login with facebook</span>
-                                </button>
-                            </div>
-                        </form>
-                    }
-                    {
-                        type === 'signup' && <form onSubmit={user_register}>
-                            <div className='flex flex-col gap-3 mb-3 text-white'>
-                                <label htmlFor="name">Name</label>
-                                <input type="text" onChange={inputHandle} value={state.name} required name='name' id='name' placeholder='name' className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent' />
-                            </div>
-                            <div className='flex flex-col gap-3 mb-3 text-white'>
-                                <label htmlFor="email">Email</label>
-                                <input onChange={inputHandle} value={state.email} type="email" name='email' id='email' placeholder='email' className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent' required />
-                            </div>
-                            <div className='flex flex-col gap-3 mb-3 text-white'>
-                                <label htmlFor="password">Password</label>
-                                <input onChange={inputHandle} type="password" name='password' id='password' placeholder='password' value={state.password} className='px-3 py-2 rounded-md border outline-none border-[#5c5c5e] focus:border-purple-500 bg-transparent' required />
-                            </div>
-                            <div>
-                                <button disabled={loader} className='px-3 py-2 rounded-md bg-purple-500 w-full ounline-none hover:bg-purple-600 text-white'>{loader ? 'loading..' : 'Sign up'}</button>
-                            </div>
-                            <div className='flex py-4 justify-between items-center px-3'>
-                                <div className='w-[45%] h-[1px] bg-[#434449]'></div>
-                                <div className='w-[6%] text-center flex pb-1 px-1 text-white'>or</div>
-                                <div className='w-[45%] h-[1px] bg-[#434449]'></div>
-                            </div>
-                            <div className='pb-4'>
-                                <button className='px-3 flex justify-center items-center gap-2 py-2 rounded-md bg-orange-700 w-full text-white outline-none hover:bg-orange-800'>
-                                    <span><AiOutlineGoogle /></span>
-                                    <span>Login with gamil</span>
-                                </button>
-                            </div>
-                            <div>
-                                <button className='px-3 flex justify-center 6tems-center gap-2 py-2 rounded-md bg-blue-700 w-full text-white outline-none hover:bg-blue-800'>
-                                    <span><FaFacebookF /></span>
-                                    <span>Login with facebook</span>
-                                </button>
-                            </div>
-                        </form>
-                    }
+        <div className="bg-[#ffffff] min-h-screen w-full">
+            {/* Modal flotante */}
+            <div
+                className={`fixed inset-0 ${
+                    show ? "visible opacity-100" : "invisible opacity-0"
+                } transition-opacity duration-500 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-50`}
+            >
+                <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8 relative">
+                    {/* Botón de cierre */}
+                    <button
+                        onClick={() => setShow(false)}
+                        className="absolute top-4 right-4 text-gray-500 hover:text-gray-900 text-2xl"
+                    >
+                        <IoMdClose />
+                    </button>
 
+                    {/* Encabezado */}
+                    <h2 className="text-2xl font-bold text-center text-purple-600 mb-2">
+                        {type === "signin" ? "¡Hola! 👋" : "Gracias por querer ser parte ❤️"}
+                    </h2>
+                    <p className="text-gray-500 text-center mb-6">
+                        {type === "signin"
+                            ? "Qué bueno tenerte de vuelta."
+                            : "Completa los siguientes datos para crear tu primera videoclase."}
+                    </p>
+
+                    {/* Formulario */}
+                    {type === "signin" ? (
+                        <form onSubmit={user_login}>
+                            <div className="mb-4">
+                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                    Correo
+                                </label>
+                                <input
+                                    onChange={inputHandle}
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    placeholder="Ingresa tu correo"
+                                    value={state.email}
+                                    className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                    Contraseña
+                                </label>
+                                <input
+                                    onChange={inputHandle}
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="Ingresa tu contraseña"
+                                    value={state.password}
+                                    className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                disabled={loader}
+                                className={`w-full py-2 px-4 text-white rounded-lg shadow-md ${
+                                    loader
+                                        ? "bg-purple-300 cursor-not-allowed"
+                                        : "bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
+                                } transition-all duration-300`}
+                            >
+                                {loader ? "Cargando..." : "Inicia Sesión"}
+                            </button>
+                            <p className="mt-4 text-center text-sm text-gray-500">
+                                ¿Aún no tienes cuenta?{" "}
+                                <button
+                                    onClick={() => setType("signup")}
+                                    className="text-purple-600 hover:underline"
+                                >
+                                    Regístrate
+                                </button>
+                            </p>
+                        </form>
+                    ) : (
+                        <form onSubmit={user_register}>
+                            <div className="mb-4">
+                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                    Nombre
+                                </label>
+                                <input
+                                    onChange={inputHandle}
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    placeholder="¿Cómo quieres que te nombremos?"
+                                    value={state.name}
+                                    className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                                    Correo
+                                </label>
+                                <input
+                                    onChange={inputHandle}
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    placeholder="Ingresa tu correo"
+                                    value={state.email}
+                                    className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                                    Contraseña
+                                </label>
+                                <input
+                                    onChange={inputHandle}
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="Crea tu contraseña"
+                                    value={state.password}
+                                    className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500"
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                disabled={loader}
+                                className={`w-full py-2 px-4 text-white rounded-lg shadow-md ${
+                                    loader
+                                        ? "bg-purple-300 cursor-not-allowed"
+                                        : "bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
+                                } transition-all duration-300`}
+                            >
+                                {loader ? "Cargando..." : "Regístrate"}
+                            </button>
+                            <p className="mt-4 text-center text-sm text-gray-500">
+                                ¿Ya tienes cuenta?{" "}
+                                <button
+                                    onClick={() => setType("signin")}
+                                    className="text-purple-600 hover:underline"
+                                >
+                                    Inicia sesión
+                                </button>
+                            </p>
+                        </form>
+                    )}
                 </div>
             </div>
-            <div className='bg-[#252627] shadow-md'>
-                <div className='w-[93%] m-auto py-3'>
-                    <div className='flex justify-between items-center'>
-                        <div className='w-[80px] h-[48px]'>
-                            
-                        </div>
-                        <div className='flex gap-4'>
-                            <button onClick={() => {
-                                setType('signin')
-                                setShow(true)
-                            }} className='py-2 w-[110px] text-center bg-blue-500 text-white transition-all hover:bg-blue-600 rounded-[5px] font-medium'>Iniciar sesión</button>
-                            <button onClick={() => {
-                                setType('signup')
-                                setShow(true)
-                            }} className='py-2 w-[110px] text-center bg-purple-500  text-white transition-all hover:bg-purple-600 rounded-[5px] font-medium'>Registrarse</button>
-                        </div>
 
+            {/* Barra de navegación */}
+            <div className="bg-[#ffffff] shadow-md">
+                <div className="w-[93%] m-auto py-3 flex justify-between items-center">
+                    <div className="w-[80px] h-[48px]"></div>
+                    <div className="flex gap-4">
+                        <button
+                            onClick={() => {
+                                setType("signin");
+                                setShow(true);
+                            }}
+                            className="py-2 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-full shadow-md transition-transform transform hover:scale-105 hover:shadow-lg"
+                        >
+                            Iniciar sesión
+                        </button>
+                        <button
+                            onClick={() => {
+                                setType("signup");
+                                setShow(true);
+                            }}
+                            className="py-2 px-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-full shadow-md transition-transform transform hover:scale-105 hover:shadow-lg"
+                        >
+                            Registrarse
+                        </button>
                     </div>
                 </div>
             </div>
-            <div className='w-full h-full justify-center items-center p-4'>
-                <div className='py-[168px] flex justify-center items-center flex-col gap-6'>
-                    <h2 className='text-5xl text-[#c7c5c5] font-bold'>¿Qué quieres diseñar hoy?</h2>
-                    <span className='text-[#aca9a9] text-2xl font-medium'>Videoclases</span>
-                    <button onClick={() => {
-                        setType('signup')
-                        setShow(true)
-                    }} className='py-2 w-[200px] text-center bg-purple-500  text-white transition-all hover:bg-purple-600 rounded-[5px] font-medium'>Comienza a diseñar</button>
+
+            {/* Contenido principal */}
+            <div className="py-[120px] px-6 flex justify-center items-center flex-col gap-8 bg-gray-50">
+                <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 text-center leading-tight">
+                    ¿
+                    <span>Qué quieres </span>
+                    <span className="bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent">
+                        diseñar
+                    </span>
+                    <span> hoy?</span>
+                </h2>
+                <div className="w-full max-w-3xl bg-gradient-to-br from-pink-500 to-purple-500 p-8 md:p-12 rounded-2xl shadow-xl text-center">
+                    <h1 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-snug">
+                        ¡Convierte tus ideas en contenido educativo de manera fácil!
+                    </h1>
+                    <p className="text-lg md:text-xl text-gray-200 mb-4">
+                        No necesitas ser un experto en tecnología
+                    </p>
+                    <p className="text-lg md:text-xl text-gray-200">
+                        Ahorra tiempo y enfócate en lo que mejor sabes hacer:{" "}
+                        <span className="bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent animate-bounce">
+                            enseñar
+                        </span>
+                    </p>
+                    <button
+                        onClick={() => {
+                            setType("signup");
+                            setShow(true);
+                        }}
+                        className="bg-white text-purple-600 font-semibold rounded-full px-8 py-3 mt-6 shadow-lg hover:bg-gray-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                    >
+                        ¡Comienza a diseñar ahora!
+                    </button>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Index
+export default Index;

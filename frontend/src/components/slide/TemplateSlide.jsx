@@ -1,5 +1,5 @@
 import React from "react";
-import { IoMdClose } from 'react-icons/io';
+import { IoMdClose } from "react-icons/io";
 
 import Titulo from "/Titulo.png";
 import I from "/I.png";
@@ -11,111 +11,41 @@ import T2HS from "/T-2H-S.png";
 import T2VD from "/T-2V-D.png";
 import T2VI from "/T-2V-I.png";
 
-const TemplateSlide = ({handleOptionClick, setShowModal}) => {
+const TemplateSlide = ({ handleOptionClick, setShowModal }) => {
     return (
-        <div className='fixed inset-0 bg-[#000000a6] flex justify-center items-center z-30'>
-          <div className='bg-[#252627] p-6 rounded-lg w-[900px] relative'>
-            <div
-              onClick={() => setShowModal(false)}
-              className='absolute right-4 top-4 text-xl cursor-pointer text-white'
-            >
-              <IoMdClose />
-            </div>
-            <h2 className='text-white text-center text-lg font-bold mb-4'>Seleccionar una diapositiva</h2>
-            <div className='grid grid-cols-3 gap-4 justify-center'>
-              <button
-                onClick={() => handleOptionClick(1)}
-                className='w-[270px] h-[140px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
-              >
-                <img
-                  src={I}
-                  alt="1920x1080"
-                  className='w-[250px] h-[120px] mt-[8px] mb-2 rounded-md'
-                />
-              </button>
-              <button
-                onClick={() => handleOptionClick(2)}
-                className='w-[270px] h-[140px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
-              >
-                <img
-                  src={Titulo}
-                  alt="1920x1080"
-                  className='w-[250px] h-[120px] mt-[8px] mb-2 rounded-md'
-                />
-              </button>
-              <button
-                onClick={() => handleOptionClick(3)}
-                className='w-[270px] h-[140px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
-              >
-                <img
-                  src={D4}
-                  alt="1920x1080"
-                  className='w-[250px] h-[120px] mt-[8px] mb-2 rounded-md'
-                />
-              </button>
-              <button
-                onClick={() => handleOptionClick(4)}
-                className='w-[270px] h-[140px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
-              >
-                <img
-                  src={T2VD}
-                  alt="1920x1080"
-                  className='w-[250px] h-[120px] mt-[8px] mb-2 rounded-md'
-                />
-              </button>
-              <button
-                onClick={() => handleOptionClick(5)}
-                className='w-[270px] h-[140px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
-              >
-                <img
-                  src={T2VI}
-                  alt="1920x1080"
-                  className='w-[250px] h-[120px] mt-[8px] mb-2 rounded-md'
-                />
-              </button>
-              <button
-                onClick={() => handleOptionClick(6)}
-                className='w-[270px] h-[140px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
-              >
-                <img
-                  src={T2HIn}
-                  alt="1920x1080"
-                  className='w-[250px] h-[120px] mt-[8px] mb-2 rounded-md'
-                />
-              </button>
-              <button
-                onClick={() => handleOptionClick(7)}
-                className='w-[270px] h-[140px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
-              >
-                <img
-                  src={T2HS}
-                  alt="1920x1080"
-                  className='w-[250px] h-[120px] mt-[8px] mb-2 rounded-md'
-                />
-              </button>
-              <button
-                onClick={() => handleOptionClick(8)}
-                className='w-[270px] h-[140px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
-              >
-                <img
-                  src={DV}
-                  alt="1920x1080"
-                  className='w-[250px] h-[120px] mt-[8px] mb-2 rounded-md'
-                />
-              </button>
-              <button
-                onClick={() => handleOptionClick(9)}
-                className='w-[270px] h-[140px] bg-[#3c3c3d] text-white text-center rounded-md hover:bg-[#4a4a4b] flex flex-col items-center justify-center'
-              >
-                <img
-                  src={DH}
-                  alt="1920x1080"
-                  className='w-[250px] h-[120px] mt-[8px] mb-2 rounded-md'
-                />
-              </button>
-            </div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-30 backdrop-blur-md">
+            {/* Contenedor principal */}
+            <div className="bg-white p-8 rounded-lg shadow-lg w-[900px] relative">
+                {/* Botón de cierre */}
+                <div
+                    onClick={() => setShowModal(false)}
+                    className="absolute right-4 top-4 text-2xl cursor-pointer text-gray-600 hover:text-gray-900 transition-all duration-200"
+                >
+                    <IoMdClose />
+                </div>
 
-          </div>
+                {/* Título */}
+                <h2 className="text-center text-2xl font-bold text-gray-800 mb-6">
+                    Selecciona una diapositiva
+                </h2>
+
+                {/* Opciones de diapositivas */}
+                <div className="grid grid-cols-3 gap-6">
+                    {[I, Titulo, D4, T2VD, T2VI, T2HIn, T2HS, DV, DH].map((src, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handleOptionClick(index + 1)}
+                            className="w-[270px] h-[140px] bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 text-center rounded-lg shadow-md hover:from-gray-200 hover:to-gray-300 hover:shadow-lg transition-all duration-300 flex flex-col items-center justify-center"
+                        >
+                            <img
+                                src={src}
+                                alt={`Slide option ${index + 1}`}
+                                className="w-[250px] h-[120px] mt-2 mb-2 rounded-md"
+                            />
+                        </button>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 };
