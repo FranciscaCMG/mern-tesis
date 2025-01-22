@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import videoLogo from "/Logo2.png";
 import userLogo from "/Logo_User2.png";
@@ -14,6 +14,8 @@ const Layout = () => {
     const userEmail = localStorage.getItem("user_email");
     const userName = localStorage.getItem("user_name")?.toUpperCase() || "USUARIO";
 
+    const [inicialName, setInicialName] = useState("")
+
     const navigate = useNavigate();
     const { pathname } = useLocation();
 
@@ -28,6 +30,19 @@ const Layout = () => {
     const handleOptionClick = () => {
         setShowModal(false);
     };
+
+    const get_inicial_name = () => {
+        const names = userName.split(" ");
+        if (names.length > 1) {
+            setInicialName(names[0][0] + names[1][0]);
+        } else {
+            setInicialName(names[0][0]);
+        }
+    }
+
+    useEffect(() => {
+        get_inicial_name();
+      }, []);
 
     const create = () => {
         navigate("/design/create", {
@@ -65,11 +80,9 @@ const Layout = () => {
                                 onClick={() => setShowUserMenu(!showUserMenu)}
                                 className="cursor-pointer"
                             >
-                                <img
-                                    src={userInfo?.image ? userInfo?.image : userLogo}
-                                    className="w-[45px] h-[45px] rounded-full border-2 border-purple-500 hover:border-purple-700 transition-all"
-                                    alt="Usuario logo"
-                                />
+                                <div className="w-[45px] h-[45px] rounded-full border-2 border-purple-500 hover:border-purple-700 align-text-top text-center transition-all">
+                                    {inicialName}
+                                </div>
                             </div>
 
                             {/* Menú desplegable */}
