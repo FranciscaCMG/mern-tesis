@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 import api from '../utils/api';
 import toast from 'react-hot-toast';
+import { Link, useNavigate } from "react-router-dom";
+import videoLogo from "/Logo2.png";
 
 
 const Index = () => {
@@ -58,9 +60,8 @@ const Index = () => {
         <div className="bg-[#ffffff] min-h-screen w-full">
             {/* Modal flotante */}
             <div
-                className={`fixed inset-0 ${
-                    show ? "visible opacity-100" : "invisible opacity-0"
-                } transition-opacity duration-500 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-50`}
+                className={`fixed inset-0 ${show ? "visible opacity-100" : "invisible opacity-0"
+                    } transition-opacity duration-500 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-50`}
             >
                 <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8 relative">
                     {/* Botón de cierre */}
@@ -115,11 +116,10 @@ const Index = () => {
                             <button
                                 type="submit"
                                 disabled={loader}
-                                className={`w-full py-2 px-4 text-white rounded-lg shadow-md ${
-                                    loader
-                                        ? "bg-purple-300 cursor-not-allowed"
-                                        : "bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
-                                } transition-all duration-300`}
+                                className={`w-full py-2 px-4 text-white rounded-lg shadow-md ${loader
+                                    ? "bg-purple-300 cursor-not-allowed"
+                                    : "bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
+                                    } transition-all duration-300`}
                             >
                                 {loader ? "Cargando..." : "Inicia Sesión"}
                             </button>
@@ -180,11 +180,10 @@ const Index = () => {
                             <button
                                 type="submit"
                                 disabled={loader}
-                                className={`w-full py-2 px-4 text-white rounded-lg shadow-md ${
-                                    loader
-                                        ? "bg-purple-300 cursor-not-allowed"
-                                        : "bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
-                                } transition-all duration-300`}
+                                className={`w-full py-2 px-4 text-white rounded-lg shadow-md ${loader
+                                    ? "bg-purple-300 cursor-not-allowed"
+                                    : "bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700"
+                                    } transition-all duration-300`}
                             >
                                 {loader ? "Cargando..." : "Regístrate"}
                             </button>
@@ -205,7 +204,11 @@ const Index = () => {
             {/* Barra de navegación */}
             <div className="bg-[#ffffff] shadow-md">
                 <div className="w-[93%] m-auto py-3 flex justify-between items-center">
-                    <div className="w-[80px] h-[48px]"></div>
+                    <div className="w-[80px] h-[48px]">
+                        {/* Logo */}
+                        <img className="w-full h-full" src={videoLogo} alt="imagen Logo" />
+
+                    </div>
                     <div className="flex gap-4">
                         <button
                             onClick={() => {

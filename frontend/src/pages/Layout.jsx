@@ -41,7 +41,7 @@ const Layout = () => {
 
     useEffect(() => {
         get_inicial_name();
-      }, []);
+    }, []);
 
     const create = () => {
         navigate("/design/create", {
@@ -60,9 +60,9 @@ const Layout = () => {
                 <div className="w-[93%] m-auto py-3">
                     <div className="flex justify-between items-center">
                         {/* Logo */}
-                        <div className="w-[80px] h-[48px]">
-                            <img className="w-full h-full" src={videoLogo} alt="Videoclases logo" />
-                        </div>
+                        <Link className="w-[80px] h-[48px]" to="/">
+                            <img className="w-full h-full" src={videoLogo} alt="imagen Logo" />
+                        </Link>
 
                         {/* Botones y menú de usuario */}
                         <div className="flex gap-4 justify-center items-center relative">
@@ -86,16 +86,15 @@ const Layout = () => {
 
                             {/* Menú desplegable */}
                             <div
-                                className={`absolute top-[60px] right-0 w-[350px] bg-[#ffffff] p-4 rounded-xl border border-gray-300 shadow-lg transform transition-all duration-500 ${
-                                    showUserMenu
+                                className={`absolute top-[60px] right-0 w-[350px] bg-[#ffffff] p-4 rounded-xl border border-gray-300 shadow-lg transform transition-all duration-500 ${showUserMenu
                                         ? "visible opacity-100 translate-y-0"
                                         : "invisible opacity-0 -translate-y-5"
-                                }`}
+                                    }`}
                             >
                                 <div className="flex items-center gap-4 mb-4">
-                                <div className="w-[45px] h-[45px] rounded-full border-2 border-purple-500  bg-purple-100 text-purple-700  flex items-center justify-center transition-all text-xl">
-                                    {inicialName}
-                                </div>
+                                    <div className="w-[45px] h-[45px] rounded-full border-2 border-purple-500  bg-purple-100 text-purple-700  flex items-center justify-center transition-all text-xl">
+                                        {inicialName}
+                                    </div>
                                     <div>
                                         <span className="block text-lg font-bold text-[#333333]">
                                             {userName || "Usuario"}
@@ -116,7 +115,7 @@ const Layout = () => {
                                         onClick={logout}
                                         className="p-2 hover:bg-[#f8f8f8] rounded-md cursor-pointer"
                                     >
-                                        <span>Logout</span>
+                                        <span>Cerrar sesión</span>
                                     </li>
                                 </ul>
                             </div>
@@ -137,9 +136,9 @@ const Layout = () => {
                 {/* Sidebar */}
                 <div className="sidebar w-[300px] p-5 h-[calc(100vh-70px)] fixed bg-[#f9f9f9] shadow-md rounded-r-xl">
                     <div className="px-2 py-2 flex justify-start gap-5 items-center mb-6">
-                    <div className="w-[50px] h-[50px] rounded-full border-2 border-purple-500  bg-purple-100 text-purple-700  flex items-center justify-center transition-all text-2xl">
-                                    {inicialName}
-                                </div>
+                        <div className="w-[50px] h-[50px] rounded-full border-2 border-purple-500  bg-purple-100 text-purple-700  flex items-center justify-center transition-all text-2xl">
+                            {inicialName}
+                        </div>
                         <div className="flex flex-col">
                             <span className="text-[#333333] font-bold text-md">
                                 {userName || "Usuario"}
@@ -150,9 +149,8 @@ const Layout = () => {
                         <li>
                             <Link
                                 to="/"
-                                className={`flex items-center gap-3 px-4 py-3 rounded-lg ${
-                                    pathname === "/" ? "bg-[#e0e0e0]" : "hover:bg-[#f3f3f3]"
-                                }`}
+                                className={`flex items-center gap-3 px-4 py-3 rounded-lg ${pathname === "/" ? "bg-[#e0e0e0]" : "hover:bg-[#f3f3f3]"
+                                    }`}
                             >
                                 <FaHome className="text-xl" />
                                 <span className="font-medium">Home</span>
@@ -161,9 +159,8 @@ const Layout = () => {
                         <li>
                             <Link
                                 to="/projects"
-                                className={`flex items-center gap-3 px-4 py-3 rounded-lg ${
-                                    pathname === "/projects" ? "bg-[#e0e0e0]" : "hover:bg-[#f3f3f3]"
-                                }`}
+                                className={`flex items-center gap-3 px-4 py-3 rounded-lg ${pathname === "/projects" ? "bg-[#e0e0e0]" : "hover:bg-[#f3f3f3]"
+                                    }`}
                             >
                                 <BsFolder className="text-xl" />
                                 <span className="font-medium">Proyectos</span>
@@ -172,9 +169,8 @@ const Layout = () => {
                         <li>
                             <Link
                                 to="/templates"
-                                className={`flex items-center gap-3 px-4 py-3 rounded-lg ${
-                                    pathname === "/templates" ? "bg-[#e0e0e0]" : "hover:bg-[#f3f3f3]"
-                                }`}
+                                className={`flex items-center gap-3 px-4 py-3 rounded-lg ${pathname === "/templates" ? "bg-[#e0e0e0]" : "hover:bg-[#f3f3f3]"
+                                    }`}
                             >
                                 <BsGrid1X2 className="text-xl" />
                                 <span className="font-medium">Plantillas</span>
