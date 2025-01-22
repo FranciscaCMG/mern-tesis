@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
-import { motion } from "framer-motion";
 import api from '../utils/api';
 import toast from 'react-hot-toast';
 

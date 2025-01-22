@@ -1,8 +1,14 @@
 import React from "react";
-
+import { useEffect } from "react";
 import CreateComponent from "../CreateComponent";
 
-const ViewSlide = ({ current_component, slides, addSlide, removeComponent, attributes, handleSetAttributes, setCurrentComponent, setCurrentSlideId, setShowModal }) => {
+const ViewSlide = ({ current_component, slides, removeComponent, attributes, handleSetAttributes, setCurrentComponent, setCurrentSlideId, setShowModal }) => {
+
+    useEffect(() => {
+        console.log(current_component);
+        console.log(slides)
+    }, [current_component]);
+
     return (
         <div className='w-full flex h-full'>
             <div className={`flex flex-col items-center h-full ${!current_component ? 'w-full' : "w-[calc(100%-250px)]"}`}>
@@ -78,7 +84,32 @@ const ViewSlide = ({ current_component, slides, addSlide, removeComponent, attri
                                         onClick={() => handleSetAttributes('text', current_component.title)}
                                         className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-md shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
                                     >
-                                        Agregar
+                                        Modificar texto
+                                    </button>
+
+                                    <p>Texto hablado: </p>
+
+                                    <textarea
+                                        onChange={(e) =>
+                                            setCurrentComponent({
+                                                ...current_component,
+                                                audio_text: e.target.value,
+                                            })
+                                        }
+                                        onInput={(e) => {
+                                            e.target.style.height = "auto"; // Restablece la altura
+                                            e.target.style.height = `${e.target.scrollHeight}px`; // Ajusta la altura según el contenido
+                                        }}
+                                        className="border border-gray-700 bg-transparent outline-none p-2 rounded-md resize-none overflow-hidden w-full"
+                                        value={current_component.audio_text}
+                                        placeholder="Escribe aquí..."
+                                    ></textarea>
+
+                                    <button
+                                        onClick={() => handleSetAttributes('audio_text', current_component.audio_text)}
+                                        className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-md shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
+                                    >
+                                        Modificar audio
                                     </button>
                                 </div>
 

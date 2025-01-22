@@ -33,7 +33,8 @@ const Main = () => {
         image: '',
         left: '',
         top: '',
-        text: ''
+        text: '',
+        audio_text: ''
     })
 
     const handleSetAttributes = (key, value) => {
@@ -150,6 +151,7 @@ const Main = () => {
         titleSize: fontSize,
         weight: 400,
         color: '#3c3c3d',
+        audio_text: '',
         setCurrentComponent: (a) => setCurrentComponent(a),
         moveElement
     });
@@ -294,6 +296,7 @@ const Main = () => {
             titleSize: titleSize,
             weight: 400,
             color: '#3c3c3d',
+            audio_text: '',
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         }
@@ -326,6 +329,7 @@ const Main = () => {
             color: '#3c3c3d',
             title: "Título de la tabla",
             tableData: tableData,
+            audio_text: '',
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         };
@@ -352,6 +356,7 @@ const Main = () => {
             title: "<Agregar código>",
             weight: 400,
             color: '#3c3c3d',
+            audio_text: '',
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         }
@@ -383,6 +388,7 @@ const Main = () => {
             textColor: 'text-white',
             isOrdered: isOrdered,
             listItems: ['Elemento 1'],
+            audio_text: '',
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         };
@@ -408,6 +414,7 @@ const Main = () => {
             z_index: 2,
             ratius: 0,
             image: img,
+            audio_text: '',
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         }
@@ -442,14 +449,16 @@ const Main = () => {
             }
 
             slides[currentSlideId].components[index].color = attributes.color || current_component.color
+            slides[currentSlideId].components[index].audio_text = attributes.audio_text || current_component.audio_text
 
             handleSetAttributes('color', '')
             handleSetAttributes('top', '')
             handleSetAttributes('left', '')
             handleSetAttributes('text', '')
+            handleSetAttributes('audio_text', '')
 
         }
-    }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text])
+    }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text, attributes.audio_text])
 
     useEffect(() => {
         const get_design = async () => {
