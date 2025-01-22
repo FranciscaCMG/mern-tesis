@@ -3,6 +3,7 @@ import { IoMdClose } from 'react-icons/io';
 import api from '../utils/api';
 import toast from 'react-hot-toast';
 
+
 const Index = () => {
     const [type, setType] = useState('');
     const [show, setShow] = useState(false);

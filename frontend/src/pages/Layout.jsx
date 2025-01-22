@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import videoLogo from "/Logo2.png";
-import userLogo from "/Logo_User2.png";
 
 import { token_decode } from "../utils/index";
 import { FaHome } from "react-icons/fa";
@@ -80,7 +79,7 @@ const Layout = () => {
                                 onClick={() => setShowUserMenu(!showUserMenu)}
                                 className="cursor-pointer"
                             >
-                                <div className="w-[45px] h-[45px] rounded-full border-2 border-purple-500 hover:border-purple-700 align-text-top text-center transition-all">
+                                <div className="w-[50px] h-[50px] rounded-full border-2 border-purple-500 hover:border-purple-800 bg-purple-100 text-purple-700 hover:text-purple-800 flex items-center justify-center text-2xl transition-transform transform hover:scale-105 hover:shadow-lg ">
                                     {inicialName}
                                 </div>
                             </div>
@@ -94,11 +93,9 @@ const Layout = () => {
                                 }`}
                             >
                                 <div className="flex items-center gap-4 mb-4">
-                                    <img
-                                        src={userLogo}
-                                        className="w-[50px] h-[50px] rounded-full border-2 border-gray-400"
-                                        alt="Usuario logo"
-                                    />
+                                <div className="w-[45px] h-[45px] rounded-full border-2 border-purple-500  bg-purple-100 text-purple-700  flex items-center justify-center transition-all text-xl">
+                                    {inicialName}
+                                </div>
                                     <div>
                                         <span className="block text-lg font-bold text-[#333333]">
                                             {userName || "Usuario"}
@@ -140,11 +137,9 @@ const Layout = () => {
                 {/* Sidebar */}
                 <div className="sidebar w-[300px] p-5 h-[calc(100vh-70px)] fixed bg-[#f9f9f9] shadow-md rounded-r-xl">
                     <div className="px-2 py-2 flex justify-start gap-5 items-center mb-6">
-                        <img
-                            src={userLogo}
-                            className="w-[40px] h-[40px] rounded-full border-2 border-purple-500"
-                            alt="Usuario logo"
-                        />
+                    <div className="w-[50px] h-[50px] rounded-full border-2 border-purple-500  bg-purple-100 text-purple-700  flex items-center justify-center transition-all text-2xl">
+                                    {inicialName}
+                                </div>
                         <div className="flex flex-col">
                             <span className="text-[#333333] font-bold text-md">
                                 {userName || "Usuario"}
