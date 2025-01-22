@@ -86,7 +86,7 @@ class designController {
 
         try {
             const design = await designModel.findById(design_id)
-            return res.status(200).json({ design: design })
+            return res.status(200).json({ design: design, components: design.components })
         } catch (error) {
             return res.status(500).json({ message: error.message })
         }

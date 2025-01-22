@@ -117,11 +117,6 @@ const Main = () => {
         setSlides(updatedSlides); // Retorna el nuevo arreglo de slides
     }
 
-
-    useEffect(() => {
-        console.log(slides)
-    }, [slides])
-
     const positionLeft = {
         1: 84,
         2: 327.8,
@@ -463,8 +458,8 @@ const Main = () => {
     useEffect(() => {
         const get_design = async () => {
             try {
-                const { data } = await api.get(`/api/user-design/${design_id}`)
-                const { design } = data
+                const data = await api.get(`/api/user-design/${design_id}`)
+                const design = data.data.components
 
                 design.map((slides, index) => {
                     slides.components.map((c) => {
