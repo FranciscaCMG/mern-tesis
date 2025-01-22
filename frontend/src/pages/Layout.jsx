@@ -49,8 +49,10 @@ const Layout = () => {
                 type: "create",
                 width: 480,
                 height: 826,
+                title: "Ingresa el título",
             },
         });
+        
     };
 
     return (

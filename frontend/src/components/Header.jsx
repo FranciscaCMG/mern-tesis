@@ -54,7 +54,8 @@ const Header = ({ slides, design_id }) => {
   const get_user_design = async () => {
     try {
       const { data } = await api.get(`/api/user-design/${design_id}`)
-      setTitle(data.design.title);
+        setTitle(data.design.title);
+  
     } catch (error) {
       console.error('Error fetching designs:', error);
     }
@@ -62,7 +63,7 @@ const Header = ({ slides, design_id }) => {
 
   useEffect(() => {
     get_user_design();
-  }, []);
+  }, [design_id]);
 
   return (
     <div className="h-[60px] bg-white shadow-md w-full">
