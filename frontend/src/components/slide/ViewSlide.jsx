@@ -13,6 +13,7 @@ const ViewSlide = ({ current_component, slides, removeComponent, attributes, han
                                 return (
                                     <div
                                         key={index}
+                                        id={`photo-${index}`}
                                         className='w-full h-full flex flex-col justify-center items-center'
                                         onClick={() => setCurrentSlideId(slide.id)}
                                     >

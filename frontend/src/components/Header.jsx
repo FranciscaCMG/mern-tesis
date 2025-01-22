@@ -11,7 +11,7 @@ const Header = ({ slides, design_id }) => {
   const [title, setTitle] = useState("Mini videoclases");
 
   const saveImage = async () => {
-    const getDiv = document.getElementById("main_design");
+    const getDiv = document.getElementById("photo-0");
     const image = await htmlToImage.toBlob(getDiv);
 
     if (image) {
@@ -36,7 +36,7 @@ const Header = ({ slides, design_id }) => {
   };
 
   const downloadImage = async () => {
-    const getDiv = document.getElementById("main_design");
+    const getDiv = document.getElementById("photo-0");
     const dataUrl = await htmlToImage.toPng(getDiv, {
       style: {
         transform: "scale(1)",
