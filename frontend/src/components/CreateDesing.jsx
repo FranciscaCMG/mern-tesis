@@ -6,7 +6,7 @@ import api from '../utils/api'
 
 import CreateComponent from './CreateComponent'
 
-const CreateDesign = () => {
+const CreateDesign = ({ titlePresentation }) => {
 
     const ref = useRef()
 
@@ -40,6 +40,8 @@ const CreateDesign = () => {
             const formData = new FormData()
             formData.append('design', design)
             formData.append('image', image)
+            formData.append('title', state.title)
+            
             try {
                 setLoader(true)
                 const { data } = await api.post('/api/create-user-design', formData)

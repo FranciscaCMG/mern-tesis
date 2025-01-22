@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import videoLogo from "/Logo2.png";
 import * as htmlToImage from "html-to-image";
@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 const Header = ({ slides, design_id }) => {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
+  const [title, setTitle] = useState("Mini videoclases");
 
   const saveImage = async () => {
     const getDiv = document.getElementById("main_design");
@@ -20,6 +21,7 @@ const Header = ({ slides, design_id }) => {
       const formData = new FormData();
       formData.append("design", JSON.stringify(obj));
       formData.append("image", image);
+      formData.append("title",title);
 
       try {
         setLoader(true);
@@ -49,6 +51,19 @@ const Header = ({ slides, design_id }) => {
     document.body.removeChild(link);
   };
 
+  const get_user_design = async () => {
+    try {
+      const { data } = await api.get(`/api/user-design/${design_id}`)
+      setTitle(data.design.title);
+    } catch (error) {
+      console.error('Error fetching designs:', error);
+    }
+  };
+
+  useEffect(() => {
+    get_user_design();
+  }, []);
+
   return (
     <div className="h-[60px] bg-white shadow-md w-full">
       <div className="flex justify-between px-10 items-center text-gray-700 h-full">
@@ -58,7 +73,12 @@ const Header = ({ slides, design_id }) => {
         </Link>
 
         {/* Título */}
-        <span className="text-xl font-semibold text-gray-900">Mini videoclases</span>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="text-xl font-semibold text-gray-900 border-b-2 border-gray-300 focus:outline-none focus:border-purple-500"
+        />
 
         {/* Botones */}
         <div className="flex justify-center items-center gap-4">

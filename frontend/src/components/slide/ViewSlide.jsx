@@ -1,14 +1,7 @@
 import React from "react";
-import { useEffect } from "react";
 import CreateComponent from "../CreateComponent";
 
 const ViewSlide = ({ current_component, slides, removeComponent, attributes, handleSetAttributes, setCurrentComponent, setCurrentSlideId, setShowModal }) => {
-
-    useEffect(() => {
-        console.log(current_component);
-        console.log(slides)
-    }, [current_component]);
-
     return (
         <div className='w-full flex h-full'>
             <div className={`flex flex-col items-center h-full ${!current_component ? 'w-full' : "w-[calc(100%-250px)]"}`}>

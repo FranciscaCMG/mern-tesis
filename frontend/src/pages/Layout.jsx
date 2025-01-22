@@ -25,7 +25,7 @@ const Layout = () => {
         window.location.href = "/";
     };
 
-    const handleOptionClick = (width, height) => {
+    const handleOptionClick = () => {
         setShowModal(false);
     };
 

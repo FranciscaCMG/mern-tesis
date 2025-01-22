@@ -28,7 +28,8 @@ class designController {
             const design = await designModel.create({
                 user_id: _id,
                 components: [JSON.parse(fields.design[0])],
-                image_url: url
+                image_url: url,
+                title: fields.title[0]
             })
             return res.status(200).json({ design })
 
@@ -66,7 +67,8 @@ class designController {
 
                 await designModel.findByIdAndUpdate(design_id, {
                     image_url: url,
-                    components
+                    components,
+                    title: fields.title[0]
                 })
 
                 return res.status(200).json({ message: "image save success" })
@@ -84,7 +86,7 @@ class designController {
 
         try {
             const design = await designModel.findById(design_id)
-            return res.status(200).json({ design: design.components })
+            return res.status(200).json({ design: design })
         } catch (error) {
             return res.status(500).json({ message: error.message })
         }

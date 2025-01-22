@@ -14,7 +14,11 @@ const user_schema = new Schema({
     image_url: {
         type: String,
         default: ''
-    }
+    },
+    title: {
+        type: String,
+        default: ''
+    },
 
 }, { timestamps: true })
 
