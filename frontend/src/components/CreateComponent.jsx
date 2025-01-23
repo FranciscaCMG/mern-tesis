@@ -10,31 +10,71 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
     let html = ''
 
     if (info.name === 'main_frame') {
-        html = <div id={randValue} onClick={() => info.setCurrentComponent(info)} className='hover:border-[2px] hover:border-indigo-500 shadow-md'
-            style={{
-                width: info.width + 'px',
-                height: info.height + 'px',
-                background: info.color,
-                zIndex: info.z_index
-            }}>
-            {
-                info.image && <img className='w-full h-full ' src={info.image} alt='image info' />
-            }
+        html = (
+            <div
+                id={randValue}
+                onClick={() => info.setCurrentComponent(info)}
+                className="hover:border-[2px] hover:border-indigo-500 shadow-md"
+                style={{
+                    width: info.width + 'px',
+                    height: info.height + 'px',
+                    background: info.color,
+                    zIndex: info.z_index,
+                }}
+            >
+                {info.image && (
+                    <img className="w-full h-full" src={info.image} alt="image info" />
+                )}
 
-            <Element id={randValue} info={info} exId="" />
+                <Element id={randValue} info={info} exId="" />
 
-            {
-                current_component.id === info.id && <div onClick={() => removeComponent(info.id, "slide")}>
-                    <p>AAAAAAAAAAAAAAAAAAAAAA</p>
-                </div>
-            }
-            {
-                current_component.id === info.id && <div onClick={() => duplicateSlide(info.id)}>
-                    <p>BBBBBBBBBBBBBBBBBBBBBB</p>
-                </div>
-            }
-        </div>
+                {current_component.id === info.id && (
+                    <div className="flex space-x-2 mt-2 justify-end">
+                        <div
+                            onClick={() => removeComponent(info.id, 'slide')}
+                            className="flex items-center justify-center w-10 h-10 bg-red-100 rounded-full hover:bg-red-200 cursor-pointer"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-6 h-6 text-red-500"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M19 7l-.867 12.142A2 2 0 0116.136 21H7.864a2 2 0 01-1.997-1.858L5 7m5 4v6m4-6v6M1 7h22M8 7V4a1 1 0 011-1h6a1 1 0 011 1v3"
+                                />
+                            </svg>
+                        </div>
+
+                        <div
+                            onClick={() => duplicateSlide(info.id)}
+                            className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-full hover:bg-blue-200 cursor-pointer"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/200/svg"
+                                className="w-6 h-6 text-blue-500"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                                />
+                            </svg>
+                        </div>
+                    </div>
+                )}
+            </div>
+        );
     }
+
     if (info.name === 'shape' && info.type === 'rect') {
         html = <div id={randValue} onClick={() => info.setCurrentComponent(info)} style={{
             width: info.width + 'px',
@@ -194,7 +234,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                     updateListData={(updatedList) => {
                         info.setCurrentComponent({
                             ...info,
-                            listItems: updatedList, 
+                            listItems: updatedList,
                         });
                     }}
                 />
