@@ -10,7 +10,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
     let html = ''
 
     if (info.name === 'main_frame') {
-        html = <div onClick={() => info.setCurrentComponent(info)} className='hover:border-[2px] hover:border-indigo-500 shadow-md'
+        html = <div id={randValue} onClick={() => info.setCurrentComponent(info)} className='hover:border-[2px] hover:border-indigo-500 shadow-md'
             style={{
                 width: info.width + 'px',
                 height: info.height + 'px',
@@ -21,6 +21,13 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
                 info.image && <img className='w-full h-full ' src={info.image} alt='image info' />
             }
 
+            <Element id={randValue} info={info} exId="" />
+
+            {
+                current_component.id === info.id && <div onClick={() => removeComponent(info.id, "slide")}>
+                    <p>AAAAAAAAAAAAAAAAAAAAAA</p>
+                </div>
+            }
         </div>
     }
     if (info.name === 'shape' && info.type === 'rect') {

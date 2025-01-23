@@ -75,12 +75,20 @@ const Main = () => {
                     z_index: 1,
                     color: '#fff',
                     image: "",
-                    setCurrentComponent: (a) => setCurrentComponent(a)
+                    setCurrentComponent: (a) => setCurrentComponent(a),
+                    type_slide: 1
                 }
             ]
 
         }
     ]);
+
+    useEffect(() => {
+        console.log("CURRENT_COMPONENT")
+        console.log(current_component)
+
+        console.log(slides)
+    },[slides])
 
     const replaceComponentInSlide = (component) => {
         // Encuentra la slide específica por el ID
@@ -151,6 +159,32 @@ const Main = () => {
         moveElement
     });
 
+    const getPositionTopComponents = (numberTemplate) => {
+
+        switch (numberTemplate) {
+            case 1:
+                return [2]
+            case 2:
+                return [2]
+            case 3:
+                return [1,3,1,3]
+            case 4:
+                return [2,1,3]
+            case 5:
+                return [1,3,2]
+            case 6:
+                return [3,1,3]
+            case 7:
+                return [1,3,1]
+            case 8:
+                return [2,2]
+            case 9:
+                return [1,3]
+            default:
+                return;
+        }
+    };
+
     const addSlide = (numberTemplate) => {
         const baseFrame = {
             name: "main_frame",
@@ -161,7 +195,8 @@ const Main = () => {
             z_index: 1,
             color: '#fff',
             image: "",
-            setCurrentComponent: (a) => setCurrentComponent(a)
+            setCurrentComponent: (a) => setCurrentComponent(a),
+            type_slide: numberTemplate
         };
 
         let components = [baseFrame];
@@ -261,13 +296,45 @@ const Main = () => {
         };
     }
 
-    const removeComponent = (id) => {
-        const updatedSlides = slides.map(slide => {
-            return {
-                ...slide,
-                components: slide.components.filter(c => c.id !== id)
-            };
-        });
+    const topPositionsByIndex = (index, type) => {
+        switch (type) {
+        case 1:
+            return (480 * index) + (16 * index) + 121;
+        case 2:
+            return (480 * index) + (20 * index) + 204;
+        case 3:
+            return (480 * index) + (16 * index) + 302;
+        default:
+            return 0;
+        }
+    };
+
+    const removeComponent = (id, type) => {
+        let updatedSlides;
+
+        if (type === 'slide') {
+            updatedSlides = slides.filter(slide => slide.components[0].id !== id);
+
+            for (let i = 0; i < updatedSlides.length; i++) {
+                updatedSlides[i].id = i;
+                let positionTop = getPositionTopComponents(updatedSlides[i].components[0].type_slide);
+
+                for (let j = 1; j < updatedSlides[i].components.length; j++) {
+                    if(updatedSlides[i].components.length > 1) {
+                        console.log(updatedSlides[i].components[j].top)
+                        updatedSlides[i].components[j].top = topPositionsByIndex(i, positionTop[j-1]);
+                    } 
+                }
+            }
+        } else {
+            updatedSlides = slides.map(slide => {
+                return {
+                    ...slide,
+                    components: slide.components.filter(c => c.id !== id)
+                };
+            });
+        }
+
         setSlides(updatedSlides);
         setCurrentComponent('');
     }

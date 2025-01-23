@@ -23,7 +23,8 @@ const CreateDesign = ({ titlePresentation }) => {
         width: state.width,
         z_index: 1,
         color: '#fff',
-        image: ""
+        image: "",
+        type_slide: 1
     }
 
     const [loader, setLoader] = useState(false)
