@@ -4,7 +4,7 @@ import Element from './Element'
 import Table from './Table'
 import List from './List'
 
-const CreateComponent = ({ info, current_component, removeComponent }) => {
+const CreateComponent = ({ info, current_component, removeComponent, duplicateSlide }) => {
 
     const randValue = Math.floor(Math.random() * 100)
     let html = ''
@@ -26,6 +26,11 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
             {
                 current_component.id === info.id && <div onClick={() => removeComponent(info.id, "slide")}>
                     <p>AAAAAAAAAAAAAAAAAAAAAA</p>
+                </div>
+            }
+            {
+                current_component.id === info.id && <div onClick={() => duplicateSlide(info.id)}>
+                    <p>BBBBBBBBBBBBBBBBBBBBBB</p>
                 </div>
             }
         </div>

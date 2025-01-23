@@ -84,9 +84,6 @@ const Main = () => {
     ]);
 
     useEffect(() => {
-        console.log("CURRENT_COMPONENT")
-        console.log(current_component)
-
         console.log(slides)
     },[slides])
 
@@ -321,7 +318,6 @@ const Main = () => {
 
                 for (let j = 1; j < updatedSlides[i].components.length; j++) {
                     if(updatedSlides[i].components.length > 1) {
-                        console.log(updatedSlides[i].components[j].top)
                         updatedSlides[i].components[j].top = topPositionsByIndex(i, positionTop[j-1]);
                     } 
                 }
@@ -338,6 +334,41 @@ const Main = () => {
         setSlides(updatedSlides);
         setCurrentComponent('');
     }
+    
+    const duplicateSlide = (slideId) => {
+        let updatedSlides;
+    
+        const slideIndex = slides.findIndex(slide => slide.components[0].id === slideId);
+    
+        const newSlide = {
+            ...slides[slideIndex],
+            components: slides[slideIndex].components.map(component => ({ ...component }))
+        };
+    
+        updatedSlides = [
+            ...slides.slice(0, slideIndex + 1),
+            newSlide,
+            ...slides.slice(slideIndex + 1)
+        ];
+    
+        for (let i = 0; i < updatedSlides.length; i++) {
+            updatedSlides[i].id = i;
+    
+            let positionTop = getPositionTopComponents(updatedSlides[i].components[0].type_slide);
+    
+            for (let j = 0; j < updatedSlides[i].components.length; j++) {
+                if (j === 0) {
+                    updatedSlides[i].components[j].top = positionTop[j] || 0;
+                } else {
+                    updatedSlides[i].components[j].top = topPositionsByIndex(i, positionTop[j - 1]);
+                }
+            }
+        }
+    
+        setSlides(updatedSlides);
+        setCurrentComponent('');
+    };
+    
 
     const add_text = (name, type, titleName, titleSize, font) => {
         setCurrentComponent('')
@@ -776,6 +807,7 @@ const Main = () => {
                         addSlide={addSlide}
                         setCurrentSlideId={setCurrentSlideId}
                         setShowModal={setShowModal}
+                        duplicateSlide={duplicateSlide}
                     />
 
                     {showModal && (
