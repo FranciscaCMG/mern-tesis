@@ -85,7 +85,7 @@ const Main = () => {
 
     useEffect(() => {
         console.log(slides)
-    },[slides])
+    }, [slides])
 
     const replaceComponentInSlide = (component) => {
         // Encuentra la slide específica por el ID
@@ -164,19 +164,19 @@ const Main = () => {
             case 2:
                 return [2]
             case 3:
-                return [1,3,1,3]
+                return [1, 3, 1, 3]
             case 4:
-                return [2,1,3]
+                return [2, 1, 3]
             case 5:
-                return [1,3,2]
+                return [1, 3, 2]
             case 6:
-                return [3,1,3]
+                return [3, 1, 3]
             case 7:
-                return [1,3,1]
+                return [1, 3, 1]
             case 8:
-                return [2,2]
+                return [2, 2]
             case 9:
-                return [1,3]
+                return [1, 3]
             default:
                 return;
         }
@@ -295,14 +295,14 @@ const Main = () => {
 
     const topPositionsByIndex = (index, type) => {
         switch (type) {
-        case 1:
-            return (480 * index) + (16 * index) + 121;
-        case 2:
-            return (480 * index) + (20 * index) + 204;
-        case 3:
-            return (480 * index) + (16 * index) + 302;
-        default:
-            return 0;
+            case 1:
+                return (480 * index) + (16 * index) + 121;
+            case 2:
+                return (480 * index) + (20 * index) + 204;
+            case 3:
+                return (480 * index) + (16 * index) + 302;
+            default:
+                return 0;
         }
     };
 
@@ -317,9 +317,9 @@ const Main = () => {
                 let positionTop = getPositionTopComponents(updatedSlides[i].components[0].type_slide);
 
                 for (let j = 1; j < updatedSlides[i].components.length; j++) {
-                    if(updatedSlides[i].components.length > 1) {
-                        updatedSlides[i].components[j].top = topPositionsByIndex(i, positionTop[j-1]);
-                    } 
+                    if (updatedSlides[i].components.length > 1) {
+                        updatedSlides[i].components[j].top = topPositionsByIndex(i, positionTop[j - 1]);
+                    }
                 }
             }
         } else {
@@ -334,41 +334,58 @@ const Main = () => {
         setSlides(updatedSlides);
         setCurrentComponent('');
     }
-    
+
+    function generateUniqueID() {
+        return Date.now().toString() + Math.floor(Math.random() * 1000); 
+      }
+
     const duplicateSlide = (slideId) => {
         let updatedSlides;
-    
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+
         const slideIndex = slides.findIndex(slide => slide.components[0].id === slideId);
-    
+        const originalSlide = slides[slideIndex];
+
         const newSlide = {
-            ...slides[slideIndex],
-            components: slides[slideIndex].components.map(component => ({ ...component }))
+            ...originalSlide,
+            components: originalSlide.components.map((component, index) => ({
+                ...component,
+                id: generateUniqueID() // Genera un ID único para cada componente
+            }))
         };
-    
+        console.log('Nueva diapositiva creada:', newSlide);
+
         updatedSlides = [
             ...slides.slice(0, slideIndex + 1),
             newSlide,
             ...slides.slice(slideIndex + 1)
         ];
-    
+        console.log('Arreglo de diapositivas actualizado:', updatedSlides);
+
         for (let i = 0; i < updatedSlides.length; i++) {
             updatedSlides[i].id = i;
-    
+            console.log('Asignando ID a la diapositiva:', updatedSlides[i].id);
+
             let positionTop = getPositionTopComponents(updatedSlides[i].components[0].type_slide);
-    
+            console.log('Posiciones iniciales de los componentes:', positionTop);
+
             for (let j = 0; j < updatedSlides[i].components.length; j++) {
                 if (j === 0) {
                     updatedSlides[i].components[j].top = positionTop[j] || 0;
+                    console.log('Asignando posición al primer componente:', updatedSlides[i].components[j].top);
                 } else {
                     updatedSlides[i].components[j].top = topPositionsByIndex(i, positionTop[j - 1]);
+                    console.log('Asignando posición a un componente posterior:', updatedSlides[i].components[j].top);
                 }
             }
         }
-    
+
+        console.log('Arreglo de diapositivas final:', updatedSlides);
+
         setSlides(updatedSlides);
         setCurrentComponent('');
     };
-    
+
 
     const add_text = (name, type, titleName, titleSize, font) => {
         setCurrentComponent('')
@@ -760,8 +777,8 @@ const Main = () => {
                                                         onMouseEnter={() => setDimensions({ rows: row, columns: col })}
                                                         onClick={() => add_table("table", row, col)}
                                                         className={`w-full h-full border rounded-sm transition-all duration-200 ${row <= dimensions.rows && col <= dimensions.columns
-                                                                ? "bg-blue-500"
-                                                                : "hover:bg-blue-100"
+                                                            ? "bg-blue-500"
+                                                            : "hover:bg-blue-100"
                                                             }`}
                                                     ></div>
                                                 );
@@ -775,7 +792,7 @@ const Main = () => {
                                     </div>
                                 </div>
                             )
-                            }
+                        }
 
 
                         {
