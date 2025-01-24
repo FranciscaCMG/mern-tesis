@@ -136,7 +136,7 @@ const Layout = () => {
             {/* Sidebar y contenido principal */}
             <div className="w-full flex mt-16">
                 {/* Sidebar */}
-                <div className="sidebar w-[300px] p-5 h-[calc(100vh-70px)] fixed bg-[#f9f9f9] shadow-md rounded-r-xl">
+                <div className="sidebar w-[300px] p-1 h-[calc(100vh-70px)] fixed bg-[#f9f9f9] shadow-md rounded-r-xl">
                     <div className="px-2 py-2 flex justify-start gap-5 items-center mb-6">
                         <div className="w-[50px] h-[50px] rounded-full border-2 border-purple-500  bg-purple-100 text-purple-700  flex items-center justify-center transition-all text-2xl">
                             {inicialName}

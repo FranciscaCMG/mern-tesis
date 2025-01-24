@@ -336,8 +336,8 @@ const Main = () => {
     }
 
     function generateUniqueID() {
-        return Date.now().toString() + Math.floor(Math.random() * 1000); 
-      }
+        return Date.now().toString() + Math.floor(Math.random() * 1000);
+    }
 
     const duplicateSlide = (slideId) => {
         let updatedSlides;
@@ -594,11 +594,15 @@ const Main = () => {
 
     return (
         <div className="min-w-screen min-h-screen bg-[#f8f8f8]">
-            <Header slides={slides} design_id={design_id} />
+            <Header
+                slides={slides}
+                design_id={design_id}
+                className="fixed top-0 left-0 w-full z-50 bg-white shadow-md"
+            />
 
-            <div className="flex h-[calc(100%-60px)] w-screen">
+            <div className="flex w-screen h-screen pt-[10px]">
                 {/* Barra lateral */}
-                <div className="w-[80px] bg-[#ffffff] shadow-md z-50 h-full text-gray-500 overflow-y-auto">
+                <div className="fixed top-[60px] left-0 w-[80px] h-[calc(100%-60px)] bg-white shadow-md z-50 overflow-y-auto">
                     {/* Opción: Texto */}
                     <div
                         onClick={() => setElements("text", "text")}
@@ -698,7 +702,7 @@ const Main = () => {
                 </div>
 
                 {/* Contenido principal */}
-                <div className="h-full w-[calc(100%-80px)]">
+                <div className="ml-[80px] w-[calc(100%-80px)] h-[calc(100%-60px)] overflow-hidden">
                     {/* Panel lateral (dependiente del estado) */}
                     <div
                         className={`${show.status ? "p-0 -left-[350px]" : "px-8 left-[80px] py-5"
@@ -814,6 +818,7 @@ const Main = () => {
                     </div>
 
                     {/* Vista principal */}
+                    <div className="h-full w-full overflow-y-auto">
                     <ViewSlide
                         current_component={current_component}
                         slides={slides}
@@ -833,6 +838,7 @@ const Main = () => {
                             setShowModal={setShowModal}
                         />
                     )}
+                    </div>
                 </div>
             </div>
         </div>

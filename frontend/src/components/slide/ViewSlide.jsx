@@ -3,8 +3,8 @@ import CreateComponent from "../CreateComponent";
 
 const ViewSlide = ({ current_component, slides, removeComponent, attributes, handleSetAttributes, setCurrentComponent, setCurrentSlideId, setShowModal, duplicateSlide }) => {
     return (
-        <div className='w-full flex h-full'>
-            <div className={`flex flex-col items-center h-full ${!current_component ? 'w-full' : "w-[calc(100%-250px)]"}`}>
+        <div className="flex w-full h-full">
+            <div className={`flex flex-col items-center h-full overflow-y-auto ${!current_component ? "w-full" : "w-[calc(100%-250px)]"}`}>
 
                 <div className='m-w-[826px] m-h-[240px] flex justify-center items-center border-t-8'>
                     <div id='main_design' className='w-auto relative h-auto'>
