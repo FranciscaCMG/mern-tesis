@@ -597,7 +597,6 @@ const Main = () => {
             <Header
                 slides={slides}
                 design_id={design_id}
-                className="fixed top-0 left-0 w-full z-50 bg-white shadow-md"
             />
 
 <div className="flex w-[100vw] h-[100vh] pt-[10px] overflow-hidden">

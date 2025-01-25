@@ -5,6 +5,8 @@ import * as htmlToImage from "html-to-image";
 import api from "../utils/api";
 import toast from "react-hot-toast";
 
+import {createXml} from '../helpers/createXML'
+
 const Header = ({ slides, design_id }) => {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
@@ -95,7 +97,7 @@ const Header = ({ slides, design_id }) => {
             {loader ? "Cargando..." : "Guardar"}
           </button>
           <button
-            onClick={downloadImage}
+            onClick={() => createXml(design_id)}
             className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-md shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
           >
             Descargar
