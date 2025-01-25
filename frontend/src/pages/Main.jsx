@@ -593,16 +593,16 @@ const Main = () => {
     }, [design_id])
 
     return (
-        <div className="min-w-screen min-h-screen bg-[#f8f8f8]">
+        <div className="min-w-screen min-h-screen bg-[#f8f8f8] overflow-hidden">
             <Header
                 slides={slides}
                 design_id={design_id}
                 className="fixed top-0 left-0 w-full z-50 bg-white shadow-md"
             />
 
-            <div className="flex w-screen h-screen pt-[10px]">
+<div className="flex w-[100vw] h-[100vh] pt-[10px] overflow-hidden">
                 {/* Barra lateral */}
-                <div className="fixed top-[60px] left-0 w-[80px] h-[calc(100%-60px)] bg-white shadow-md z-50 overflow-y-auto">
+                <div className="fixed top-[65px] left-0 w-[80px] h-[calc(100%-60px)] bg-white shadow-md z-50 overflow-y-auto">
                     {/* Opción: Texto */}
                     <div
                         onClick={() => setElements("text", "text")}
@@ -702,10 +702,10 @@ const Main = () => {
                 </div>
 
                 {/* Contenido principal */}
-                <div className="ml-[80px] w-[calc(100%-80px)] h-[calc(100%-60px)] overflow-hidden">
+                <div className="ml-[80px] w-[calc(100vw-80px)] h-[calc(100vh-60px)] overflow-hidden py-[20px]">
                     {/* Panel lateral (dependiente del estado) */}
                     <div
-                        className={`${show.status ? "p-0 -left-[350px]" : "px-8 left-[80px] py-5"
+                        className={`${show.status ? "p-0 -left-[350px]" : "px-8 left-[80px] py-1"
                             } bg-[#f0f0f0] h-full fixed transition-all w-[350px] z-30 duration-700 shadow-md`}
                     >
                         <div

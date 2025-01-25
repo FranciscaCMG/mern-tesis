@@ -233,7 +233,7 @@ const Index = () => {
             </div>
 
             {/* Contenido principal */}
-            <div className="py-[120px] px-6 flex justify-center items-center flex-col gap-8 bg-gray-50">
+            <div className="py-[90px] px-6 flex justify-center items-center flex-col gap-8 bg-gray-50">
                 <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 text-center leading-tight">
                     ¿
                     <span>Qué quieres </span>
