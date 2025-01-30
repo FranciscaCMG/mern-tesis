@@ -87,7 +87,9 @@ function determinarJustificacion(component) {
 function generarContenido(component) {
     switch (component.type) {
         case "title":
-        case "text":
+        case "Subtitulo":
+            return `<subtitulo>${component.title}</subtitulo>`;
+        case "Parrafo":
             return `<texto>${component.title}</texto>`;
         case "image":
             return `<imagen url="${component.image}" descripcion=""/>`;

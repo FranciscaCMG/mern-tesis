@@ -91,9 +91,9 @@ const Main = () => {
         // Encuentra la slide específica por el ID
         const slideIndex = slides.findIndex(slide => slide.id === currentSlideId);
 
-        if (slideIndex === -1) {
+        if (slideIndex === -1 || current_component.type === "Titulo") {
             console.error('Slide no encontrada');
-            return slides; // Retorna el arreglo original si no encuentra la slide
+            return slides;
         }
 
         // Busca el índice del componente actual dentro de la slide
@@ -139,7 +139,7 @@ const Main = () => {
         id: Date.now() + Math.floor(Math.random() * 1000),
         slide_id: currentSlideId,
         name: 'text',
-        type: 'title',
+        type: title ,
         left: positionLeft[leftPosition], // Usando la posición de left según la plantilla
         top: topPositions[topPosition](slides.length),
         opacity: 1,
@@ -341,7 +341,6 @@ const Main = () => {
 
     const duplicateSlide = (slideId) => {
         let updatedSlides;
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
         const slideIndex = slides.findIndex(slide => slide.components[0].id === slideId);
         const originalSlide = slides[slideIndex];
@@ -353,21 +352,17 @@ const Main = () => {
                 id: generateUniqueID() // Genera un ID único para cada componente
             }))
         };
-        console.log('Nueva diapositiva creada:', newSlide);
 
         updatedSlides = [
             ...slides.slice(0, slideIndex + 1),
             newSlide,
             ...slides.slice(slideIndex + 1)
         ];
-        console.log('Arreglo de diapositivas actualizado:', updatedSlides);
 
         for (let i = 0; i < updatedSlides.length; i++) {
             updatedSlides[i].id = i;
-            console.log('Asignando ID a la diapositiva:', updatedSlides[i].id);
 
             let positionTop = getPositionTopComponents(updatedSlides[i].components[0].type_slide);
-            console.log('Posiciones iniciales de los componentes:', positionTop);
 
             for (let j = 0; j < updatedSlides[i].components.length; j++) {
                 if (j === 0) {
@@ -380,21 +375,19 @@ const Main = () => {
             }
         }
 
-        console.log('Arreglo de diapositivas final:', updatedSlides);
-
         setSlides(updatedSlides);
         setCurrentComponent('');
     };
 
 
-    const add_text = (name, type, titleName, titleSize, font) => {
+    const add_text = (name, titleName, titleSize, font) => {
         setCurrentComponent('')
         const id = Date.now();
         const style = {
             id: id,
             slide_id: currentSlideId,
             name: name,
-            type,
+            type: titleName,
             left: current_component.left,
             top: current_component.top,
             opacity: 1,
@@ -720,7 +713,7 @@ const Main = () => {
                                     <div
                                         key={title.id}
                                         onClick={() =>
-                                            add_text("text", "title", title.label, title.size, title.font)
+                                            add_text("text", title.label, title.size, title.font)
                                         }
                                         className="bg-[#ffffff] border border-gray-300 cursor-pointer font-normal p-3 text-gray-700 text-xl rounded-sm hover:bg-gray-100"
                                     >
