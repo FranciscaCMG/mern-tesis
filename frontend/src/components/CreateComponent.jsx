@@ -4,7 +4,7 @@ import Element from './Element'
 import Table from './Table'
 import List from './List'
 
-const CreateComponent = ({ info, current_component, removeComponent, duplicateSlide }) => {
+const CreateComponent = ({ info, current_component, removeComponent, duplicateSlide, setUpdateList }) => {
 
     const randValue = Math.floor(Math.random() * 100)
     let html = ''
@@ -231,12 +231,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                 <List
                     initialItems={info.listItems || []}
                     isOrdered={info.isOrdered}
-                    updateListData={(updatedList) => {
-                        info.setCurrentComponent({
-                            ...info,
-                            listItems: updatedList,
-                        });
-                    }}
+                    updateListData={setUpdateList}
                 />
 
                 {current_component.id === info.id && (
@@ -281,6 +276,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                             tableData: updatedData, // Actualizar los datos en el estado principal
                         });
                     }}
+                    maximo = "max-w-28"
                 />
 
                 {current_component.id === info.id && (

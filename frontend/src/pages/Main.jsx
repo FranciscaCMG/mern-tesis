@@ -26,6 +26,8 @@ const Main = () => {
     const [current_component, setCurrentComponent] = useState('')
     const [currentSlideId, setCurrentSlideId] = useState(0);
 
+    const [updateList, setUpdateList] = useState([])
+
     const [showModal, setShowModal] = useState(false);
 
     const [attributes, setAttributes] = useState({
@@ -84,8 +86,9 @@ const Main = () => {
     ]);
 
     useEffect(() => {
-        console.log(slides)
-    }, [slides])
+        console.log(updateList)
+        console.log(" AAAAAAAAAAAAAAAAA", current_component)
+    }, [updateList])
 
     const replaceComponentInSlide = (component) => {
         // Encuentra la slide específica por el ID
@@ -485,12 +488,12 @@ const Main = () => {
             z_index: 10,
             padding: 6,
             font: 22,
-            title: "<Agregar lista>",
+            title: "Agregar descripción de la lista",
             weight: 400,
             color: '#3c3c3d',
             textColor: 'text-white',
             isOrdered: isOrdered,
-            listItems: ['Elemento 1'],
+            listItems: ['Nuevo ítem'],
             audio_text: '',
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
@@ -550,6 +553,9 @@ const Main = () => {
                 slides[currentSlideId].components[index].left = attributes.left || current_component.left
                 slides[currentSlideId].components[index].top = attributes.top || current_component.top
             }
+            if (current_component.name === 'list'){
+                slides[currentSlideId].components[index].listItems = updateList  || current_component.listItems
+            }
 
             slides[currentSlideId].components[index].color = attributes.color || current_component.color
             slides[currentSlideId].components[index].audio_text = attributes.audio_text || current_component.audio_text
@@ -561,7 +567,7 @@ const Main = () => {
             handleSetAttributes('audio_text', '')
 
         }
-    }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text, attributes.audio_text])
+    }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text, attributes.audio_text, updateList])
 
     useEffect(() => {
         const get_design = async () => {
@@ -822,6 +828,7 @@ const Main = () => {
                         setCurrentSlideId={setCurrentSlideId}
                         setShowModal={setShowModal}
                         duplicateSlide={duplicateSlide}
+                        setUpdateList={setUpdateList}
                     />
 
                     {showModal && (

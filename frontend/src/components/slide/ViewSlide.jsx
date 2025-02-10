@@ -1,7 +1,7 @@
 import React from "react";
 import CreateComponent from "../CreateComponent";
 
-const ViewSlide = ({ current_component, slides, removeComponent, attributes, handleSetAttributes, setCurrentComponent, setCurrentSlideId, setShowModal, duplicateSlide }) => {
+const ViewSlide = ({ current_component, slides, removeComponent, attributes, handleSetAttributes, setCurrentComponent, setCurrentSlideId, setShowModal, duplicateSlide, setUpdateList }) => {
     return (
         <div className="flex w-full h-full">
             <div className={`flex flex-col items-center h-full overflow-y-auto ${!current_component ? "w-full" : "w-[calc(100%-250px)]"}`}>
@@ -19,7 +19,7 @@ const ViewSlide = ({ current_component, slides, removeComponent, attributes, han
                                     >
                                         <div className='w-full h-full flex justify-center items-center'>
                                             {
-                                                slide.components.map((c) => <CreateComponent key={c.id} info={c} current_component={current_component} removeComponent={removeComponent} duplicateSlide={duplicateSlide} />)
+                                                slide.components.map((c) => <CreateComponent key={c.id} info={c} current_component={current_component} removeComponent={removeComponent} duplicateSlide={duplicateSlide} setUpdateList={setUpdateList}/>)
                                             }
                                         </div>
                                         {index < slides.length - 1 && <div className='h-4'></div>}
