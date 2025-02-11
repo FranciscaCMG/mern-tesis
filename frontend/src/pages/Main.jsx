@@ -85,11 +85,6 @@ const Main = () => {
         }
     ]);
 
-    useEffect(() => {
-        console.log(updateList)
-        console.log(" AAAAAAAAAAAAAAAAA", current_component)
-    }, [updateList])
-
     const replaceComponentInSlide = (component) => {
         // Encuentra la slide específica por el ID
         const slideIndex = slides.findIndex(slide => slide.id === currentSlideId);
@@ -596,6 +591,7 @@ const Main = () => {
             <Header
                 slides={slides}
                 design_id={design_id}
+                attributes={attributes}
             />
 
 <div className="flex w-[100vw] h-[100vh] pt-[10px] overflow-hidden">
