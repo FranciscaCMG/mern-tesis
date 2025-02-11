@@ -28,16 +28,28 @@ const Index = () => {
         e.preventDefault();
         try {
             setLoader(true);
+    
             const { data } = await api.post('/api/user-register', state);
             setLoader(false);
-            localStorage.setItem('canva_token', data.token);
+    
+            // ✅ Mostrar mensaje de éxito
+            toast.success("¡Registro exitoso! Ahora puedes iniciar sesión.");
+    
+            // ✅ Limpiar el formulario después de registrar
             setState({ name: '', email: '', password: '' });
-            window.location.href = '/';
+    
+            // ✅ Redirigir a la pantalla de inicio de sesión después de 1.5 segundos
+            setTimeout(() => {
+                setType("signin"); // Cambia el formulario al de inicio de sesión
+            }, 1500);
         } catch (error) {
             setLoader(false);
             toast.error(error.response?.data?.message || "Error inesperado");
         }
     };
+    
+    
+    
 
     const user_login = async (e) => {
         e.preventDefault();

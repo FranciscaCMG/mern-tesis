@@ -19,7 +19,7 @@ const ViewSlide = ({ current_component, slides, removeComponent, attributes, han
                                     >
                                         <div className='w-full h-full flex justify-center items-center'>
                                             {
-                                                slide.components.map((c) => <CreateComponent key={c.id} info={c} current_component={current_component} removeComponent={removeComponent} duplicateSlide={duplicateSlide} setUpdateList={setUpdateList}/>)
+                                                slide.components.map((c) => <CreateComponent key={c.id} info={c} current_component={current_component} removeComponent={removeComponent} duplicateSlide={duplicateSlide} setUpdateList={setUpdateList} />)
                                             }
                                         </div>
                                         {index < slides.length - 1 && <div className='h-4'></div>}
@@ -105,6 +105,29 @@ const ViewSlide = ({ current_component, slides, removeComponent, attributes, han
                                     >
                                         Modificar audio
                                     </button>
+
+                                    {current_component.name === "alternative" && (
+                                        <button
+                                            onClick={() => {
+                                                const newValue = !current_component.alternative; // Alternar el valor (true/false)
+                                                setCurrentComponent({
+                                                    ...current_component,
+                                                    alternative: newValue,
+                                                });
+                                                handleSetAttributes("alternative", newValue); // Actualizar estado
+                                                alert(newValue ? "¡Seleccionada como correcta!" : "Se ha deseleccionado como correcta"); // Mostrar alerta
+                                            }}
+                                            className={`px-6 py-2 text-white font-semibold rounded-md shadow-md transition-all duration-300 
+            ${current_component.alternative
+                                                    ? "bg-green-500 hover:bg-green-600"  // ✅ Verde cuando está seleccionada como correcta
+                                                    : "bg-blue-500 hover:bg-blue-600"}`} // 🔵 Azul cuando NO está seleccionada
+                                        >
+                                            {current_component.alternative ? "Seleccionada como correcta" : "Seleccionar como correcta"}
+                                        </button>
+                                    )}
+
+
+
                                 </div>
 
                             </div>

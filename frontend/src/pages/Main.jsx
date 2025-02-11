@@ -35,7 +35,8 @@ const Main = () => {
         left: '',
         top: '',
         text: '',
-        audio_text: ''
+        audio_text: '',
+        alternative: ''
     })
 
     const handleSetAttributes = (key, value) => {
@@ -44,6 +45,10 @@ const Main = () => {
             [key]: value
         })
     }
+
+    useEffect(() => {
+        console.log("current",current_component)
+    }, [current_component])
 
     const titles = [
         { id: 1, size: "text-6xl", font: 48, label: "Titulo" },
@@ -127,31 +132,39 @@ const Main = () => {
 
     const topPositions = {
         1: (index) => (480 * index) + (16 * index) + 121,
-        2: (index) => (480 * index) + (20 * index) + 204,
-        3: (index) => (480 * index) + (16 * index) + 302
+        2: (index) => (480 * index) + (16 * index) + 204,
+        3: (index) => (480 * index) + (16 * index) + 287,
+        4: (index) => (480 * index) + (16 * index) + 370,
+        5: (index) => (480 * index) + (16 * index) + 38
     };
 
 
-    const createComponent = (position = {}, title = "Subtitulo", fontSize = "text-4xl", leftPosition = 1, topPosition = 1, flagFirstSlide) => ({
-        id: Date.now() + Math.floor(Math.random() * 1000),
-        slide_id: currentSlideId,
-        name: 'text',
-        type: title ,
-        left: positionLeft[leftPosition],
-        top: topPositions[topPosition](flagFirstSlide ? 0 : slides.length),
-        opacity: 1,
-        z_index: 10,
-        padding: 6,
-        font: 36,
-        title: title,
-        titleId: title,
-        titleSize: fontSize,
-        weight: 400,
-        color: '#3c3c3d',
-        audio_text: '',
-        setCurrentComponent: (a) => setCurrentComponent(a),
-        moveElement
-    });
+    const createComponent = (position = {}, text, background, alternative, title = "Subtitulo", fontSize = "text-4xl", leftPosition = 1, topPosition = 1, flagFirstSlide, numberPosition) => {
+        const isText = text === "text";
+        return {
+            id: Date.now() + Math.floor(Math.random() * 1000),
+            slide_id: currentSlideId,
+            name: text,
+            type: title,
+            numberPosition: numberPosition,
+            left: positionLeft[leftPosition],
+            top: topPositions[topPosition](flagFirstSlide ? 0 : slides.length),
+            opacity: 1,
+            z_index: 10,
+            padding: 6,
+            font: 36,
+            title: title,
+            titleId: title,
+            titleSize: fontSize,
+            weight: 400,
+            color: '#3c3c3d',
+            audio_text: '',
+            ...(isText ? {} : { background, alternative }),
+            setCurrentComponent: (a) => setCurrentComponent(a),
+            moveElement
+        };
+    };
+
 
     const getPositionTopComponents = (numberTemplate) => {
 
@@ -198,44 +211,53 @@ const Main = () => {
 
         switch (numberTemplate) {
             case 1:
-                components.push(createComponent({}, "Subtitulo", "text-6xl", 2, 2, flagFirstSlide));
+                components.push(createComponent({},'text',null, null , "Agregar ", "text-6xl", 2, 2, flagFirstSlide, 1));
                 break;
             case 2:
-                components.push(createComponent({}, "Titulo", "text-6xl", 2, 2, flagFirstSlide));
+                components.push(createComponent({},'text',null, null , "Titulo", "text-6xl", 2, 2, flagFirstSlide, 1));
                 break;
             case 3:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 1, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 3, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 1, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 3, flagFirstSlide));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 1, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 1, 3, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 1, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 4", "text-4xl", 3, 3, flagFirstSlide, 4));
                 break;
             case 4:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 2, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 1, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 3, flagFirstSlide));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 2, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 3, 1, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 3, flagFirstSlide, 3));
                 break;
             case 5:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 1, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 3, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 2, flagFirstSlide));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 1, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 1, 3, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 2, flagFirstSlide, 3));
                 break;
             case 6:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 3, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 1, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 3, flagFirstSlide));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 3, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 2, 1, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 3, flagFirstSlide, 3));
                 break;
             case 7:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 1, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 3, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 1, flagFirstSlide));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 1, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 2, 3, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 1, flagFirstSlide, 3));
                 break;
             case 8:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 2, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 2, flagFirstSlide));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 2, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 3, 2, flagFirstSlide, 2));
+
                 break;
             case 9:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 1, flagFirstSlide));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 3, flagFirstSlide));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 2, 1, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 2, 3, flagFirstSlide, 2));
+                break;
+
+            case 10:
+                components.push(createComponent({},'text', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
+                components.push(createComponent({},'alternative', '#d9d9d9', false , "Agregar Alternativa", "text-4xl", 2, 2, flagFirstSlide, 1));
+                components.push(createComponent({},'alternative','#d9d9d9',false  , "Agregar Alternativa", "text-4xl", 2, 1, flagFirstSlide, 2));
+                components.push(createComponent({},'alternative','#d9d9d9',false  , "Agregar Alternativa", "text-4xl", 2, 3, flagFirstSlide, 3));
+                components.push(createComponent({},'alternative','#d9d9d9',false  , "Agregar Alternativa", "text-4xl", 2, 4, flagFirstSlide, 4));
                 break;
             default:
                 return;
@@ -248,7 +270,7 @@ const Main = () => {
 
         if (flagFirstSlide) {
             setSlides([newSlide]);
-        }else{
+        } else {
             setSlides([...slides, newSlide]);
         }
     };
@@ -464,7 +486,7 @@ const Main = () => {
             font: 22,
             title: "<Agregar código>",
             weight: 400,
-            color: '#3c3c3d',
+            color: '#d1d1d1',
             audio_text: '',
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
@@ -556,8 +578,11 @@ const Main = () => {
                 slides[currentSlideId].components[index].left = attributes.left || current_component.left
                 slides[currentSlideId].components[index].top = attributes.top || current_component.top
             }
-            if (current_component.name === 'list'){
-                slides[currentSlideId].components[index].listItems = updateList  || current_component.listItems
+            if (current_component.name === 'list') {
+                slides[currentSlideId].components[index].listItems = updateList || current_component.listItems
+            }
+            if (current_component.name === 'alternative') {
+                slides[currentSlideId].components[index].alternative = attributes.alternative || current_component.alternative
             }
 
             slides[currentSlideId].components[index].color = attributes.color || current_component.color
@@ -568,9 +593,10 @@ const Main = () => {
             handleSetAttributes('left', '')
             handleSetAttributes('text', '')
             handleSetAttributes('audio_text', '')
+            handleSetAttributes('alternative', '')
 
         }
-    }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text, attributes.audio_text, updateList])
+    }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text, attributes.audio_text, updateList, attributes.alternative])
 
     useEffect(() => {
         const get_design = async () => {
@@ -602,7 +628,7 @@ const Main = () => {
                 attributes={attributes}
             />
 
-<div className="flex w-[100vw] h-[100vh] pt-[10px] overflow-hidden">
+            <div className="flex w-[100vw] h-[100vh] pt-[10px] overflow-hidden">
                 {/* Barra lateral */}
                 <div className="fixed top-[65px] left-0 w-[80px] h-[calc(100%-60px)] bg-white shadow-md z-50 overflow-y-auto">
                     {/* Opción: Texto */}
@@ -704,15 +730,15 @@ const Main = () => {
                 </div>
 
                 {/* Contenido principal */}
-                <div className="ml-[80px] w-[calc(100vw-80px)] h-[calc(100vh-60px)] overflow-hidden py-[20px]">
+                <div className="ml-[80px] w-[calc(100vw-80px)] h-[calc(100vh-70px)] overflow-hidden py-[0px]">
                     {/* Panel lateral (dependiente del estado) */}
                     <div
                         className={`${show.status ? "p-0 -left-[350px]" : "px-8 left-[80px] py-1"
-                            } bg-[#f0f0f0] h-full fixed transition-all w-[350px] z-30 duration-700 shadow-md`}
+                            } bg-[#f0f0f0] h-full fixed transition-all w-[300px] z-30 duration-700 shadow-md`}
                     >
                         <div
                             onClick={() => setShow({ name: "", status: true })}
-                            className="flex absolute justify-center items-center bg-[#e8e8e8] w-[20px] -right-2 text-gray-500 top-[40%] cursor-pointer h-[100px] rounded-full"
+                            className="flex absolute justify-center items-center bg-[#777676b6] w-[20px] -right-2 text-white top-[40%] cursor-pointer h-[100px] rounded-full"
                         >
                             <MdKeyboardArrowLeft />
                         </div>
@@ -821,26 +847,26 @@ const Main = () => {
 
                     {/* Vista principal */}
                     <div className="h-full w-full overflow-y-auto">
-                    <ViewSlide
-                        current_component={current_component}
-                        slides={slides}
-                        removeComponent={removeComponent}
-                        attributes={attributes}
-                        handleSetAttributes={handleSetAttributes}
-                        setCurrentComponent={setCurrentComponent}
-                        addSlide={addSlide}
-                        setCurrentSlideId={setCurrentSlideId}
-                        setShowModal={setShowModal}
-                        duplicateSlide={duplicateSlide}
-                        setUpdateList={setUpdateList}
-                    />
-
-                    {showModal && (
-                        <TemplateSlide
-                            handleOptionClick={handleOptionClick}
+                        <ViewSlide
+                            current_component={current_component}
+                            slides={slides}
+                            removeComponent={removeComponent}
+                            attributes={attributes}
+                            handleSetAttributes={handleSetAttributes}
+                            setCurrentComponent={setCurrentComponent}
+                            addSlide={addSlide}
+                            setCurrentSlideId={setCurrentSlideId}
                             setShowModal={setShowModal}
+                            duplicateSlide={duplicateSlide}
+                            setUpdateList={setUpdateList}
                         />
-                    )}
+
+                        {showModal && (
+                            <TemplateSlide
+                                handleOptionClick={handleOptionClick}
+                                setShowModal={setShowModal}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
