@@ -6,7 +6,7 @@ import api from '../utils/api'
 
 import CreateComponent from './CreateComponent'
 
-const CreateDesign = ({ titlePresentation }) => {
+const CreateDesign = () => {
 
     const ref = useRef()
 
@@ -14,11 +14,10 @@ const CreateDesign = ({ titlePresentation }) => {
 
     const navigate = useNavigate()
 
-
     const obj = {
         name: "main_frame",
         type: "rect",
-        id: Date.now(),
+        id: 0,
         height: state.height,
         width: state.width,
         z_index: 1,
@@ -46,7 +45,7 @@ const CreateDesign = ({ titlePresentation }) => {
             try {
                 setLoader(true)
                 const { data } = await api.post('/api/create-user-design', formData)
-                navigate(`/design/${data.design._id}/edit`)
+                navigate(`/design/${data.design._id}/edit`, { state: { numberTemplate: state.numberTemplate } })
                 setLoader(false)
             } catch (error) {
                 setLoader(false)
@@ -67,7 +66,7 @@ const CreateDesign = ({ titlePresentation }) => {
     return (
         <div className='w-screen h-screen flex justify-center items-center relative'>
             <div ref={ref} className='relative w-auto h-auto overflow-auto'>
-                <CreateComponent info={obj} current_component={{}} />
+                <CreateComponent info={obj} current_component={{}}/>
             </div>
             {
                 loader && <div className='left-0 top-0 w-full h-full flex justify-center items-center bg-black absolute'><RotateLoader color='white' /></div>

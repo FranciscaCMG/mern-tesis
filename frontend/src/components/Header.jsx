@@ -17,7 +17,7 @@ const Header = ({ slides, design_id, attributes }) => {
   useWarnOnExit(check);
 
   useEffect(() => {
-    if (attributes.audio_text ==! "" || attributes.color !== "" || attributes.image !== "" || attributes.text !== "" || attributes.top !== "" || attributes.left !== "") {
+    if (attributes.audio_text ==! "" || attributes.color !== "" || attributes.image !== "" || attributes.text !== "" || attributes.top !== "" || attributes.left !== "" || slides.length > 0 ) {
       setCheck(true);
     }
   }, [attributes, slides]);

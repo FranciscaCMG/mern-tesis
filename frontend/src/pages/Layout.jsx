@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import videoLogo from "/Logo2.png";
 
 import { token_decode } from "../utils/index";
@@ -15,7 +15,6 @@ const Layout = () => {
 
     const [inicialName, setInicialName] = useState("")
 
-    const navigate = useNavigate();
     const { pathname } = useLocation();
 
     const [showUserMenu, setShowUserMenu] = useState(false);
@@ -44,15 +43,7 @@ const Layout = () => {
     }, []);
 
     const create = () => {
-        navigate("/design/create", {
-            state: {
-                type: "create",
-                width: 480,
-                height: 826,
-                title: "Ingresa el título",
-            },
-        });
-        
+        setShowModal(true);
     };
 
     return (
@@ -130,6 +121,7 @@ const Layout = () => {
                 <TemplateSlide
                     handleOptionClick={handleOptionClick}
                     setShowModal={setShowModal}
+                    flagFirstSlide={true}
                 />
             )}
 

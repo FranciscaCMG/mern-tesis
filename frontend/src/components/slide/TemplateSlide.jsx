@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 
 import Titulo from "/Titulo.png";
@@ -11,7 +12,26 @@ import T2HS from "/T-2H-S.png";
 import T2VD from "/T-2V-D.png";
 import T2VI from "/T-2V-I.png";
 
-const TemplateSlide = ({ handleOptionClick, setShowModal }) => {
+const TemplateSlide = ({ handleOptionClick, setShowModal, flagFirstSlide }) => {
+    const navigate = useNavigate();
+
+    const createFirstSlide = (index) => {
+        if (flagFirstSlide) {
+            navigate("/design/create", {
+                state: {
+                    type: "create",
+                    width: 480,
+                    height: 826,
+                    title: "Mini videoclases",
+                    numberTemplate: index,
+                },
+            });
+        }else {
+            handleOptionClick(index);
+            setShowModal(false);
+        }
+    };
+
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-30 backdrop-blur-md">
             {/* Contenedor principal */}
@@ -34,7 +54,7 @@ const TemplateSlide = ({ handleOptionClick, setShowModal }) => {
                     {[I, Titulo, D4, T2VD, T2VI, T2HIn, T2HS, DV, DH].map((src, index) => (
                         <button
                             key={index}
-                            onClick={() => handleOptionClick(index + 1)}
+                            onClick={() => createFirstSlide(index + 1)}
                             className="w-[270px] h-[140px] bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 text-center rounded-lg shadow-md hover:from-gray-200 hover:to-gray-300 hover:shadow-lg transition-all duration-300 flex flex-col items-center justify-center"
                         >
                             <img

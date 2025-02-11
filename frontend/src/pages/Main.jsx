@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 
-import { BsGrid1X2, BsFillImageFill, BsFolder } from 'react-icons/bs'
+import { BsFillImageFill, BsFolder } from 'react-icons/bs'
 import { FaCloudUploadAlt, FaCode, FaTable, FaQuestion, FaList } from 'react-icons/fa'
 import { TfiText } from 'react-icons/tfi'
-import { RxTransparencyGrid } from 'react-icons/rx'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
 
 import Header from '../components/Header'
@@ -15,16 +14,16 @@ import ViewSlide from '../components/slide/ViewSlide'
 import ActivePause from '../components/ActivePause'
 import TemplateSlide from '../components/slide/TemplateSlide'
 
-import usachLogo from '/Logo_Usach.jpg'
-
 import api from '../utils/api'
 
 const Main = () => {
     const [selectItem, setSelectItem] = useState('')
     const { design_id } = useParams()
-    const [state, setState] = useState('')
+    const [stateComponent, setStateComponent] = useState('')
     const [current_component, setCurrentComponent] = useState('')
     const [currentSlideId, setCurrentSlideId] = useState(0);
+
+    const { state } = useLocation()
 
     const [updateList, setUpdateList] = useState([])
 
@@ -133,13 +132,13 @@ const Main = () => {
     };
 
 
-    const createComponent = (position = {}, title = "Subtitulo", fontSize = "text-4xl", leftPosition = 1, topPosition = 1) => ({
+    const createComponent = (position = {}, title = "Subtitulo", fontSize = "text-4xl", leftPosition = 1, topPosition = 1, flagFirstSlide) => ({
         id: Date.now() + Math.floor(Math.random() * 1000),
         slide_id: currentSlideId,
         name: 'text',
         type: title ,
-        left: positionLeft[leftPosition], // Usando la posición de left según la plantilla
-        top: topPositions[topPosition](slides.length),
+        left: positionLeft[leftPosition],
+        top: topPositions[topPosition](flagFirstSlide ? 0 : slides.length),
         opacity: 1,
         z_index: 10,
         padding: 6,
@@ -180,7 +179,8 @@ const Main = () => {
         }
     };
 
-    const addSlide = (numberTemplate) => {
+    const addSlide = (numberTemplate, flagFirstSlide = false) => {
+
         const baseFrame = {
             name: "main_frame",
             type: "rect",
@@ -198,64 +198,74 @@ const Main = () => {
 
         switch (numberTemplate) {
             case 1:
-                components.push(createComponent({}, "Subtitulo", "text-6xl", 2, 2));
+                components.push(createComponent({}, "Subtitulo", "text-6xl", 2, 2, flagFirstSlide));
                 break;
             case 2:
-                components.push(createComponent({}, "Titulo", "text-6xl", 2, 2));
+                components.push(createComponent({}, "Titulo", "text-6xl", 2, 2, flagFirstSlide));
                 break;
             case 3:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 1));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 3));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 1));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 3));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 1, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 3, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 1, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 3, flagFirstSlide));
                 break;
             case 4:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 2));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 1));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 3));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 2, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 1, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 3, flagFirstSlide));
                 break;
             case 5:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 1));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 3));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 2));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 1, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 3, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 2, flagFirstSlide));
                 break;
             case 6:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 3));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 1));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 3));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 3, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 1, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 3, flagFirstSlide));
                 break;
             case 7:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 1));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 3));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 1));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 1, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 3, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 1, flagFirstSlide));
                 break;
             case 8:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 2));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 2));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 3, 2, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 1, 2, flagFirstSlide));
                 break;
             case 9:
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 1));
-                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 3));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 1, flagFirstSlide));
+                components.push(createComponent({}, "Subtitulo", "text-4xl", 2, 3, flagFirstSlide));
                 break;
             default:
                 return;
         }
 
         const newSlide = {
-            id: slides.length,
+            id: flagFirstSlide ? 0 : slides.length,
             components: components
         };
 
-        setSlides([...slides, newSlide]);
+        if (flagFirstSlide) {
+            setSlides([newSlide]);
+        }else{
+            setSlides([...slides, newSlide]);
+        }
     };
 
     const setElements = (type, name) => {
-        setState(type)
+        setStateComponent(type)
         setShow({
             state: false,
             name
         })
     }
+
+    useEffect(() => {
+        if (state && state.numberTemplate !== null) {
+            addSlide(state.numberTemplate, true);
+        }
+    }, [])
 
     const moveElement = (id, currentInfo) => {
         setCurrentComponent(currentInfo)
@@ -365,10 +375,8 @@ const Main = () => {
             for (let j = 0; j < updatedSlides[i].components.length; j++) {
                 if (j === 0) {
                     updatedSlides[i].components[j].top = positionTop[j] || 0;
-                    console.log('Asignando posición al primer componente:', updatedSlides[i].components[j].top);
                 } else {
                     updatedSlides[i].components[j].top = topPositionsByIndex(i, positionTop[j - 1]);
-                    console.log('Asignando posición a un componente posterior:', updatedSlides[i].components[j].top);
                 }
             }
         }
@@ -709,7 +717,7 @@ const Main = () => {
                             <MdKeyboardArrowLeft />
                         </div>
                         {/* Render dinámico del contenido según estado */}
-                        {state === "text" && (
+                        {stateComponent === "text" && (
                             <div className="space-y-4">
                                 {titles.map((title) => (
                                     <div
@@ -725,7 +733,7 @@ const Main = () => {
                             </div>
                         )}
                         {
-                            state === 'code' && <div>
+                            stateComponent === 'code' && <div>
                                 <div className='grid grid-cols-1 gap-2'>
                                     <div onClick={() => add_code('code', 'code')} className='bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm'>
                                         <h2>Código</h2>
@@ -734,7 +742,7 @@ const Main = () => {
                             </div>
                         }
                         {
-                            state === 'list' && (
+                            stateComponent === 'list' && (
                                 <div>
                                     <div className="grid grid-cols-1 gap-2">
                                         {/* Botón para agregar lista desordenada */}
@@ -757,7 +765,7 @@ const Main = () => {
                             )
                         }
                         {
-                            state === "table" && (
+                            stateComponent === "table" && (
                                 <div className="space-y-6 bg-[#ffffff] shadow-md p-6 rounded-md">
                                     {/* Título */}
                                     <h2 className="text-lg font-bold text-gray-800">Insertar tabla</h2>
@@ -794,18 +802,18 @@ const Main = () => {
 
 
                         {
-                            state === 'activepause' && <ActivePause />
+                            stateComponent === 'activepause' && <ActivePause />
                         }
                         {
-                            state === 'initImage' && <div className='h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
+                            stateComponent === 'initImage' && <div className='h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
                                 <InitialImage add_image={add_image} />
                             </div>
                         }
                         {
-                            state === 'project' && <Projects type='main' design_id={design_id} />
+                            stateComponent === 'project' && <Projects type='main' design_id={design_id} />
                         }
                         {
-                            state === 'image' && <MyImages add_image={add_image} />
+                            stateComponent === 'image' && <MyImages add_image={add_image} />
                         }
 
 
