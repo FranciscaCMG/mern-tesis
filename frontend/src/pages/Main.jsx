@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
+import toast from 'react-hot-toast';
 
 import { BsFillImageFill, BsFolder } from 'react-icons/bs'
 import { FaCloudUploadAlt, FaCode, FaTable, FaQuestion, FaList } from 'react-icons/fa'
@@ -589,13 +590,14 @@ const Main = () => {
             slides[currentSlideId].components[index].color = attributes.color || current_component.color
             slides[currentSlideId].components[index].audio_text = attributes.audio_text || current_component.audio_text
 
+            toast.success("Atributo actualizado correctamente");
+            
             handleSetAttributes('color', '')
             handleSetAttributes('top', '')
             handleSetAttributes('left', '')
             handleSetAttributes('text', '')
             handleSetAttributes('audio_text', '')
             handleSetAttributes('alternative', '')
-
         }
     }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text, attributes.audio_text, updateList, attributes.alternative])
 
