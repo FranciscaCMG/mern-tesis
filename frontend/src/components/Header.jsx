@@ -11,7 +11,7 @@ import useWarnOnExit from "../helpers/useWarnOnExit";
 const Header = ({ slides, design_id, attributes }) => {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("Mini videoclases");
   const [check, setCheck] = useState(false); 
 
   useWarnOnExit(check);
@@ -65,7 +65,7 @@ const Header = ({ slides, design_id, attributes }) => {
         {/* Título */}
         <input
           type="text"
-          value={slides.title}
+          value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="text-xl font-semibold text-gray-900 border-b-2 border-gray-300 focus:outline-none focus:border-purple-500"
         />

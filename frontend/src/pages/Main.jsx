@@ -83,11 +83,7 @@ const Main = () => {
             ]
 
         }
-    ]);
-
-    useEffect(() => {
-        console.log("current",slides)
-    }, [slides])
+    ])  
 
     const replaceComponentInSlide = (component) => {
         // Encuentra la slide específica por el ID
