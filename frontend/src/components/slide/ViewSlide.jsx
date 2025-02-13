@@ -61,8 +61,8 @@ const ViewSlide = ({ current_component, slides, removeComponent, attributes, han
                                             })
                                         }
                                         onInput={(e) => {
-                                            e.target.style.height = "auto"; // Restablece la altura
-                                            e.target.style.height = `${e.target.scrollHeight}px`; // Ajusta la altura según el contenido
+                                            e.target.style.height = "auto";
+                                            e.target.style.height = `${e.target.scrollHeight}px`;
                                         }}
                                         className="border border-gray-700 bg-transparent outline-none p-2 rounded-md resize-none overflow-hidden w-full"
                                         value={current_component.title}
