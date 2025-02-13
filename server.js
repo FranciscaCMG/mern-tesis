@@ -47,7 +47,22 @@ const connectDB = async () => {
     }
 };
 
-connectDB();
+const dbConnect = async () => {
+    try {
+        if (process.env.NODE_ENV === 'local') {
+            await mongoose.connect(process.env.LOCAL_DB_URI)
+            console.log('Local database is connect....')
+        } else {
+            await mongoose.connect(process.env.MONGODB_URI)
+            console.log('production database is connect....')
+        }
+    } catch (error) {
+        console.log('database connection failed')
+    }
+}
+
+//connectDB();
+dbConnect();
 
 const PORT = process.env.PORT || 5000;
 
