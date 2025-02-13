@@ -23,7 +23,7 @@ const TemplateSlide = ({ handleOptionClick, setShowModal, flagFirstSlide }) => {
                     type: "create",
                     width: 480,
                     height: 826,
-                    title: "Mini videoclases",
+                    title: "Diseño sin título",
                     numberTemplate: index,
                 },
             });

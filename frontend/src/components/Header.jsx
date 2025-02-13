@@ -11,7 +11,7 @@ import useWarnOnExit from "../helpers/useWarnOnExit";
 const Header = ({ slides, design_id, attributes }) => {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
-  const [title, setTitle] = useState("Mini videoclases");
+  const [title, setTitle] = useState("Ingresa el título");
   const [check, setCheck] = useState(false); 
 
   useWarnOnExit(check);
@@ -45,6 +45,17 @@ const Header = ({ slides, design_id, attributes }) => {
       }
     }
   };
+  const get_user_design = async () => {
+    try {
+      const { data } = await api.get(`/api/user-design/${design_id}`)
+      setTitle(data.design.title);
+    } catch (error) {
+      console.error('Error fetching designs:', error);
+    }
+  };
+  useEffect(() => {
+    get_user_design();
+  }, []);
 
   const handleLogoClick = () => {
     if (check) {

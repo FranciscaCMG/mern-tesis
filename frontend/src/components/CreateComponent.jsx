@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect,useRef } from 'react'
 import { BsTrash } from 'react-icons/bs'
 import Element from './Element'
 import Table from './Table'
@@ -9,12 +9,20 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
     const randValue = Math.floor(Math.random() * 100)
     let html = ''
 
+    const textRef = useRef(null);
+
+    useEffect(() => {
+        console.log("AAAAAAAAAAAAAAAAAA")
+       console.log(textRef)
+    }, [textRef]);
+
     if (info.name === 'main_frame') {
         html = (
             <div
                 id={randValue}
                 onClick={() => info.setCurrentComponent(info)}
                 className="hover:border-[2px] hover:border-indigo-500 shadow-md"
+                ref={textRef}
                 style={{
                     width: info.width + 'px',
                     height: info.height + 'px',

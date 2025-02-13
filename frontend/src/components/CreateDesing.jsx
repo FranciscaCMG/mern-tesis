@@ -6,7 +6,7 @@ import api from '../utils/api'
 
 import CreateComponent from './CreateComponent'
 
-const CreateDesign = () => {
+const CreateDesign = ({}) => {
 
     const ref = useRef()
 
