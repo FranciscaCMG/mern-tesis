@@ -46,10 +46,6 @@ const Main = () => {
         })
     }
 
-    useEffect(() => {
-        console.log("current",current_component)
-    }, [current_component])
-
     const titles = [
         { id: 1, size: "text-6xl", font: 48, label: "Titulo" },
         { id: 2, size: "text-4xl", font: 36, label: "Subtitulo" },
@@ -88,6 +84,10 @@ const Main = () => {
 
         }
     ]);
+
+    useEffect(() => {
+        console.log("current",slides)
+    }, [slides])
 
     const replaceComponentInSlide = (component) => {
         // Encuentra la slide específica por el ID
@@ -167,7 +167,6 @@ const Main = () => {
 
 
     const getPositionTopComponents = (numberTemplate) => {
-
         switch (numberTemplate) {
             case 1:
                 return [2]
@@ -187,6 +186,8 @@ const Main = () => {
                 return [2, 2]
             case 9:
                 return [1, 3]
+            case 10:
+                return [5, 2, 1, 3, 4]
             default:
                 return;
         }
@@ -328,9 +329,13 @@ const Main = () => {
             case 1:
                 return (480 * index) + (16 * index) + 121;
             case 2:
-                return (480 * index) + (20 * index) + 204;
+                return (480 * index) + (16 * index) + 204;
             case 3:
-                return (480 * index) + (16 * index) + 302;
+                return (480 * index) + (16 * index) + 287;
+            case 4:
+                return (480 * index) + (16 * index) + 370;
+            case 5:
+                return (480 * index) + (16 * index) + 38;
             default:
                 return 0;
         }

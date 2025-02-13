@@ -49,11 +49,6 @@ const ViewSlide = ({ current_component, slides, removeComponent, attributes, han
                             <input onChange={(e) => handleSetAttributes('color', e.target.value)} type="color" className='invisible' id='color' />
                         </div>
                         {
-                            (current_component.name === 'main_frame' && attributes.image) && <div>
-                                <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-md shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300" onClick={remove_background}>Eliminar fondo</button>
-                            </div>
-                        }
-                        {
                             current_component.name !== 'main_frame' && <div
                                 className='flex gap-3 flex-col'>
 
