@@ -61,8 +61,8 @@ const dbConnect = async () => {
     }
 }
 
-//connectDB();
-dbConnect();
+connectDB();
+//dbConnect();
 
 const PORT = process.env.PORT || 5000;
 
