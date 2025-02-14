@@ -1,14 +1,14 @@
 import api from "../utils/api";
-import { saveAs } from 'file-saver'; // Instala esta librería con `npm install file-saver`
-import xmlFormatter from 'xml-formatter';
+import axios from "axios";
+import { saveAs } from "file-saver";
+import xmlFormatter from "xml-formatter";
 
 export const createMetadatos = async (design_id) => {
     try {
         const { data } = await api.get(`/api/user-design/${design_id}`);
         const userName = localStorage.getItem("user_name") || "USUARIO";
-        const title = data.design?.title || "Ingresa el título";
+        const title = data.design?.title || "Diseño sin título";
         const updatedAt = data.design?.updatedAt || new Date().toISOString();
-
         const xmlMetadatos = `
     <Metadatos>
         <SoftwareVersion>1.0</SoftwareVersion>
@@ -16,91 +16,166 @@ export const createMetadatos = async (design_id) => {
         <Autoria>${userName}</Autoria>
         <Fecha>${updatedAt}</Fecha>
     </Metadatos>`.trim();
-
         return xmlMetadatos;
     } catch (error) {
-        console.error('Error fetching designs:', error);
+        console.error("Error fetching designs:", error);
     }
 };
 
-// 📌 Generar el contenido de las diapositivas
+function generarTabla(tableData) {
+    if (!tableData || tableData.length === 0) return "";
+
+    let xml = `        <tabla descripcion="Tabla de datos">\n`;
+
+    tableData.forEach((fila) => {
+        xml += `            <fila>\n`;
+        fila.forEach((celda) => {
+            xml += `                <celda>${celda}</celda>\n`;
+        });
+        xml += `            </fila>\n`;
+    });
+
+    xml += `        </tabla>\n`;
+    return xml;
+}
+
+function generarListaO(listItems) {
+    if (!listItems || listItems.length === 0) return "";
+
+    let xml = `        <listaOrdenada>\n`;
+    listItems.forEach((item) => {
+        xml += `            <item>${item}</item>\n`;
+    });
+    xml += `        </listaOrdenada>\n`;
+    return xml;
+}
+function generarListaD(listItems) {
+    if (!listItems || listItems.length === 0) return "";
+
+    let xml = `        <listaNoOrdenada>\n`;
+    listItems.forEach((item) => {
+        xml += `            <item>${item}</item>\n`;
+    });
+    xml += `        </listaNoOrdenada>\n`;
+    return xml;
+}
+
+function generarDiapositivaInteractiva(slide) {
+    let pregunta = slide.components.find(c => c.type === "titulo")?.title || "Pregunta no definida";
+    let alternativas = slide.components.filter(c => c.type === "alternative");
+    let retroalimentacion = slide.components.find(c => c.type === "Retroalimentacion")?.title || "No hay retroalimentación";
+
+    let xml = `    <Diapositiva disposicion="interactivo-alternativas">\n`;
+    xml += `        <pregunta>\n            ${pregunta}\n        </pregunta>\n`;
+    xml += `        <alternativas>\n`;
+
+    alternativas.forEach((alt) => {
+        let esCorrecta = alt.alternative ? "true" : "false";
+        xml += `            <alternativa correcto="${esCorrecta}">${alt.title}</alternativa>\n`;
+    });
+
+    xml += `        </alternativas>\n`;
+    xml += `        <retroalimentacion>\n            ${retroalimentacion}\n        </retroalimentacion>\n`;
+    xml += `    </Diapositiva>\n`;
+
+    return xml;
+}
+
 function generarDiapositivas(data) {
     let xml = `<Contenido>\n`;
 
     data.components.forEach((slide) => {
         let disposicion = obtenerDisposicion(slide.components);
-        let titulo = obtenerTitulo(disposicion);
+        let titulo = obtenerTitulo(slide.components);
 
-        xml += `    <Diapositiva disposicion="${disposicion}" titulo="${titulo}">\n`;
+        if (disposicion === "interactivo-alternativas") {
+            xml += generarDiapositivaInteractiva(slide);
 
-        slide.components.forEach((component) => {
-            let region = determinarJustificacion(component);
-            let contenido = generarContenido(component);
+        } if (disposicion === "interactivo-alternativas") {
+            xml += generarDiapositivaInteractiva(slide);
+        } else {
+            xml += `    <Diapositiva disposicion="${disposicion}" titulo="${titulo}">\n`;
 
-            if (contenido) {
-                xml += `        <region justificacion="${region}" tts="${component.audio_text || ""}">\n`;
-                xml += `            ${contenido}\n`;
-                xml += `        </region>\n`;
-            }
-        });
+            slide.components.forEach((component) => {
+                let region = determinarJustificacion(component);
+                let contenido = generarContenido(component);
 
-        xml += `    </Diapositiva>\n`;
+                if (contenido) {
+                    xml += `        <region justificacion="${region}" tts="${component.audio_text || ""}">\n`;
+                    xml += `            ${contenido}\n`;
+                    xml += `        </region>\n`;
+                }
+            });
+
+            xml += `    </Diapositiva>\n`;
+        }
     });
 
     xml += `</Contenido>`;
     return xml;
 }
 
-// 📌 Determinar el tipo de diapositiva
 function obtenerDisposicion(components) {
-    const tipoSlide = components.find(c => c.type_slide)?.type_slide || 1;
+    const tipoSlide = components.find((c) => c.type_slide)?.type_slide || 1;
     const tipos = {
         1: "individual",
         2: "titulo",
         3: "cuarteto",
+        4: "Trio-2v-derecho",
+        5: "Trio-2v-izquierdo",
+        6: "Trio-2h-inferior",
+        7: "Trio-2h-superior",
         8: "duo-vertical",
-        9: "duo-horizontal"
+        9: "duo-horizontal",
+        10: "interactivo-alternativas",
     };
     return tipos[tipoSlide] || "individual";
 }
 
-// 📌 Asignar títulos correctos a las diapositivas
-function obtenerTitulo(disposicion) {
-    const titulos = {
-        "individual": "Diapositiva Individual",
-        "titulo": "Diapositiva de Título",
-        "duo-vertical": "Diapositiva Duo-Vertical",
-        "duo-horizontal": "Diapositiva Duo-Horizontal"
-    };
-    return titulos[disposicion] || "Diapositiva Sin Título";
+function obtenerTitulo(components) {
+    const titulo = components.find((c) => c.type === "titulo");
+    return titulo ? titulo.title : "Sin título";
 }
 
-// 📌 Determinar la justificación en base al tipo de contenido
-function determinarJustificacion(component) {
-    if (component.type === "title" || component.type === "text") return "centro";
-    if (component.type === "image") return "centro";
-    if (component.type === "code") return "centro";
+function determinarJustificacion(components) {
     return "centro";
 }
 
-// 📌 Generar contenido de cada componente
 function generarContenido(component) {
+    let xml = "";
+
     switch (component.type) {
-        case "title":
+        case "text":
+            xml += `            <texto>${component.title}</texto>\n`;
+            break;
         case "Subtitulo":
-            return `<subtitulo>${component.title}</subtitulo>`;
+            xml += `            <subtitulo>${component.title}</subtitulo>\n`;
+            break;
         case "Parrafo":
-            return `<texto>${component.title}</texto>`;
+            xml += `            <texto>${component.title}</texto>\n`;
+            break;
         case "image":
-            return `<imagen url="${component.image}" descripcion=""/>`;
+            xml += `            <imagen url="${component.image}" descripcion=""/>\n`;
+            break;
         case "code":
-            return `<codigo>\n    ${component.title.replace(/\n/g, "\n    ")}\n</codigo>`;
+            xml += `            <codigo>${component.title}</codigo>\n`;
+            break;
+        case "unordered":
+            xml += `${generarListaD(component.listItems)}\n`;
+            break;
+        case "ordered":
+            xml += `${generarListaO(component.listItems)}\n`;
+            break;
+        case "table":
+            xml += `${generarTabla(component.tableData)}\n`;
+            break;
         default:
-            return "";
+            break;
     }
+
+    return xml;
 }
 
-// 📌 Función para ensamblar el XML completo
 const createVideoclase = (metadatos, diapositivas) => {
     const xmlVersion = '<?xml version="1.0" encoding="UTF-8"?>';
     const xmlFinal = `
@@ -110,22 +185,33 @@ ${metadatos}
 ${diapositivas}
 </Videoclase>`.trim();
 
-    // 📌 Formatear el XML con la indentación correcta
-    const formattedXml = xmlFormatter(xmlFinal, {
-        indentation: '    ', // Espacios por nivel
-        collapseContent: false // No colapsar contenido dentro de etiquetas
+    return xmlFormatter(xmlFinal, {
+        indentation: "    ",
+        collapseContent: false,
     });
-
-    return formattedXml;
 };
 
-// 📌 Guardar el XML como archivo
-const saveXmlFile = (content, fileName) => {
-    const blob = new Blob([content], { type: 'application/xml' });
-    saveAs(blob, fileName);
+export const sendXml = async (xmlContent, fileName, setLoader2) => {
+    const formData = new FormData();
+    const blob = new Blob([xmlContent], { type: "application/xml" });
+    formData.append("file", blob, fileName);
+
+    try {
+        const response = await axios.post("https://gavc.onrender.com/generate-presentation/", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+        const htmlBlob = new Blob([response.data], { type: "text/html" });
+        saveAs(htmlBlob, `${fileName}.html`);
+    } catch (error) {
+        console.error("Error sending XML:", error);
+    } finally {
+        setLoader2(false);
+    }
 };
 
-// 📌 Función principal para crear el XML
 export const createXml = async (design_id) => {
     try {
         const { data } = await api.get(`/api/user-design/${design_id}`);
@@ -142,8 +228,7 @@ export const createXml = async (design_id) => {
             return;
         }
 
-        const xmlComplete = createVideoclase(metadatosXml, diapositivasXml);
-        saveXmlFile(xmlComplete, `videoclase_${design_id}.xml`);
+        return createVideoclase(metadatosXml, diapositivasXml);
     } catch (error) {
         console.error("Error generando el XML:", error);
     }

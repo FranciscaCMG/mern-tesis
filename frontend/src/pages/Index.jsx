@@ -31,16 +31,13 @@ const Index = () => {
     
             const { data } = await api.post('/api/user-register', state);
             setLoader(false);
-    
-            // ✅ Mostrar mensaje de éxito
+
             toast.success("¡Registro exitoso! Ahora puedes iniciar sesión.");
     
-            // ✅ Limpiar el formulario después de registrar
             setState({ name: '', email: '', password: '' });
     
-            // ✅ Redirigir a la pantalla de inicio de sesión después de 1.5 segundos
             setTimeout(() => {
-                setType("signin"); // Cambia el formulario al de inicio de sesión
+                setType("signin");
             }, 1500);
         } catch (error) {
             setLoader(false);
@@ -70,13 +67,11 @@ const Index = () => {
 
     return (
         <div className="bg-[#ffffff] min-h-screen w-full">
-            {/* Modal flotante */}
             <div
                 className={`fixed inset-0 ${show ? "visible opacity-100" : "invisible opacity-0"
                     } transition-opacity duration-500 flex justify-center items-center bg-black bg-opacity-50 backdrop-blur-sm z-50`}
             >
                 <div className="w-full max-w-lg bg-white rounded-2xl shadow-lg p-8 relative">
-                    {/* Botón de cierre */}
                     <button
                         onClick={() => setShow(false)}
                         className="absolute top-4 right-4 text-gray-500 hover:text-gray-900 text-2xl"
@@ -84,7 +79,6 @@ const Index = () => {
                         <IoMdClose />
                     </button>
 
-                    {/* Encabezado */}
                     <h2 className="text-2xl font-bold text-center text-purple-600 mb-2">
                         {type === "signin" ? "¡Hola! 👋" : "Gracias por querer ser parte ❤️"}
                     </h2>
@@ -94,7 +88,6 @@ const Index = () => {
                             : "Completa los siguientes datos para crear tu primera videoclase."}
                     </p>
 
-                    {/* Formulario */}
                     {type === "signin" ? (
                         <form onSubmit={user_login}>
                             <div className="mb-4">
@@ -213,11 +206,9 @@ const Index = () => {
                 </div>
             </div>
 
-            {/* Barra de navegación */}
             <div className="bg-[#ffffff] shadow-md">
                 <div className="w-[93%] m-auto py-3 flex justify-between items-center">
                     <div className="w-[80px] h-[48px]">
-                        {/* Logo */}
                         <img className="w-full h-full" src={videoLogo} alt="imagen Logo" />
 
                     </div>
@@ -244,7 +235,6 @@ const Index = () => {
                 </div>
             </div>
 
-            {/* Contenido principal */}
             <div className="py-[90px] px-6 flex justify-center items-center flex-col gap-8 bg-gray-50">
                 <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 text-center leading-tight">
                     ¿

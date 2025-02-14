@@ -12,11 +12,11 @@ const Prueba = () => {
                     throw new Error(`Error HTTP: ${res.status}`);
                 }
                 const data = await res.json();
-                console.log(data); // Muestra el objeto completo en la consola
-                setItems(data.items || []); // Asegúrate de que sea un array
+                console.log(data);
+                setItems(data.items || []);
             } catch (error) {
                 console.error('Error al obtener los datos:', error);
-                setItems([]); // Usa un array vacío como fallback
+                setItems([]);
             }
         };
         fetchData();

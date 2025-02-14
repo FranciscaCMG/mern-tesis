@@ -4,15 +4,23 @@ import videoLogo from "/Logo2.png";
 import * as htmlToImage from "html-to-image";
 import api from "../utils/api";
 import toast from "react-hot-toast";
-import { createXml } from "../helpers/createXML";
+import { createXml, sendXml } from "../helpers/createXML";
 import { FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
 import useWarnOnExit from "../helpers/useWarnOnExit";
 
 const Header = ({ slides, design_id, attributes }) => {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
+  const [loader2, setLoader2] = useState(false);
   const [title, setTitle] = useState("Ingresa el título");
   const [check, setCheck] = useState(false); 
+
+
+  const handleCreateVideoClass =  async () => {
+    setLoader2(true);
+    const xml = await createXml(design_id);
+    sendXml(xml, title, setLoader2);
+  };
 
   useWarnOnExit(check);
 
@@ -62,18 +70,16 @@ const Header = ({ slides, design_id, attributes }) => {
       const confirmLeave = window.confirm("Tienes cambios sin guardar. ¿Seguro que quieres salir?");
       if (!confirmLeave) return;
     }
-    navigate("/"); // 🔄 Navega al Home
+    navigate("/"); 
   };
 
   return (
     <div className="h-[60px] bg-white shadow-md w-full">
       <div className="flex justify-between px-10 items-center text-gray-700 h-full">
-        {/* Logo (ahora con botón) */}
         <button className="w-[80px] h-[48px]" onClick={handleLogoClick}>
           <img className="w-full h-full" src={videoLogo} alt="imagen Logo" />
         </button>
 
-        {/* Título */}
         <input
           type="text"
           value={title}
@@ -81,7 +87,6 @@ const Header = ({ slides, design_id, attributes }) => {
           className="text-xl font-semibold text-gray-900 border-b-2 border-gray-300 focus:outline-none focus:border-purple-500"
         />
 
-        {/* Botones */}
         <div className="flex justify-center items-center gap-4">
           <button
             disabled={loader}
@@ -90,21 +95,21 @@ const Header = ({ slides, design_id, attributes }) => {
               loader
                 ? "bg-gray-400 cursor-not-allowed"
                 : check
-                ? "bg-yellow-500 hover:bg-yellow-600" // 🟡 Si hay cambios, amarillo
-                : "bg-green-500 hover:bg-green-600" // ✅ Si está guardado, verde
+                ? "bg-yellow-500 hover:bg-yellow-600"
+                : "bg-green-500 hover:bg-green-600"
             }`}
           >
             {loader ? "Cargando..." : check ? "Guardar" : "Guardado"}
             {loader ? null : check ? <FaExclamationTriangle /> : <FaCheckCircle />}
           </button>
 
-          {/* 🔥 Solo mostrar el botón de Descargar cuando check === false */}
           {!check && (
             <button
-              onClick={() => createXml(design_id)}
-              className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-md shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
+              disabled={loader2}
+              onClick={() => handleCreateVideoClass()}
+              className={"px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-md shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"}
             >
-              Crear la videoclase
+              {loader2 ? "Cargando..." : "Crear la videoclase"}
             </button>
           )}
         </div>

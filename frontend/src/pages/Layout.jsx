@@ -48,18 +48,14 @@ const Layout = () => {
 
     return (
         <div className="bg-[#ffffff] min-h-screen w-full">
-            {/* Header */}
             <div className="bg-[#ffffff] shadow-md fixed left-0 top-0 w-full z-20">
                 <div className="w-[93%] m-auto py-3">
                     <div className="flex justify-between items-center">
-                        {/* Logo */}
                         <Link className="w-[80px] h-[48px]" to="/">
                             <img className="w-full h-full" src={videoLogo} alt="imagen Logo" />
                         </Link>
 
-                        {/* Botones y menú de usuario */}
                         <div className="flex gap-4 justify-center items-center relative">
-                            {/* Botón para crear diseño */}
                             <button
                                 onClick={create}
                                 className="py-2 px-6 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-full shadow-md transition-transform transform hover:scale-105 hover:shadow-lg"
@@ -67,7 +63,6 @@ const Layout = () => {
                                 Crear un diseño
                             </button>
 
-                            {/* Avatar de usuario */}
                             <div
                                 onClick={() => setShowUserMenu(!showUserMenu)}
                                 className="cursor-pointer"
@@ -77,7 +72,6 @@ const Layout = () => {
                                 </div>
                             </div>
 
-                            {/* Menú desplegable */}
                             <div
                                 className={`absolute top-[60px] right-0 w-[350px] bg-[#ffffff] p-4 rounded-xl border border-gray-300 shadow-lg transform transition-all duration-500 ${showUserMenu
                                         ? "visible opacity-100 translate-y-0"
@@ -125,9 +119,7 @@ const Layout = () => {
                 />
             )}
 
-            {/* Sidebar y contenido principal */}
             <div className="w-full flex mt-16">
-                {/* Sidebar */}
                 <div className="sidebar w-[300px] p-1 h-[calc(100vh-70px)] fixed bg-[#f9f9f9] shadow-md rounded-r-xl">
                     <div className="px-2 pt-5 flex justify-start gap-5 items-center mb-6">
                         <div className="w-[50px] h-[50px] rounded-full border-2 border-purple-500  bg-purple-100 text-purple-700  flex items-center justify-center transition-all text-2xl">
@@ -173,7 +165,6 @@ const Layout = () => {
                     </ul>
                 </div>
 
-                {/* Contenido principal */}
                 <div className="ml-[300px] w-[calc(100%-300px)]">
                     <div className="py-4 pr-4">
                         <Outlet />

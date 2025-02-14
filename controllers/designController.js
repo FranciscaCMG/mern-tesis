@@ -170,7 +170,7 @@ class designController {
 
         try {
             await designModel.findByIdAndDelete(design_id)
-            return res.status(200).json({ message: 'design delete success' })
+            return res.status(200).json({ message: 'Presentación eliminada exitosamente' })
         } catch (error) {
             return res.status(500).json({ message: error.message })
         }

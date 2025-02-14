@@ -86,8 +86,8 @@ const ViewSlide = ({ current_component, slides, removeComponent, attributes, han
                                             })
                                         }
                                         onInput={(e) => {
-                                            e.target.style.height = "auto"; // Restablece la altura
-                                            e.target.style.height = `${e.target.scrollHeight}px`; // Ajusta la altura según el contenido
+                                            e.target.style.height = "auto"; 
+                                            e.target.style.height = `${e.target.scrollHeight}px`;
                                         }}
                                         className="border border-gray-700 bg-transparent outline-none p-2 rounded-md resize-none overflow-hidden w-full"
                                         value={current_component.audio_text}
@@ -104,18 +104,18 @@ const ViewSlide = ({ current_component, slides, removeComponent, attributes, han
                                     {current_component.name === "alternative" && (
                                         <button
                                             onClick={() => {
-                                                const newValue = !current_component.alternative; // Alternar el valor (true/false)
+                                                const newValue = !current_component.alternative; 
                                                 setCurrentComponent({
                                                     ...current_component,
                                                     alternative: newValue,
                                                 });
-                                                handleSetAttributes("alternative", newValue); // Actualizar estado
-                                                alert(newValue ? "¡Seleccionada como correcta!" : "Se ha deseleccionado como correcta"); // Mostrar alerta
+                                                handleSetAttributes("alternative", newValue);
+                                                alert(newValue ? "¡Seleccionada como correcta!" : "Se ha deseleccionado como correcta"); 
                                             }}
                                             className={`px-6 py-2 text-white font-semibold rounded-md shadow-md transition-all duration-300 
             ${current_component.alternative
-                                                    ? "bg-green-500 hover:bg-green-600"  // ✅ Verde cuando está seleccionada como correcta
-                                                    : "bg-blue-500 hover:bg-blue-600"}`} // 🔵 Azul cuando NO está seleccionada
+                                                    ? "bg-green-500 hover:bg-green-600"  
+                                                    : "bg-blue-500 hover:bg-blue-600"}`} 
                                         >
                                             {current_component.alternative ? "Seleccionada como correcta" : "Seleccionar como correcta"}
                                         </button>

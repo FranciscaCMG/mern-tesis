@@ -35,9 +35,7 @@ const TemplateSlide = ({ handleOptionClick, setShowModal, flagFirstSlide }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-30 backdrop-blur-md">
-            {/* Contenedor principal */}
             <div className="bg-white p-8 rounded-lg shadow-lg w-[1000px] relative">
-                {/* Botón de cierre */}
                 <div
                     onClick={() => setShowModal(false)}
                     className="absolute right-4 top-4 text-2xl cursor-pointer text-gray-600 hover:text-gray-900 transition-all duration-200"
@@ -45,12 +43,10 @@ const TemplateSlide = ({ handleOptionClick, setShowModal, flagFirstSlide }) => {
                     <IoMdClose />
                 </div>
 
-                {/* Título */}
                 <h2 className="text-center text-2xl font-bold text-gray-800 mb-6">
                     Selecciona una diapositiva
                 </h2>
 
-                {/* Opciones de diapositivas */}
                 <div className="grid grid-cols-4 gap-6">
                     {[I, Titulo, D4, T2VD, T2VI, T2HIn, T2HS, DV, DH, Alternativa ].map((src, index) => (
                         <button

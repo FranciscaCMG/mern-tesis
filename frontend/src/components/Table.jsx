@@ -10,7 +10,7 @@ function Table({ rows, columns = [], tableData, updateTableData, maximo }) {
     const updatedTableData = [...localTableData];
     updatedTableData[rowIndex][colIndex] = value;
     setLocalTableData(updatedTableData);
-    updateTableData({ columns, rows: updatedTableData }); // Notificar al padre sobre el cambio
+    updateTableData({ columns, rows: updatedTableData });
   };
 
   const createRows = () => {
@@ -52,7 +52,7 @@ function Table({ rows, columns = [], tableData, updateTableData, maximo }) {
   };
 
   useEffect(() => {
-    setLocalTableData(tableData); // Sincronizar cambios externos en `tableData`
+    setLocalTableData(tableData); 
   }, [tableData]);
 
   return (

@@ -87,7 +87,6 @@ const Main = () => {
     ])  
 
     const replaceComponentInSlide = (component) => {
-        // Encuentra la slide específica por el ID
         const slideIndex = slides.findIndex(slide => slide.id === currentSlideId);
 
         if (slideIndex === -1 || current_component.type === "Titulo") {
@@ -95,17 +94,15 @@ const Main = () => {
             return slides;
         }
 
-        // Busca el índice del componente actual dentro de la slide
         const componentIndex = slides[slideIndex].components.findIndex(
             comp => comp.id === current_component.id
         );
 
         if (componentIndex === -1) {
             console.error('Componente no encontrado');
-            return slides; // Retorna el arreglo original si no encuentra el componente
+            return slides;
         }
 
-        // Reemplaza el componente actual con el nuevo componente
         const updatedSlide = {
             ...slides[slideIndex],
             components: slides[slideIndex].components.map((comp, index) =>
@@ -113,12 +110,11 @@ const Main = () => {
             ),
         };
 
-        // Actualiza la lista de slides con la slide modificada
         const updatedSlides = slides.map((slide, index) =>
             index === slideIndex ? updatedSlide : slide
         );
 
-        setSlides(updatedSlides); // Retorna el nuevo arreglo de slides
+        setSlides(updatedSlides);
     }
 
     const positionLeft = {
@@ -135,14 +131,19 @@ const Main = () => {
         5: (index) => (480 * index) + (16 * index) + 38
     };
 
+    useEffect (() => {
+        console.log(slides)
+        console.log(current_component)
+    }, [slides, current_component])
+
 
     const createComponent = (position = {}, text, background, alternative, title = "Subtitulo", fontSize = "text-4xl", leftPosition = 1, topPosition = 1, flagFirstSlide, numberPosition) => {
-        const isText = text === "text";
+        const isText = text === "text" || text === "titulo";
         return {
             id: Date.now() + Math.floor(Math.random() * 1000),
             slide_id: currentSlideId,
             name: text,
-            type: title,
+            type: text,
             numberPosition: numberPosition,
             left: positionLeft[leftPosition],
             top: topPositions[topPosition](flagFirstSlide ? 0 : slides.length),
@@ -166,23 +167,23 @@ const Main = () => {
     const getPositionTopComponents = (numberTemplate) => {
         switch (numberTemplate) {
             case 1:
-                return [2]
+                return [5, 2]
             case 2:
                 return [2]
             case 3:
-                return [1, 3, 1, 3]
+                return [5, 1, 3, 1, 3]
             case 4:
-                return [2, 1, 3]
+                return [5, 2, 1, 3]
             case 5:
-                return [1, 3, 2]
+                return [5, 1, 3, 2]
             case 6:
-                return [3, 1, 3]
+                return [5, 3, 1, 3]
             case 7:
-                return [1, 3, 1]
+                return [5, 1, 3, 1]
             case 8:
-                return [2, 2]
+                return [5, 2, 2]
             case 9:
-                return [1, 3]
+                return [5, 1, 3]
             case 10:
                 return [5, 2, 1, 3, 4]
             default:
@@ -209,53 +210,61 @@ const Main = () => {
 
         switch (numberTemplate) {
             case 1:
-                components.push(createComponent({},'text',null, null , "Agregar ", "text-6xl", 2, 2, flagFirstSlide, 1));
+                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar ", "text-6xl", 2, 2, flagFirstSlide, 2));
                 break;
             case 2:
                 components.push(createComponent({},'text',null, null , "Titulo", "text-6xl", 2, 2, flagFirstSlide, 1));
                 break;
             case 3:
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 1, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 1, 3, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 1, flagFirstSlide, 3));
-                components.push(createComponent({},'text',null, null , "Agregar 4", "text-4xl", 3, 3, flagFirstSlide, 4));
+                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 1, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 1, 3, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 1, flagFirstSlide, 4));
+                components.push(createComponent({},'text',null, null , "Agregar 4", "text-4xl", 3, 3, flagFirstSlide, 5));
                 break;
             case 4:
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 2, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 3, 1, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 3, flagFirstSlide, 3));
+                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 2, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 3, 1, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 3, flagFirstSlide, 4));
                 break;
             case 5:
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 1, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 1, 3, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 2, flagFirstSlide, 3));
+                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 1, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 1, 3, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 2, flagFirstSlide, 4));
                 break;
             case 6:
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 3, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 2, 1, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 3, flagFirstSlide, 3));
+                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 3, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 2, 1, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 3, flagFirstSlide, 4));
                 break;
             case 7:
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 1, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 2, 3, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 1, flagFirstSlide, 3));
+                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 1, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 2, 3, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 1, flagFirstSlide, 4));
                 break;
             case 8:
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 2, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 3, 2, flagFirstSlide, 2));
+                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 2, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 3, 2, flagFirstSlide, 3));
 
                 break;
             case 9:
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 2, 1, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 2, 3, flagFirstSlide, 2));
+                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 2, 1, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 2, 3, flagFirstSlide, 3));
                 break;
 
             case 10:
-                components.push(createComponent({},'text', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'alternative', '#d9d9d9', false , "Agregar Alternativa", "text-4xl", 2, 2, flagFirstSlide, 1));
-                components.push(createComponent({},'alternative','#d9d9d9',false  , "Agregar Alternativa", "text-4xl", 2, 1, flagFirstSlide, 2));
-                components.push(createComponent({},'alternative','#d9d9d9',false  , "Agregar Alternativa", "text-4xl", 2, 3, flagFirstSlide, 3));
-                components.push(createComponent({},'alternative','#d9d9d9',false  , "Agregar Alternativa", "text-4xl", 2, 4, flagFirstSlide, 4));
+                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
+                components.push(createComponent({},'alternative','#d9d9d9',false  , "Agregar Alternativa 1", "text-4xl", 2, 1, flagFirstSlide, 2));
+                components.push(createComponent({},'alternative', '#d9d9d9', false , "Agregar Alternativa 2", "text-4xl", 2, 2, flagFirstSlide, 3));
+                components.push(createComponent({},'alternative','#d9d9d9',false  , "Agregar Alternativa 3", "text-4xl", 2, 3, flagFirstSlide, 4));
+                components.push(createComponent({},'alternative','#d9d9d9',false  , "Agregar Alternativa 4", "text-4xl", 2, 4, flagFirstSlide, 5));
                 break;
             default:
                 return;
@@ -381,7 +390,7 @@ const Main = () => {
             ...originalSlide,
             components: originalSlide.components.map((component, index) => ({
                 ...component,
-                id: generateUniqueID() // Genera un ID único para cada componente
+                id: generateUniqueID() 
             }))
         };
 
@@ -501,7 +510,7 @@ const Main = () => {
     }
 
     const add_list = (name, type, isOrdered = false) => {
-        setCurrentComponent(''); // Resetear el componente actual
+        setCurrentComponent(''); 
         const id = Date.now();
 
         const style = {
@@ -566,6 +575,9 @@ const Main = () => {
             if (current_component.name === 'text') {
                 slides[currentSlideId].components[index].title = attributes.text || current_component.title
             }
+            if (current_component.name === 'titulo') {
+                slides[currentSlideId].components[index].title = attributes.text || current_component.title
+            }
             if (current_component.name === 'code') {
                 slides[currentSlideId].components[index].title = attributes.text || current_component.title
             }
@@ -585,6 +597,7 @@ const Main = () => {
             }
             if (current_component.name === 'alternative') {
                 slides[currentSlideId].components[index].alternative = attributes.alternative || current_component.alternative
+                slides[currentSlideId].components[index].title = attributes.text || current_component.title
             }
 
             slides[currentSlideId].components[index].color = attributes.color || current_component.color
@@ -599,6 +612,8 @@ const Main = () => {
             handleSetAttributes('audio_text', '')
             handleSetAttributes('alternative', '')
         }
+
+
     }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text, attributes.audio_text, updateList, attributes.alternative])
 
     useEffect(() => {
@@ -803,8 +818,8 @@ const Main = () => {
                                     <div className="flex flex-col items-start gap-4">
                                         <div className="grid grid-cols-6 grid-rows-5 gap-1 w-[180px] h-[150px] border border-gray-300 rounded-md p-2 relative">
                                             {Array.from({ length: 30 }).map((_, index) => {
-                                                const row = Math.floor(index / 6) + 1; // Máximo 5 filas
-                                                const col = (index % 6) + 1; // Máximo 6 columnas
+                                                const row = Math.floor(index / 6) + 1; 
+                                                const col = (index % 6) + 1;
 
                                                 return (
                                                     <div
