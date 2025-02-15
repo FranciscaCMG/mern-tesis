@@ -42,10 +42,10 @@ const Main = () => {
     })
 
     const handleSetAttributes = (key, value) => {
-        setAttributes({
-            ...attributes,
+        setAttributes(prevAttributes => ({
+            ...prevAttributes,
             [key]: value
-        })
+        }));
     }
 
     const titles = [
@@ -131,12 +131,6 @@ const Main = () => {
         4: (index) => (480 * index) + (16 * index) + 370,
         5: (index) => (480 * index) + (16 * index) + 38
     };
-
-    useEffect (() => {
-        console.log(slides)
-        console.log(current_component)
-    }, [slides, current_component])
-
 
     const createComponent = (position = {}, text, background, alternative, title = "Subtitulo", fontSize = "text-2xl", leftPosition = 1, topPosition = 1, flagFirstSlide, numberPosition) => {
         const isText = text === "text" || text === "titulo";
@@ -616,6 +610,7 @@ const Main = () => {
             handleSetAttributes('audio_text', '')
             handleSetAttributes('alternative', '')
             handleSetAttributes('description', '')
+            setCurrentComponent('')
         }
 
 
