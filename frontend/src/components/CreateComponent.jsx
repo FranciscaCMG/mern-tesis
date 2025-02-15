@@ -92,12 +92,6 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             className='absolute group hover:border-[2px] hover:border-indigo-500'
         >
             <Element id={randValue} info={info} exId="" />
-            {
-                current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
-                    <BsTrash />
-                </div>
-            }
-
         </div>
     }
 
@@ -121,12 +115,6 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             }}>
 
             </div>
-            {
-                current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
-                    <BsTrash />
-                </div>
-            }
-
         </div>
     }
 
@@ -151,12 +139,6 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             }}>
 
             </div>
-            {
-                current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
-                    <BsTrash />
-                </div>
-            }
-
         </div>
     }
 
@@ -176,13 +158,6 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             <Element id={randValue} info={info} exId="" />
 
             <h2 style={{whiteSpace: 'pre-line'}} className={`w-full h-full ${info.titleSize}`}>{info.title}</h2>
-
-            {
-                current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
-                    <BsTrash />
-                </div>
-            }
-
         </div>
     }
 
@@ -203,13 +178,6 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             <Element id={randValue} info={info} exId="" />
 
             <h2 style={{ fontSize: info.font + 'px', fontWeight: info.weight }} className='w-full h-full'>{info.title}</h2>
-
-            {
-                current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
-                    <BsTrash />
-                </div>
-            }
-
         </div>
     }
 
@@ -235,13 +203,6 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             <h2 style={{ fontSize: info.font + 'px', fontWeight: info.weight, whiteSpace: 'pre-line' }} className='w-full h-full border-8 border-[#2a2b2c]'>{info.title}</h2>
 
             </div>
-
-            {
-                current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
-                    <BsTrash />
-                </div>
-            }
-
         </div>
     }
 
@@ -261,12 +222,6 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             <Element id={randValue} info={info} exId="" />
 
             <h2 style={{ fontSize: info.font + 'px', fontWeight: info.weight}} className='w-full h-full font-bebas'>{info.title}</h2>
-
-            {
-                current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
-                    <BsTrash />
-                </div>
-            }
 
         </div>
     }
@@ -294,15 +249,6 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                     isOrdered={info.isOrdered}
                     updateListData={setUpdateList}
                 />
-
-                {current_component.id === info.id && (
-                    <div
-                        onClick={() => removeComponent(info.id)}
-                        className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
-                    >
-                        <BsTrash />
-                    </div>
-                )}
             </div>
         );
     }
@@ -343,15 +289,6 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                 />
 
                 <h2 className={`w-full h-full text-m text-center`}>{info.description}</h2>
-
-                {current_component.id === info.id && (
-                    <div
-                        onClick={() => removeComponent(info.id)}
-                        className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
-                    >
-                        <BsTrash />
-                    </div>
-                )}
             </div>
         );
     }
@@ -379,12 +316,6 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                 <img className='w-full h-full' src={info.image} alt="image" />
 
             </div>
-            {
-                current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
-                    <BsTrash />
-                </div>
-            }
-
         </div>
     }
 

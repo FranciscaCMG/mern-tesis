@@ -88,21 +88,16 @@ const Main = () => {
     ])  
 
     const replaceComponentInSlide = (component) => {
-        const slideIndex = slides.findIndex(slide => slide.id === currentSlideId);
-
-        if (slideIndex === -1 || current_component.type === "Titulo") {
-            console.error('Slide no encontrada');
-            return slides;
+        if (!current_component || current_component.type === "titulo") {
+            toast.error("No puedes reemplazar el titulo");
+            setCurrentComponent('');
+            return;
         }
 
+        const slideIndex = slides.findIndex(slide => slide.id === currentSlideId);
         const componentIndex = slides[slideIndex].components.findIndex(
             comp => comp.id === current_component.id
         );
-
-        if (componentIndex === -1) {
-            console.error('Componente no encontrado');
-            return slides;
-        }
 
         const updatedSlide = {
             ...slides[slideIndex],
@@ -209,7 +204,7 @@ const Main = () => {
                 components.push(createComponent({},'text',null, null , "Agregar ", "text-6xl", 2, 2, flagFirstSlide, 2));
                 break;
             case 2:
-                components.push(createComponent({},'text',null, null , "Titulo", "text-6xl", 2, 2, flagFirstSlide, 1));
+                components.push(createComponent({},'titulo',null, null , "Titulo", "text-6xl", 2, 2, flagFirstSlide, 1));
                 break;
             case 3:
                 components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
@@ -649,7 +644,6 @@ const Main = () => {
             <div className="flex w-[100vw] h-[100vh] pt-[10px] overflow-hidden">
                 {/* Barra lateral */}
                 <div className="fixed top-[65px] left-0 w-[80px] h-[calc(100%-60px)] bg-white shadow-md z-50 overflow-y-auto">
-                    {/* Opción: Texto */}
                     <div
                         onClick={() => setElements("text", "text")}
                         className={`${show.name === "text" ? "bg-[#e8e8e8]" : ""
@@ -661,7 +655,6 @@ const Main = () => {
                         <span className="text-xs font-medium">Texto</span>
                     </div>
 
-                    {/* Opción: Código */}
                     <div
                         onClick={() => setElements("code", "code")}
                         className={`${show.name === "code" ? "bg-[#e8e8e8]" : ""
@@ -673,7 +666,6 @@ const Main = () => {
                         <span className="text-xs font-medium">Código</span>
                     </div>
 
-                    {/* Opción: Lista */}
                     <div
                         onClick={() => setElements("list", "list")}
                         className={`${show.name === "list" ? "bg-[#e8e8e8]" : ""
@@ -685,7 +677,6 @@ const Main = () => {
                         <span className="text-xs font-medium">Lista</span>
                     </div>
 
-                    {/* Opción: Tabla */}
                     <div
                         onClick={() => setElements("table", "table")}
                         className={`${show.name === "table" ? "bg-[#e8e8e8]" : ""
@@ -697,7 +688,6 @@ const Main = () => {
                         <span className="text-xs font-medium">Tabla</span>
                     </div>
 
-                    {/* Opción: Pausa activa */}
                     <div
                         onClick={() => setElements("activepause", "activepause")}
                         className={`${show.name === "activepause" ? "bg-[#e8e8e8]" : ""
@@ -710,7 +700,6 @@ const Main = () => {
                         <span className="text-xs font-medium">activa</span>
                     </div>
 
-                    {/* Opción: Subir */}
                     <div
                         onClick={() => setElements("image", "uploadImage")}
                         className={`${show.name === "uploadImage" ? "bg-[#e8e8e8]" : ""
@@ -722,7 +711,6 @@ const Main = () => {
                         <span className="text-xs font-medium">Subir</span>
                     </div>
 
-                    {/* Opción: Proyecto */}
                     <div
                         onClick={() => setElements("project", "project")}
                         className={`${show.name === "project" ? "bg-[#e8e8e8]" : ""
@@ -734,7 +722,6 @@ const Main = () => {
                         <span className="text-xs font-medium">Proyecto</span>
                     </div>
 
-                    {/* Opción: Imágenes */}
                     <div
                         onClick={() => setElements("initImage", "images")}
                         className={`${show.name === "images" ? "bg-[#e8e8e8]" : ""
@@ -749,7 +736,6 @@ const Main = () => {
 
                 {/* Contenido principal */}
                 <div className="ml-[80px] w-[calc(100vw-80px)] h-[calc(100vh-70px)] overflow-hidden py-[0px]">
-                    {/* Panel lateral (dependiente del estado) */}
                     <div
                         className={`${show.status ? "p-0 -left-[350px]" : "px-8 left-[80px] py-1"
                             } bg-[#f0f0f0] h-full fixed transition-all w-[300px] z-30 duration-700 shadow-md`}
@@ -760,7 +746,7 @@ const Main = () => {
                         >
                             <MdKeyboardArrowLeft />
                         </div>
-                        {/* Render dinámico del contenido según estado */}
+
                         {stateComponent === "text" && (
                             <div className="space-y-4">
                                 {titles.map((title) => (
@@ -776,6 +762,7 @@ const Main = () => {
                                 ))}
                             </div>
                         )}
+
                         {
                             stateComponent === 'code' && <div>
                                 <div className='grid grid-cols-1 gap-2'>
@@ -785,11 +772,12 @@ const Main = () => {
                                 </div>
                             </div>
                         }
+
                         {
                             stateComponent === 'list' && (
                                 <div>
                                     <div className="grid grid-cols-1 gap-2">
-                                        {/* Botón para agregar lista desordenada */}
+
                                         <div
                                             onClick={() => add_list('list', 'unordered', false)}
                                             className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm"
@@ -797,7 +785,6 @@ const Main = () => {
                                             <h2>Lista Desordenada</h2>
                                         </div>
 
-                                        {/* Botón para agregar lista ordenada */}
                                         <div
                                             onClick={() => add_list('list', 'ordered', true)}
                                             className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm"
@@ -808,13 +795,13 @@ const Main = () => {
                                 </div>
                             )
                         }
+
                         {
                             stateComponent === "table" && (
                                 <div className="space-y-6 bg-[#ffffff] shadow-md p-6 rounded-md">
-                                    {/* Título */}
+
                                     <h2 className="text-lg font-bold text-gray-800">Insertar tabla</h2>
 
-                                    {/* Contenedor de la tabla */}
                                     <div className="flex flex-col items-start gap-4">
                                         <div className="grid grid-cols-6 grid-rows-5 gap-1 w-[180px] h-[150px] border border-gray-300 rounded-md p-2 relative">
                                             {Array.from({ length: 30 }).map((_, index) => {
@@ -835,7 +822,6 @@ const Main = () => {
                                             })}
                                         </div>
 
-                                        {/* Dimensiones seleccionadas */}
                                         <span className="text-sm font-medium text-gray-600">
                                             {dimensions.rows} x {dimensions.columns}
                                         </span>
@@ -844,18 +830,20 @@ const Main = () => {
                             )
                         }
 
-
                         {
                             stateComponent === 'activepause' && <ActivePause />
                         }
+
                         {
                             stateComponent === 'initImage' && <div className='h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide'>
                                 <InitialImage add_image={add_image} />
                             </div>
                         }
+
                         {
                             stateComponent === 'project' && <Projects type='main' design_id={design_id} />
                         }
+
                         {
                             stateComponent === 'image' && <MyImages add_image={add_image} />
                         }
@@ -863,7 +851,6 @@ const Main = () => {
 
                     </div>
 
-                    {/* Vista principal */}
                     <div className="h-full w-full overflow-y-auto">
                         <ViewSlide
                             current_component={current_component}
