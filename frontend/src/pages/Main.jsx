@@ -37,7 +37,8 @@ const Main = () => {
         top: '',
         text: '',
         audio_text: '',
-        alternative: ''
+        alternative: '',
+        description: ''
     })
 
     const handleSetAttributes = (key, value) => {
@@ -137,7 +138,7 @@ const Main = () => {
     }, [slides, current_component])
 
 
-    const createComponent = (position = {}, text, background, alternative, title = "Subtitulo", fontSize = "text-4xl", leftPosition = 1, topPosition = 1, flagFirstSlide, numberPosition) => {
+    const createComponent = (position = {}, text, background, alternative, title = "Subtitulo", fontSize = "text-2xl", leftPosition = 1, topPosition = 1, flagFirstSlide, numberPosition) => {
         const isText = text === "text" || text === "titulo";
         return {
             id: Date.now() + Math.floor(Math.random() * 1000),
@@ -218,45 +219,45 @@ const Main = () => {
                 break;
             case 3:
                 components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 1, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 1, 3, flagFirstSlide, 3));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 1, flagFirstSlide, 4));
-                components.push(createComponent({},'text',null, null , "Agregar 4", "text-4xl", 3, 3, flagFirstSlide, 5));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 1, 1, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 1, 3, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-lg", 3, 1, flagFirstSlide, 4));
+                components.push(createComponent({},'text',null, null , "Agregar 4", "text-lg", 3, 3, flagFirstSlide, 5));
                 break;
             case 4:
                 components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 2, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 3, 1, flagFirstSlide, 3));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 3, flagFirstSlide, 4));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 1, 2, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 3, 1, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-lg", 3, 3, flagFirstSlide, 4));
                 break;
             case 5:
                 components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 1, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 1, 3, flagFirstSlide, 3));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 2, flagFirstSlide, 4));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 1, 1, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 1, 3, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-lg", 3, 2, flagFirstSlide, 4));
                 break;
             case 6:
                 components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 3, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 2, 1, flagFirstSlide, 3));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 3, flagFirstSlide, 4));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 1, 3, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 2, 1, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-lg", 3, 3, flagFirstSlide, 4));
                 break;
             case 7:
                 components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 1, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 2, 3, flagFirstSlide, 3));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-4xl", 3, 1, flagFirstSlide, 4));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 1, 1, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 2, 3, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 3", "text-lg", 3, 1, flagFirstSlide, 4));
                 break;
             case 8:
                 components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 1, 2, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 3, 2, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 1, 2, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 3, 2, flagFirstSlide, 3));
 
                 break;
             case 9:
                 components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-4xl", 2, 1, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-4xl", 2, 3, flagFirstSlide, 3));
+                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 2, 1, flagFirstSlide, 2));
+                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 2, 3, flagFirstSlide, 3));
                 break;
 
             case 10:
@@ -470,6 +471,7 @@ const Main = () => {
             padding: 6,
             color: '#3c3c3d',
             title: "Título de la tabla",
+            description: "Descripción de la tabla",
             tableData: tableData,
             audio_text: '',
             setCurrentComponent: (a) => setCurrentComponent(a),
@@ -523,7 +525,7 @@ const Main = () => {
             opacity: 1,
             z_index: 10,
             padding: 6,
-            font: 22,
+            font: 18,
             title: "Agregar descripción de la lista",
             weight: 400,
             color: '#3c3c3d',
@@ -584,6 +586,7 @@ const Main = () => {
             if (current_component.name === 'table') {
                 slides[currentSlideId].components[index].title = attributes.text || current_component.title
                 slides[currentSlideId].components[index].title2 = attributes.text || current_component.title2
+                slides[currentSlideId].components[index].description = attributes.description || current_component.description
             }
             if (current_component.name === 'main_frame' && attributes.image) {
                 slides[currentSlideId].components[index].image = attributes.image || current_component.image
@@ -594,6 +597,7 @@ const Main = () => {
             }
             if (current_component.name === 'list') {
                 slides[currentSlideId].components[index].listItems = updateList || current_component.listItems
+                slides[currentSlideId].components[index].title = attributes.text || current_component.title
             }
             if (current_component.name === 'alternative') {
                 slides[currentSlideId].components[index].alternative = attributes.alternative || current_component.alternative
@@ -611,10 +615,11 @@ const Main = () => {
             handleSetAttributes('text', '')
             handleSetAttributes('audio_text', '')
             handleSetAttributes('alternative', '')
+            handleSetAttributes('description', '')
         }
 
 
-    }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text, attributes.audio_text, updateList, attributes.alternative])
+    }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text, attributes.audio_text, updateList, attributes.alternative, attributes.description])
 
     useEffect(() => {
         const get_design = async () => {

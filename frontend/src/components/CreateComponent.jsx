@@ -1,4 +1,4 @@
-import React, { useEffect,useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { BsTrash } from 'react-icons/bs'
 import Element from './Element'
 import Table from './Table'
@@ -175,7 +175,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
         >
             <Element id={randValue} info={info} exId="" />
 
-            <h2 style={{ fontSize: info.font + 'px', fontWeight: info.weight }} className='w-full h-full'>{info.title}</h2>
+            <h2 className={`w-full h-full ${info.titleSize}`}>{info.title}</h2>
 
             {
                 current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
@@ -257,7 +257,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
         >
             <Element id={randValue} info={info} exId="" />
 
-            <h2 style={{ fontSize: info.font + 'px', fontWeight: info.weight }} className='w-full h-full'>{info.title}</h2>
+            <h2 style={{ fontSize: info.font + 'px', fontWeight: info.weight }} className='w-full h-full font-bebas'>{info.title}</h2>
 
             {
                 current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
@@ -285,6 +285,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                 }}
                 className="absolute group hover:border-[2px] hover:border-indigo-500"
             >
+                <h2 className={`w-full h-full font-bold text-m`}>{info.title}</h2>
                 <List
                     initialItems={info.listItems || []}
                     isOrdered={info.isOrdered}
@@ -323,6 +324,8 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             >
                 <Element id={randValue} info={info} exId="" />
 
+                <h2 className={`w-full h-full font-bold text-m text-center`}>{info.title}</h2>
+
                 <Table
                     rows={info.rows}
                     columns={info.columns}
@@ -333,8 +336,10 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                             tableData: updatedData,
                         });
                     }}
-                    maximo = "max-w-28"
+                    maximo="max-w-28"
                 />
+
+                <h2 className={`w-full h-full text-m text-center`}>{info.description}</h2>
 
                 {current_component.id === info.id && (
                     <div

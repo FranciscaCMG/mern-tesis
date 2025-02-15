@@ -22,10 +22,10 @@ export const createMetadatos = async (design_id) => {
     }
 };
 
-function generarTabla(tableData) {
+function generarTabla(tableData, subtitulo, descripcion) {
     if (!tableData || tableData.length === 0) return "";
-
-    let xml = `        <tabla descripcion="Tabla de datos">\n`;
+    let xml = `<subtitulo>${subtitulo}</subtitulo> `;
+    xml += `        <tabla descripcion="${descripcion}">\n`;
 
     tableData.forEach((fila) => {
         xml += `            <fila>\n`;
@@ -39,20 +39,20 @@ function generarTabla(tableData) {
     return xml;
 }
 
-function generarListaO(listItems) {
+function generarListaO(listItems, subtitulo) {
     if (!listItems || listItems.length === 0) return "";
-
-    let xml = `        <listaOrdenada>\n`;
+    let xml = `<subtitulo>${subtitulo}</subtitulo> `;
+    xml += `        <listaOrdenada>\n`;
     listItems.forEach((item) => {
         xml += `            <item>${item}</item>\n`;
     });
     xml += `        </listaOrdenada>\n`;
     return xml;
 }
-function generarListaD(listItems) {
+    function generarListaD(listItems, subtitulo) {
     if (!listItems || listItems.length === 0) return "";
-
-    let xml = `        <listaNoOrdenada>\n`;
+let xml = `<subtitulo>${subtitulo}</subtitulo> `;
+    xml += `       <listaNoOrdenada>\n`;
     listItems.forEach((item) => {
         xml += `            <item>${item}</item>\n`;
     });
@@ -161,13 +161,13 @@ function generarContenido(component) {
             xml += `            <codigo>${component.title}</codigo>\n`;
             break;
         case "unordered":
-            xml += `${generarListaD(component.listItems)}\n`;
+            xml += `${generarListaD(component.listItems, component.title)}\n`;
             break;
         case "ordered":
-            xml += `${generarListaO(component.listItems)}\n`;
+            xml += `${generarListaO(component.listItems, component.title)}\n`;
             break;
         case "table":
-            xml += `${generarTabla(component.tableData)}\n`;
+            xml += `${generarTabla(component.tableData, component.title, component.description)}\n`;
             break;
         default:
             break;

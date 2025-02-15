@@ -86,7 +86,7 @@ const ViewSlide = ({ current_component, slides, removeComponent, attributes, han
                                             })
                                         }
                                         onInput={(e) => {
-                                            e.target.style.height = "auto"; 
+                                            e.target.style.height = "auto";
                                             e.target.style.height = `${e.target.scrollHeight}px`;
                                         }}
                                         className="border border-gray-700 bg-transparent outline-none p-2 rounded-md resize-none overflow-hidden w-full"
@@ -104,21 +104,48 @@ const ViewSlide = ({ current_component, slides, removeComponent, attributes, han
                                     {current_component.name === "alternative" && (
                                         <button
                                             onClick={() => {
-                                                const newValue = !current_component.alternative; 
+                                                const newValue = !current_component.alternative;
                                                 setCurrentComponent({
                                                     ...current_component,
                                                     alternative: newValue,
                                                 });
                                                 handleSetAttributes("alternative", newValue);
-                                                alert(newValue ? "¡Seleccionada como correcta!" : "Se ha deseleccionado como correcta"); 
+                                                alert(newValue ? "¡Seleccionada como correcta!" : "Se ha deseleccionado como correcta");
                                             }}
                                             className={`px-6 py-2 text-white font-semibold rounded-md shadow-md transition-all duration-300 
             ${current_component.alternative
-                                                    ? "bg-green-500 hover:bg-green-600"  
-                                                    : "bg-blue-500 hover:bg-blue-600"}`} 
+                                                    ? "bg-green-500 hover:bg-green-600"
+                                                    : "bg-blue-500 hover:bg-blue-600"}`}
                                         >
                                             {current_component.alternative ? "Seleccionada como correcta" : "Seleccionar como correcta"}
                                         </button>
+                                    )}
+
+                                    {current_component.name === "table" && (
+                                        <>
+                                            <textarea
+                                                onChange={(e) =>
+                                                    setCurrentComponent({
+                                                        ...current_component,
+                                                        description: e.target.value,
+                                                    })
+                                                }
+                                                onInput={(e) => {
+                                                    e.target.style.height = "auto";
+                                                    e.target.style.height = `${e.target.scrollHeight}px`;
+                                                }}
+                                                className="border border-gray-700 bg-transparent outline-none p-2 rounded-md resize-none overflow-hidden w-full"
+                                                value={current_component.description}
+                                                placeholder="Escribe aquí..."
+                                            ></textarea>
+
+                                            <button
+                                                onClick={() => handleSetAttributes('description', current_component.description)}
+                                                className="px-6 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-md shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
+                                            >
+                                                Modificar descripción
+                                            </button>
+                                        </>
                                     )}
 
 

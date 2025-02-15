@@ -19,6 +19,7 @@ const Header = ({ slides, design_id, attributes }) => {
   const handleCreateVideoClass =  async () => {
     setLoader2(true);
     const xml = await createXml(design_id);
+    console.log(xml);
     sendXml(xml, title, setLoader2);
   };
 
