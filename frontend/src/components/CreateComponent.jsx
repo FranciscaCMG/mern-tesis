@@ -175,7 +175,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
         >
             <Element id={randValue} info={info} exId="" />
 
-            <h2 className={`w-full h-full ${info.titleSize}`}>{info.title}</h2>
+            <h2 style={{whiteSpace: 'pre-line'}} className={`w-full h-full ${info.titleSize}`}>{info.title}</h2>
 
             {
                 current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>
@@ -260,7 +260,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
         >
             <Element id={randValue} info={info} exId="" />
 
-            <h2 style={{ fontSize: info.font + 'px', fontWeight: info.weight }} className='w-full h-full font-bebas'>{info.title}</h2>
+            <h2 style={{ fontSize: info.font + 'px', fontWeight: info.weight}} className='w-full h-full font-bebas'>{info.title}</h2>
 
             {
                 current_component.id === info.id && <div onClick={() => removeComponent(info.id)} className='px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md'>

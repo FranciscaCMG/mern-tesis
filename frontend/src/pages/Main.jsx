@@ -496,7 +496,7 @@ const Main = () => {
             opacity: 1,
             z_index: 10,
             padding: 6,
-            font: 22,
+            font: 18,
             title: "<Agregar código>",
             weight: 400,
             color: '#d1d1d1',
