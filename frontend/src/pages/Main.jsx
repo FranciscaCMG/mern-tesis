@@ -94,6 +94,12 @@ const Main = () => {
             return;
         }
 
+        if (current_component.name === "main_frame") {
+            toast.error("Es necesario seleccionar un elemento para reemplazar");
+            setCurrentComponent('');
+            return;
+        }
+
         const slideIndex = slides.findIndex(slide => slide.id === currentSlideId);
         const componentIndex = slides[slideIndex].components.findIndex(
             comp => comp.id === current_component.id
