@@ -156,7 +156,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
         >
             <Element id={randValue} info={info} exId="" />
 
-            <h2 style={{whiteSpace: 'pre-line'}} className={`w-full h-full ${info.titleSize}`}>{info.title}</h2>
+            <h2 style={{whiteSpace: 'pre-line', textAlign: info.textAlign }} className={`w-full h-full ${info.titleSize}`}>{info.title}</h2>
         </div>
     }
 

@@ -38,7 +38,8 @@ const Main = () => {
         text: '',
         audio_text: '',
         alternative: '',
-        description: ''
+        description: '',
+        textAlign: ''
     })
 
     const handleSetAttributes = (key, value) => {
@@ -342,6 +343,7 @@ const Main = () => {
             color: '#3c3c3d',
             audio_text: '',
             type_slide: typeSlide,
+            textAlign: "center",
             ...(isText ? {} : { background, alternative }),
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
@@ -495,7 +497,7 @@ const Main = () => {
             const getStyle = window.getComputedStyle(currentDiv)
             const left = parseInt(getStyle.left)
             const top = parseInt(getStyle.top)
-            
+
             if (isMoving) {
                 currentDiv.style.left = `${left + movementX}px`
                 currentDiv.style.top = `${top + movementY}px`
@@ -645,6 +647,7 @@ const Main = () => {
             weight: 400,
             color: '#3c3c3d',
             audio_text: '',
+            textAlign: "center",
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         }
@@ -679,6 +682,7 @@ const Main = () => {
             description: "Descripción de la tabla",
             tableData: tableData,
             audio_text: '',
+            textAlign: "center",
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         };
@@ -706,6 +710,7 @@ const Main = () => {
             weight: 400,
             color: '#d1d1d1',
             audio_text: '',
+            textAlign: "center",
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         }
@@ -738,6 +743,7 @@ const Main = () => {
             isOrdered: isOrdered,
             listItems: ['Nuevo ítem'],
             audio_text: '',
+            textAlign: "center",
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         };
@@ -764,6 +770,7 @@ const Main = () => {
             ratius: 0,
             image: img,
             audio_text: '',
+            textAlign: "center",
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         }
@@ -811,6 +818,7 @@ const Main = () => {
 
             slides[currentSlideId].components[index].color = attributes.color || current_component.color
             slides[currentSlideId].components[index].audio_text = attributes.audio_text || current_component.audio_text
+            slides[currentSlideId].components[index].textAlign = attributes.textAlign || current_component.textAlign
 
             toast.success("Atributo actualizado correctamente");
 
@@ -821,10 +829,11 @@ const Main = () => {
             handleSetAttributes('audio_text', '')
             handleSetAttributes('alternative', '')
             handleSetAttributes('description', '')
+            handleSetAttributes('textAlign', '')
         }
 
 
-    }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text, attributes.audio_text, updateList, attributes.alternative, attributes.description])
+    }, [attributes.color, attributes.image, attributes.left, attributes.top, attributes.text, attributes.audio_text, updateList, attributes.alternative, attributes.description, attributes.textAlign])
 
     useEffect(() => {
         const get_design = async () => {
