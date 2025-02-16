@@ -66,26 +66,214 @@ const Main = () => {
         addSlide(numberTemplate);
     };
 
-    const [slides, setSlides] = useState([
-        {
-            id: 0,
-            components: [
-                {
-                    name: "main_frame",
-                    type: "rect",
-                    id: 0,
-                    height: 480,
-                    width: 826,
-                    z_index: 1,
-                    color: '#fff',
-                    image: "",
-                    setCurrentComponent: (a) => setCurrentComponent(a),
-                    type_slide: 1
-                }
-            ]
+    const [slides, setSlides] = useState([])
 
+    const upDownLimit = (index, type) => {
+        const baseTop = (480 * index) + (16 * index) + 100;
+        
+        let top, down;
+    
+        switch (type) {
+            case 1:
+                top = baseTop;
+                down = top + 380;
+                break;
+            case 2:
+                top = baseTop;
+                down = top + 140;
+                break;
+            case 3:
+                top = baseTop + 140;
+                down = top + 140;
+                break;
+            case 4:
+                down = baseTop;
+                top = down - 100;
+                break;
+            default:
+                top = baseTop -100;
+                down = top + 480;
         }
-    ])  
+    
+        return [top, down];
+    };
+    
+    
+ 
+    const leftRightLimit = (type) => {
+        let left, rigth;
+        switch (type) {
+            case 1:
+                left = 1;
+                rigth = 826;
+                break;
+            case 2:
+                left = 1;
+                rigth = 413;
+                break;
+            case 3:
+                left = 413;
+                rigth = 826;
+                break;
+            default:
+                left = 1;
+                rigth = 826;
+        }
+    
+        return [left, rigth]; 
+    };
+
+
+    const limitComponents = (tipoSlide, position, index) => {
+        let top, down;
+
+        if (tipoSlide === 2) {
+            top = upDownLimit(index, 5);
+            down = leftRightLimit(1);
+
+            return [top, down];
+        }
+        if (position === 1) {
+            top = upDownLimit(index, 4);
+            down = leftRightLimit(1);
+            return [top, down];
+        }
+        switch (tipoSlide) {
+            case 1:
+                top = upDownLimit(index, 1);
+                down = leftRightLimit(1);
+                return [top, down];
+
+            case 3:
+                switch (position) {
+                    case 2:
+                        top = upDownLimit(index, 2);
+                        down = leftRightLimit(2);
+                        return [top, down];
+                    case 3:
+                        top = upDownLimit(index, 3);
+                        down = leftRightLimit(2);
+                        return [top, down];
+                    case 4:
+                        top = upDownLimit(index, 2);
+                        down = leftRightLimit(3);
+                        return [top, down];
+                    case 5:
+                        top = upDownLimit(index, 3);
+                        down = leftRightLimit(3);
+                        return [top, down];
+                    default:
+                        return 0;
+                }
+            case 4:
+                switch (position) {
+                    case 2:
+                        top = upDownLimit(index, 1);
+                        down = leftRightLimit(2);
+                        return [top, down];
+                    case 3:
+                        top = upDownLimit(index, 2);
+                        down = leftRightLimit(3);
+                        return [top, down];
+                    case 4:
+                        top = upDownLimit(index, 3);
+                        down = leftRightLimit(3);
+                        return [top, down];
+                    default:
+                        return 0;
+                }
+            case 5:
+                switch (position) {
+                    case 2:
+                        top = upDownLimit(index, 2);
+                        down = leftRightLimit(2);
+                        return [top, down];
+                    case 3:
+                        top = upDownLimit(index, 3);
+                        down = leftRightLimit(2);
+                        return [top, down];
+                    case 4:
+                        top = upDownLimit(index, 1);
+                        down = leftRightLimit(3);
+                        return [top, down];
+                    default:
+                        return 0;
+                }
+
+            case 6:
+                switch (position) {
+                    case 2:
+                        top = upDownLimit(index, 3);
+                        down = leftRightLimit(2);
+                        return [top, down];
+                    case 3:
+                        top = upDownLimit(index, 2);
+                        down = leftRightLimit(1);
+                        return [top, down];
+                    case 4:
+                        top = upDownLimit(index, 3);
+                        down = leftRightLimit(3);
+                        return [top, down];
+                    default:
+                        return 0;
+                }
+
+            case 7:
+                switch (position) {
+                    case 2:
+                        top = upDownLimit(index, 2);
+                        down = leftRightLimit(2);
+                        return [top, down];
+                    case 3:
+                        top = upDownLimit(index, 3);
+                        down = leftRightLimit(1);
+                        return [top, down];
+                    case 4:
+                        top = upDownLimit(index, 2);
+                        down = leftRightLimit(3);
+                        return [top, down];
+                    default:
+                        return 0;
+                }
+
+            case 8:
+                switch (position) {
+                    case 2:
+                        top = upDownLimit(index, 1);
+                        down = leftRightLimit(2);
+                        return [top, down];
+                    case 3:
+                        top = upDownLimit(index, 1);
+                        down = leftRightLimit(3);
+                        return [top, down];
+                    default:
+                        return 0;
+                }
+
+            case 9:
+                switch (position) {
+                    case 2:
+                        top = upDownLimit(index, 2);
+                        down = leftRightLimit(1);
+                        return 1;
+                    case 3:
+                        top = upDownLimit(index, 3);
+                        down = leftRightLimit(1);
+                        return 1;
+                    default:
+                        return 0;
+                }
+
+            case 10:
+                top = upDownLimit(index, 1);
+                down = leftRightLimit(1);
+                return [top, down];
+
+
+            default:
+                return 0;
+        }
+    };
 
     const replaceComponentInSlide = (component) => {
         if (!current_component || current_component.type === "titulo") {
@@ -133,11 +321,11 @@ const Main = () => {
         5: (index) => (480 * index) + (16 * index) + 38
     };
 
-    const createComponent = (position = {}, text, background, alternative, title = "Subtitulo", fontSize = "text-2xl", leftPosition = 1, topPosition = 1, flagFirstSlide, numberPosition) => {
+    const createComponent = (position = {}, text, background, alternative, title = "Subtitulo", fontSize = "text-2xl", leftPosition = 1, topPosition = 1, flagFirstSlide, numberPosition, typeSlide) => {
         const isText = text === "text" || text === "titulo";
         return {
             id: Date.now() + Math.floor(Math.random() * 1000),
-            slide_id: currentSlideId,
+            slide_id: slides.length,
             name: text,
             type: text,
             numberPosition: numberPosition,
@@ -153,6 +341,7 @@ const Main = () => {
             weight: 400,
             color: '#3c3c3d',
             audio_text: '',
+            type_slide: typeSlide,
             ...(isText ? {} : { background, alternative }),
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
@@ -206,61 +395,61 @@ const Main = () => {
 
         switch (numberTemplate) {
             case 1:
-                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar ", "text-6xl", 2, 2, flagFirstSlide, 2));
+                components.push(createComponent({}, 'titulo', null, null, "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar ", "text-lg", 2, 2, flagFirstSlide, 2, numberTemplate));
                 break;
             case 2:
-                components.push(createComponent({},'titulo',null, null , "Titulo", "text-6xl", 2, 2, flagFirstSlide, 1));
+                components.push(createComponent({}, 'titulo', null, null, "Titulo", "text-6xl", 2, 2, flagFirstSlide, 1, numberTemplate));
                 break;
             case 3:
-                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 1, 1, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 1, 3, flagFirstSlide, 3));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-lg", 3, 1, flagFirstSlide, 4));
-                components.push(createComponent({},'text',null, null , "Agregar 4", "text-lg", 3, 3, flagFirstSlide, 5));
+                components.push(createComponent({}, 'titulo', null, null, "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 1", "text-lg", 1, 1, flagFirstSlide, 2, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 2", "text-lg", 1, 3, flagFirstSlide, 3, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 3", "text-lg", 3, 1, flagFirstSlide, 4, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 4", "text-lg", 3, 3, flagFirstSlide, 5, numberTemplate));
                 break;
             case 4:
-                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 1, 2, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 3, 1, flagFirstSlide, 3));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-lg", 3, 3, flagFirstSlide, 4));
+                components.push(createComponent({}, 'titulo', null, null, "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 1", "text-lg", 1, 2, flagFirstSlide, 2, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 2", "text-lg", 3, 1, flagFirstSlide, 3, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 3", "text-lg", 3, 3, flagFirstSlide, 4, numberTemplate));
                 break;
             case 5:
-                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 1, 1, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 1, 3, flagFirstSlide, 3));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-lg", 3, 2, flagFirstSlide, 4));
+                components.push(createComponent({}, 'titulo', null, null, "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 1", "text-lg", 1, 1, flagFirstSlide, 2, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 2", "text-lg", 1, 3, flagFirstSlide, 3, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 3", "text-lg", 3, 2, flagFirstSlide, 4, numberTemplate));
                 break;
             case 6:
-                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 1, 3, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 2, 1, flagFirstSlide, 3));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-lg", 3, 3, flagFirstSlide, 4));
+                components.push(createComponent({}, 'titulo', null, null, "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 1", "text-lg", 1, 3, flagFirstSlide, 2, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 2", "text-lg", 2, 1, flagFirstSlide, 3, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 3", "text-lg", 3, 3, flagFirstSlide, 4, numberTemplate));
                 break;
             case 7:
-                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 1, 1, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 2, 3, flagFirstSlide, 3));
-                components.push(createComponent({},'text',null, null , "Agregar 3", "text-lg", 3, 1, flagFirstSlide, 4));
+                components.push(createComponent({}, 'titulo', null, null, "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 1", "text-lg", 1, 1, flagFirstSlide, 2, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 2", "text-lg", 2, 3, flagFirstSlide, 3, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 3", "text-lg", 3, 1, flagFirstSlide, 4, numberTemplate));
                 break;
             case 8:
-                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 1, 2, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 3, 2, flagFirstSlide, 3));
+                components.push(createComponent({}, 'titulo', null, null, "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 1", "text-lg", 1, 2, flagFirstSlide, 2, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 2", "text-lg", 3, 2, flagFirstSlide, 3, numberTemplate));
 
                 break;
             case 9:
-                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'text',null, null , "Agregar 1", "text-lg", 2, 1, flagFirstSlide, 2));
-                components.push(createComponent({},'text',null, null , "Agregar 2", "text-lg", 2, 3, flagFirstSlide, 3));
+                components.push(createComponent({}, 'titulo', null, null, "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 1", "text-lg", 2, 1, flagFirstSlide, 2, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 2", "text-lg", 2, 3, flagFirstSlide, 3, numberTemplate));
                 break;
 
             case 10:
-                components.push(createComponent({},'titulo', null, null , "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
-                components.push(createComponent({},'alternative','#d9d9d9',false  , "Agregar Alternativa 1", "text-4xl", 2, 1, flagFirstSlide, 2));
-                components.push(createComponent({},'alternative', '#d9d9d9', false , "Agregar Alternativa 2", "text-4xl", 2, 2, flagFirstSlide, 3));
-                components.push(createComponent({},'alternative','#d9d9d9',false  , "Agregar Alternativa 3", "text-4xl", 2, 3, flagFirstSlide, 4));
-                components.push(createComponent({},'alternative','#d9d9d9',false  , "Agregar Alternativa 4", "text-4xl", 2, 4, flagFirstSlide, 5));
+                components.push(createComponent({}, 'titulo', null, null, "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1));
+                components.push(createComponent({}, 'alternative', '#d9d9d9', false, "Agregar Alternativa 1", "text-4xl", 2, 1, flagFirstSlide, 2, numberTemplate));
+                components.push(createComponent({}, 'alternative', '#d9d9d9', false, "Agregar Alternativa 2", "text-4xl", 2, 2, flagFirstSlide, 3, numberTemplate));
+                components.push(createComponent({}, 'alternative', '#d9d9d9', false, "Agregar Alternativa 3", "text-4xl", 2, 3, flagFirstSlide, 4, numberTemplate));
+                components.push(createComponent({}, 'alternative', '#d9d9d9', false, "Agregar Alternativa 4", "text-4xl", 2, 4, flagFirstSlide, 5, numberTemplate));
                 break;
             default:
                 return;
@@ -294,6 +483,8 @@ const Main = () => {
 
     const moveElement = (id, currentInfo) => {
         setCurrentComponent(currentInfo)
+    
+        const limits = limitComponents(currentInfo.type_slide, currentInfo.numberPosition, currentInfo.slide_id);
 
         let isMoving = true
 
@@ -304,9 +495,28 @@ const Main = () => {
             const getStyle = window.getComputedStyle(currentDiv)
             const left = parseInt(getStyle.left)
             const top = parseInt(getStyle.top)
+            
             if (isMoving) {
                 currentDiv.style.left = `${left + movementX}px`
                 currentDiv.style.top = `${top + movementY}px`
+    
+                const elementWidth = currentDiv.offsetWidth;
+                const elementHeight = currentDiv.offsetHeight;
+    
+                let newLeft = parseInt(currentDiv.style.left);
+                let newTop = parseInt(currentDiv.style.top);
+    
+                if (newLeft < limits[1][0]) {
+                    currentDiv.style.left = `${limits[1][0]}px`;
+                } else if (newLeft > limits[1][1] - elementWidth) {
+                    currentDiv.style.left = `${limits[1][1] - elementWidth}px`;
+                }
+    
+                if (newTop < limits[0][0]) {
+                    currentDiv.style.top = `${limits[0][0]}px`;
+                } else if (newTop > limits[0][1] - elementHeight) {
+                    currentDiv.style.top = `${limits[0][1] - elementHeight}px`;
+                }
             }
         }
 
@@ -386,7 +596,7 @@ const Main = () => {
             ...originalSlide,
             components: originalSlide.components.map((component, index) => ({
                 ...component,
-                id: generateUniqueID() 
+                id: generateUniqueID()
             }))
         };
 
@@ -507,7 +717,7 @@ const Main = () => {
     }
 
     const add_list = (name, type, isOrdered = false) => {
-        setCurrentComponent(''); 
+        setCurrentComponent('');
         const id = Date.now();
 
         const style = {
@@ -567,7 +777,7 @@ const Main = () => {
     useEffect(() => {
         if (current_component) {
             const index = slides[currentSlideId].components.findIndex(c => c.id === current_component.id)
-            const temp = slides[currentSlideId].components.filter(c => c.id !== current_component.id)
+            if (index === -1) return;
 
             if (current_component.name === 'text') {
                 slides[currentSlideId].components[index].title = attributes.text || current_component.title
@@ -603,7 +813,7 @@ const Main = () => {
             slides[currentSlideId].components[index].audio_text = attributes.audio_text || current_component.audio_text
 
             toast.success("Atributo actualizado correctamente");
-            
+
             handleSetAttributes('color', '')
             handleSetAttributes('top', '')
             handleSetAttributes('left', '')
@@ -611,7 +821,6 @@ const Main = () => {
             handleSetAttributes('audio_text', '')
             handleSetAttributes('alternative', '')
             handleSetAttributes('description', '')
-            setCurrentComponent('')
         }
 
 
@@ -811,7 +1020,7 @@ const Main = () => {
                                     <div className="flex flex-col items-start gap-4">
                                         <div className="grid grid-cols-6 grid-rows-5 gap-1 w-[180px] h-[150px] border border-gray-300 rounded-md p-2 relative">
                                             {Array.from({ length: 30 }).map((_, index) => {
-                                                const row = Math.floor(index / 6) + 1; 
+                                                const row = Math.floor(index / 6) + 1;
                                                 const col = (index % 6) + 1;
 
                                                 return (

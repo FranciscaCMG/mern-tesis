@@ -1,5 +1,4 @@
-import React, { useEffect, useRef } from 'react'
-import { BsTrash } from 'react-icons/bs'
+import React, { useRef } from 'react'
 import Element from './Element'
 import Table from './Table'
 import List from './List'
@@ -153,7 +152,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             color: info.color,
             opacity: info.opacity,
         }}
-            className='absolute group hover:border-[2px] hover:border-indigo-500'
+            className={ current_component.id === info.id ? 'absolute group border-[2px] border-indigo-500' : 'absolute group hover:border-[2px] hover:border-indigo-500'}
         >
             <Element id={randValue} info={info} exId="" />
 
