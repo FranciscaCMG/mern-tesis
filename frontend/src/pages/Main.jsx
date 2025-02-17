@@ -81,11 +81,11 @@ const Main = () => {
                 break;
             case 2:
                 top = baseTop;
-                down = top + 140;
+                down = top + 190;
                 break;
             case 3:
-                top = baseTop + 140;
-                down = top + 140;
+                top = baseTop + 190;
+                down = top + 190;
                 break;
             case 4:
                 down = baseTop;
@@ -256,11 +256,11 @@ const Main = () => {
                     case 2:
                         top = upDownLimit(index, 2);
                         down = leftRightLimit(1);
-                        return 1;
+                        return [top, down];
                     case 3:
                         top = upDownLimit(index, 3);
                         down = leftRightLimit(1);
-                        return 1;
+                        return [top, down];
                     default:
                         return 0;
                 }

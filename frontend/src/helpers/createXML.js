@@ -138,7 +138,17 @@ function obtenerTitulo(components) {
 }
 
 function determinarJustificacion(components) {
-    return "centro";
+    const textAlign= components.textAlign;
+    if (textAlign=== "left"){
+        return "izquierda";
+    }
+    if (textAlign=== "right"){
+        return "derecha";
+    }
+    else{
+        return "centro";
+    }
+    
 }
 
 function generarContenido(component) {

@@ -55,37 +55,40 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
                                 className='flex flex-col gap-4 p-4'>
 
                                 <div className="flex gap-2 flex-col justify-start items-start">
+                                    {
+                                        current_component.type !== 'titulo' &&
 
-                                    <div className="flex flex-col items-start">
-                                        <h3 className="mb-2 font-semibold">Alinear el contenido</h3>
+                                        <div className="flex flex-col items-start">
+                                            <h3 className="mb-2 font-semibold">Alinear el contenido</h3>
 
-                                        <div className="flex space-x-3">
+                                            <div className="flex space-x-3">
 
 
 
-                                            <button
-                                                onClick={() => handleSetAttributes('textAlign', 'left')}
-                                                className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-md hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
-                                            >
-                                                <FaAlignLeft className="text-xl" />
-                                            </button>
+                                                <button
+                                                    onClick={() => handleSetAttributes('textAlign', 'left')}
+                                                    className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-md hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
+                                                >
+                                                    <FaAlignLeft className="text-xl" />
+                                                </button>
 
-                                            <button
-                                                onClick={() => handleSetAttributes('textAlign', 'center')}
-                                                className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-md hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
-                                            >
-                                                <FaAlignCenter className="text-xl" />
-                                            </button>
+                                                <button
+                                                    onClick={() => handleSetAttributes('textAlign', 'center')}
+                                                    className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-md hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
+                                                >
+                                                    <FaAlignCenter className="text-xl" />
+                                                </button>
 
-                                            <button
-                                                onClick={() => handleSetAttributes('textAlign', 'right')}
-                                                className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-md hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
-                                            >
-                                                <FaAlignRight className="text-xl" />
-                                            </button>
+                                                <button
+                                                    onClick={() => handleSetAttributes('textAlign', 'right')}
+                                                    className="flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold rounded-lg shadow-md hover:from-purple-600 hover:to-pink-600 transition-all duration-300"
+                                                >
+                                                    <FaAlignRight className="text-xl" />
+                                                </button>
 
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
                                     <div>
                                         <h3 className="text-m font-semibold text-gray-800 mb-1">Texto</h3>
                                         <textarea
@@ -97,7 +100,7 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
                                             }
                                             onInput={(e) => {
                                                 e.target.style.height = "auto";
-                                                const newHeight = Math.min(e.target.scrollHeight, 100); 
+                                                const newHeight = Math.min(e.target.scrollHeight, 100);
                                                 e.target.style.height = `${newHeight}px`;
                                             }}
                                             className="border border-gray-300 bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-400 outline-none p-3 rounded-lg w-full resize-none transition-all duration-300 min-h-[50px] max-h-[300px] overflow-auto"
@@ -125,7 +128,7 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
                                             }
                                             onInput={(e) => {
                                                 e.target.style.height = "auto";
-                                                const newHeight = Math.min(e.target.scrollHeight, 100); 
+                                                const newHeight = Math.min(e.target.scrollHeight, 100);
                                                 e.target.style.height = `${newHeight}px`;
                                             }}
                                             className="border border-gray-300 bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none p-3 rounded-lg w-full resize-none transition-all duration-300"
@@ -167,7 +170,7 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
 
                                     {current_component.name === "table" && (
                                         <>
-                                        <h3 className="text-m font-semibold text-gray-800 mb-1">Descripción Tabla</h3>
+                                            <h3 className="text-m font-semibold text-gray-800 mb-1">Descripción Tabla</h3>
                                             <textarea
                                                 onChange={(e) =>
                                                     setCurrentComponent({
@@ -177,7 +180,7 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
                                                 }
                                                 onInput={(e) => {
                                                     e.target.style.height = "auto";
-                                                    const newHeight = Math.min(e.target.scrollHeight, 100); 
+                                                    const newHeight = Math.min(e.target.scrollHeight, 100);
                                                     e.target.style.height = `${newHeight}px`;
                                                 }}
                                                 className="border border-gray-300 bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none p-3 rounded-lg w-full resize-none transition-all duration-300"
