@@ -15,6 +15,7 @@ import ViewSlide from '../components/slide/ViewSlide'
 import ActivePause from '../components/ActivePause'
 import TemplateSlide from '../components/slide/TemplateSlide'
 
+
 import api from '../utils/api'
 
 const Main = () => {
@@ -68,212 +69,62 @@ const Main = () => {
     };
 
     const [slides, setSlides] = useState([])
-
     const upDownLimit = (index, type) => {
         const baseTop = (480 * index) + (16 * index) + 100;
-        
-        let top, down;
-    
-        switch (type) {
-            case 1:
-                top = baseTop;
-                down = top + 380;
-                break;
-            case 2:
-                top = baseTop;
-                down = top + 190;
-                break;
-            case 3:
-                top = baseTop + 190;
-                down = top + 190;
-                break;
-            case 4:
-                down = baseTop;
-                top = down - 100;
-                break;
-            default:
-                top = baseTop -100;
-                down = top + 480;
-        }
-    
-        return [top, down];
-    };
-    
-    
- 
-    const leftRightLimit = (type) => {
-        let left, rigth;
-        switch (type) {
-            case 1:
-                left = 1;
-                rigth = 826;
-                break;
-            case 2:
-                left = 1;
-                rigth = 413;
-                break;
-            case 3:
-                left = 413;
-                rigth = 826;
-                break;
-            default:
-                left = 1;
-                rigth = 826;
-        }
-    
-        return [left, rigth]; 
+
+        const limits = {
+            1: [baseTop, baseTop + 380],
+            2: [baseTop, baseTop + 190],
+            3: [baseTop + 190, baseTop + 190 + 190],
+            4: [baseTop - 100, baseTop],
+            5: [baseTop - 100,baseTop],
+            default: [baseTop - 100, baseTop - 100 + 480]
+        };
+
+        return limits[type] || limits.default;
     };
 
+    const leftRightLimit = (type) => {
+        const limits = {
+            1: [1, 826],
+            2: [1, 413],
+            3: [413, 826]
+        };
+        return limits[type] || limits[1];
+    };
 
     const limitComponents = (tipoSlide, position, index) => {
-        let top, down;
-
-        if (tipoSlide === 2) {
-            top = upDownLimit(index, 5);
-            down = leftRightLimit(1);
-
-            return [top, down];
+        if (tipoSlide !== 2 && position === 1) {
+            return [upDownLimit(index, 5), leftRightLimit(1)];
         }
-        if (position === 1) {
-            top = upDownLimit(index, 4);
-            down = leftRightLimit(1);
-            return [top, down];
+        if (tipoSlide === 2 || position === 1) {
+            return [upDownLimit(index, 6), leftRightLimit(1)];
         }
-        switch (tipoSlide) {
-            case 1:
-                top = upDownLimit(index, 1);
-                down = leftRightLimit(1);
-                return [top, down];
 
-            case 3:
-                switch (position) {
-                    case 2:
-                        top = upDownLimit(index, 2);
-                        down = leftRightLimit(2);
-                        return [top, down];
-                    case 3:
-                        top = upDownLimit(index, 3);
-                        down = leftRightLimit(2);
-                        return [top, down];
-                    case 4:
-                        top = upDownLimit(index, 2);
-                        down = leftRightLimit(3);
-                        return [top, down];
-                    case 5:
-                        top = upDownLimit(index, 3);
-                        down = leftRightLimit(3);
-                        return [top, down];
-                    default:
-                        return 0;
-                }
-            case 4:
-                switch (position) {
-                    case 2:
-                        top = upDownLimit(index, 1);
-                        down = leftRightLimit(2);
-                        return [top, down];
-                    case 3:
-                        top = upDownLimit(index, 2);
-                        down = leftRightLimit(3);
-                        return [top, down];
-                    case 4:
-                        top = upDownLimit(index, 3);
-                        down = leftRightLimit(3);
-                        return [top, down];
-                    default:
-                        return 0;
-                }
-            case 5:
-                switch (position) {
-                    case 2:
-                        top = upDownLimit(index, 2);
-                        down = leftRightLimit(2);
-                        return [top, down];
-                    case 3:
-                        top = upDownLimit(index, 3);
-                        down = leftRightLimit(2);
-                        return [top, down];
-                    case 4:
-                        top = upDownLimit(index, 1);
-                        down = leftRightLimit(3);
-                        return [top, down];
-                    default:
-                        return 0;
-                }
+        const slideLimits = {
+            1: [1, 1],
+            3: { 2: [2, 2], 3: [3, 2], 4: [2, 3], 5: [3, 3] },
+            4: { 2: [1, 2], 3: [2, 3], 4: [3, 3] },
+            5: { 2: [2, 2], 3: [3, 2], 4: [1, 3] },
+            6: { 2: [3, 2], 3: [2, 1], 4: [3, 3] },
+            7: { 2: [2, 2], 3: [3, 1], 4: [2, 3] },
+            8: { 2: [1, 2], 3: [1, 3] },
+            9: { 2: [2, 1], 3: [3, 1] },
+            10: [1, 1]
+        };
 
-            case 6:
-                switch (position) {
-                    case 2:
-                        top = upDownLimit(index, 3);
-                        down = leftRightLimit(2);
-                        return [top, down];
-                    case 3:
-                        top = upDownLimit(index, 2);
-                        down = leftRightLimit(1);
-                        return [top, down];
-                    case 4:
-                        top = upDownLimit(index, 3);
-                        down = leftRightLimit(3);
-                        return [top, down];
-                    default:
-                        return 0;
-                }
+        const selectedLimits = slideLimits[tipoSlide];
 
-            case 7:
-                switch (position) {
-                    case 2:
-                        top = upDownLimit(index, 2);
-                        down = leftRightLimit(2);
-                        return [top, down];
-                    case 3:
-                        top = upDownLimit(index, 3);
-                        down = leftRightLimit(1);
-                        return [top, down];
-                    case 4:
-                        top = upDownLimit(index, 2);
-                        down = leftRightLimit(3);
-                        return [top, down];
-                    default:
-                        return 0;
-                }
-
-            case 8:
-                switch (position) {
-                    case 2:
-                        top = upDownLimit(index, 1);
-                        down = leftRightLimit(2);
-                        return [top, down];
-                    case 3:
-                        top = upDownLimit(index, 1);
-                        down = leftRightLimit(3);
-                        return [top, down];
-                    default:
-                        return 0;
-                }
-
-            case 9:
-                switch (position) {
-                    case 2:
-                        top = upDownLimit(index, 2);
-                        down = leftRightLimit(1);
-                        return [top, down];
-                    case 3:
-                        top = upDownLimit(index, 3);
-                        down = leftRightLimit(1);
-                        return [top, down];
-                    default:
-                        return 0;
-                }
-
-            case 10:
-                top = upDownLimit(index, 1);
-                down = leftRightLimit(1);
-                return [top, down];
-
-
-            default:
-                return 0;
+        if (Array.isArray(selectedLimits)) {
+            return [upDownLimit(index, selectedLimits[0]), leftRightLimit(selectedLimits[1])];
         }
+
+        const positionLimits = selectedLimits?.[position];
+        if (positionLimits) {
+            return [upDownLimit(index, positionLimits[0]), leftRightLimit(positionLimits[1])];
+        }
+
+        return 0;
     };
 
     const replaceComponentInSlide = (component) => {
@@ -485,7 +336,6 @@ const Main = () => {
 
     const moveElement = (id, currentInfo) => {
         setCurrentComponent(currentInfo)
-    
         const limits = limitComponents(currentInfo.type_slide, currentInfo.numberPosition, currentInfo.slide_id);
 
         let isMoving = true
@@ -501,19 +351,19 @@ const Main = () => {
             if (isMoving) {
                 currentDiv.style.left = `${left + movementX}px`
                 currentDiv.style.top = `${top + movementY}px`
-    
+
                 const elementWidth = currentDiv.offsetWidth;
                 const elementHeight = currentDiv.offsetHeight;
-    
+
                 let newLeft = parseInt(currentDiv.style.left);
                 let newTop = parseInt(currentDiv.style.top);
-    
+
                 if (newLeft < limits[1][0]) {
                     currentDiv.style.left = `${limits[1][0]}px`;
                 } else if (newLeft > limits[1][1] - elementWidth) {
                     currentDiv.style.left = `${limits[1][1] - elementWidth}px`;
                 }
-    
+
                 if (newTop < limits[0][0]) {
                     currentDiv.style.top = `${limits[0][0]}px`;
                 } else if (newTop > limits[0][1] - elementHeight) {
@@ -683,6 +533,8 @@ const Main = () => {
             tableData: tableData,
             audio_text: '',
             textAlign: "center",
+            type_slide: current_component.type_slide,
+            numberPosition: current_component.numberPosition,
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         };
@@ -711,6 +563,8 @@ const Main = () => {
             color: '#d1d1d1',
             audio_text: '',
             textAlign: "center",
+            type_slide: current_component.type_slide,
+            numberPosition: current_component.numberPosition,
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         }
@@ -744,6 +598,8 @@ const Main = () => {
             listItems: ['Nuevo ítem'],
             audio_text: '',
             textAlign: "center",
+            type_slide: current_component.type_slide,
+            numberPosition: current_component.numberPosition,
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         };
@@ -771,6 +627,8 @@ const Main = () => {
             image: img,
             audio_text: '',
             textAlign: "center",
+            type_slide: current_component.type_slide,
+            numberPosition: current_component.numberPosition,
             setCurrentComponent: (a) => setCurrentComponent(a),
             moveElement
         }
@@ -868,105 +726,92 @@ const Main = () => {
             <div className="flex w-[100vw] h-[100vh] pt-[10px] overflow-hidden">
                 {/* Barra lateral */}
                 <div className="fixed top-[65px] left-0 w-[80px] h-[calc(100%-60px)] bg-white shadow-md z-50 overflow-y-auto">
-                    <div
-                        onClick={() => setElements("text", "text")}
-                        className={`${show.name === "text" ? "bg-[#e8e8e8]" : ""
-                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
-                    >
-                        <span className="text-2xl text-blue-500">
-                            <TfiText />
-                        </span>
-                        <span className="text-xs font-medium">Texto</span>
-                    </div>
+                    <div className='flex flex-col gap-4 px-2 items-center'>
+                        <h2 className="text-lg font-semibold text-gray-700 mb-4">Menú</h2>
+                        <div
+                            onClick={() => setElements("text", "text")}
+                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "text" ? `bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md`
+                                : "hover:bg-gray-100"
+                                } `}
+                        >
+                            <span className="text-xs font-medium">
+                                Texto
+                            </span>
+                            <span className="text-2xl text-white p-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600"><TfiText /></span>
+                        </div>
 
-                    <div
-                        onClick={() => setElements("code", "code")}
-                        className={`${show.name === "code" ? "bg-[#e8e8e8]" : ""
-                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
-                    >
-                        <span className="text-2xl text-purple-500">
-                            <FaCode />
-                        </span>
-                        <span className="text-xs font-medium">Código</span>
-                    </div>
+                        <div
+                            onClick={() => setElements("code", "code")}
+                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "code" ? `bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-md`
+                                : "hover:bg-gray-100"
+                                } `}
+                        >
+                            <span className="text-xs font-medium">
+                                Código
+                            </span>
+                            <span className="text-2xl text-white p-2 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600"><FaCode /></span>
+                        </div>
 
-                    <div
-                        onClick={() => setElements("list", "list")}
-                        className={`${show.name === "list" ? "bg-[#e8e8e8]" : ""
-                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
-                    >
-                        <span className="text-2xl text-green-500">
-                            <FaList />
-                        </span>
-                        <span className="text-xs font-medium">Lista</span>
-                    </div>
+                        <div
+                            onClick={() => setElements("list", "list")}
+                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "list" ?  `bg-gradient-to-r from-green-500 to-green-600 text-white shadow-md`
+                : "hover:bg-gray-100"
+                                }`}
+                        >
+                            <span className="text-xs font-medium">
+                                Lista
+                            </span>
+                            <span className="text-2xl text-white p-2 rounded-lg bg-gradient-to-r from-green-500 to-green-600"><FaList /></span>
+                        </div>
 
-                    <div
-                        onClick={() => setElements("table", "table")}
-                        className={`${show.name === "table" ? "bg-[#e8e8e8]" : ""
-                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
-                    >
-                        <span className="text-2xl text-orange-500">
-                            <FaTable />
-                        </span>
-                        <span className="text-xs font-medium">Tabla</span>
-                    </div>
+                        <div
+                            onClick={() => setElements("table", "table")}
+                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "table" ?  `bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md`
+                : "hover:bg-gray-100"
+                                }`}
+                        >
+                            <span className="text-xs font-medium">
+                                Tabla
+                            </span>
+                            <span className="text-2xl text-white p-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600"><FaTable /></span>
+                        </div>
 
-                    <div
-                        onClick={() => setElements("activepause", "activepause")}
-                        className={`${show.name === "activepause" ? "bg-[#e8e8e8]" : ""
-                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
-                    >
-                        <span className="text-2xl text-red-500">
-                            <FaQuestion />
-                        </span>
-                        <span className="text-xs font-medium">Pausa</span>
-                        <span className="text-xs font-medium">activa</span>
-                    </div>
+                        <div
+                            onClick={() => setElements("activepause", "activepause")}
+                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "activepause" ?  `bg-gradient-to-r from-red-500 to-red-600 text-white shadow-md`
+                : "hover:bg-gray-100"
+                                }`}
+                        >
+                            <span className="text-xs font-medium text-center">
+                                Pausa Activa
+                            </span>
+                            <span className="text-2xl text-white p-2 rounded-lg bg-gradient-to-r from-red-500 to-red-600 "><FaQuestion /></span>
+                        </div>
 
-                    <div
-                        onClick={() => setElements("image", "uploadImage")}
-                        className={`${show.name === "uploadImage" ? "bg-[#e8e8e8]" : ""
-                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
-                    >
-                        <span className="text-2xl text-blue-400">
-                            <FaCloudUploadAlt />
-                        </span>
-                        <span className="text-xs font-medium">Subir</span>
-                    </div>
+                        <div
+                            onClick={() => setElements("image", "uploadImage")}
+                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "uploadImage" ?  `bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow-md`
+                : "hover:bg-gray-100"
+                                }`}
+                        >
+                            <span className="text-xs font-medium">
+                                Imágenes
+                            </span>
+                            <span className="text-2xl text-white p-2 rounded-lg bg-gradient-to-r from-blue-400 to-blue-500"><BsFillImageFill /></span>
+                        </div>
 
-                    <div
-                        onClick={() => setElements("project", "project")}
-                        className={`${show.name === "project" ? "bg-[#e8e8e8]" : ""
-                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
-                    >
-                        <span className="text-2xl text-teal-500">
-                            <BsFolder />
-                        </span>
-                        <span className="text-xs font-medium">Proyecto</span>
-                    </div>
-
-                    <div
-                        onClick={() => setElements("initImage", "images")}
-                        className={`${show.name === "images" ? "bg-[#e8e8e8]" : ""
-                            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-800`}
-                    >
-                        <span className="text-2xl text-pink-500">
-                            <BsFillImageFill />
-                        </span>
-                        <span className="text-xs font-medium">Imágenes</span>
                     </div>
                 </div>
 
                 {/* Contenido principal */}
                 <div className="ml-[80px] w-[calc(100vw-80px)] h-[calc(100vh-70px)] overflow-hidden py-[0px]">
-                    <div
+                <div
                         className={`${show.status ? "p-0 -left-[350px]" : "px-8 left-[80px] py-1"
                             } bg-[#f0f0f0] h-full fixed transition-all w-[300px] z-30 duration-700 shadow-md`}
                     >
                         <div
                             onClick={() => setShow({ name: "", status: true })}
-                            className="flex absolute justify-center items-center bg-[#777676b6] w-[20px] -right-2 text-white top-[40%] cursor-pointer h-[100px] rounded-full"
+                            className="flex absolute justify-center items-center bg-[#777676b6] hover:bg-gray-800 w-[20px] -right-2 text-white top-[40%] cursor-pointer h-[100px] rounded-full"
                         >
                             <MdKeyboardArrowLeft />
                         </div>
@@ -979,7 +824,7 @@ const Main = () => {
                                         onClick={() =>
                                             add_text("text", title.label, title.size, title.font)
                                         }
-                                        className="bg-[#ffffff] border border-gray-300 cursor-pointer font-normal p-3 text-gray-700 text-xl rounded-sm hover:bg-gray-100"
+                                        className="bg-white border border-gray-300 cursor-pointer p-3 text-gray-700 text-lg rounded-lg shadow-sm hover:bg-gray-100 transition-all duration-300"
                                     >
                                         <h2 className={title.size}>{title.label}</h2>
                                     </div>
@@ -990,7 +835,7 @@ const Main = () => {
                         {
                             stateComponent === 'code' && <div>
                                 <div className='grid grid-cols-1 gap-2'>
-                                    <div onClick={() => add_code('code', 'code')} className='bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm'>
+                                    <div onClick={() => add_code('code', 'code')} className='bg-gray-900 cursor-pointer text-white p-3 text-lg font-semibold rounded-lg shadow-sm hover:bg-gray-800 transition-all duration-300'>
                                         <h2>Código</h2>
                                     </div>
                                 </div>
@@ -1004,14 +849,14 @@ const Main = () => {
 
                                         <div
                                             onClick={() => add_list('list', 'unordered', false)}
-                                            className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm"
+                                            className="bg-gray-900 cursor-pointer text-white p-3 text-lg font-semibold rounded-lg shadow-sm hover:bg-gray-800 transition-all duration-300"
                                         >
                                             <h2>Lista Desordenada</h2>
                                         </div>
 
                                         <div
                                             onClick={() => add_list('list', 'ordered', true)}
-                                            className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm"
+                                            className="bg-gray-900 cursor-pointer text-white p-3 text-lg font-semibold rounded-lg shadow-sm hover:bg-gray-800 transition-all duration-300"
                                         >
                                             <h2>Lista Ordenada</h2>
                                         </div>
@@ -1022,11 +867,11 @@ const Main = () => {
 
                         {
                             stateComponent === "table" && (
-                                <div className="space-y-6 bg-[#ffffff] shadow-md p-6 rounded-md">
+                                <div className="bg-white shadow-md p-6 rounded-lg">
 
                                     <h2 className="text-lg font-bold text-gray-800">Insertar tabla</h2>
 
-                                    <div className="flex flex-col items-start gap-4">
+                                    <div className="flex flex-col items-center gap-4 mt-3">
                                         <div className="grid grid-cols-6 grid-rows-5 gap-1 w-[180px] h-[150px] border border-gray-300 rounded-md p-2 relative">
                                             {Array.from({ length: 30 }).map((_, index) => {
                                                 const row = Math.floor(index / 6) + 1;

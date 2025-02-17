@@ -1,3 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&family=Bebas+Neue&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Roboto:300,400,500&family=Montserrat:300,400,500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    * {
+      forced-color-adjust: auto !important;
+    }
+  }

@@ -64,9 +64,9 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                                 stroke="currentColor"
                             >
                                 <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
                                     d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                                 />
                             </svg>
@@ -91,53 +91,6 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             className='absolute group hover:border-[2px] hover:border-indigo-500'
         >
             <Element id={randValue} info={info} exId="" />
-        </div>
-    }
-
-    if (info.name === 'shape' && info.type === 'circle') {
-        html = <div id={randValue} onClick={() => info.setCurrentComponent(info)} style={{
-
-            left: info.left + 'px',
-            top: info.top + 'px',
-            zIndex: info.z_index,
-            transform: info.rotate ? `rotate(${info.rotate}deg)` : 'rotate(0deg)',
-        }}
-            className='absolute group hover:border-[2px] hover:border-indigo-500'
-        >
-            <Element id={randValue} info={info} exId={`${randValue}c`} />
-            <div id={`${randValue}c`} className='rounded-full' style={{
-                width: info.width + 'px',
-                height: info.width + 'px',
-                background: info.color,
-                opacity: info.opacity,
-
-            }}>
-
-            </div>
-        </div>
-    }
-
-    if (info.name === 'shape' && info.type === 'trangle') {
-        html = <div id={randValue} onClick={() => info.setCurrentComponent(info)} style={{
-
-            left: info.left + 'px',
-            top: info.top + 'px',
-            zIndex: info.z_index,
-            transform: info.rotate ? `rotate(${info.rotate}deg)` : 'rotate(0deg)',
-        }}
-            className='absolute group hover:border-[2px] hover:border-indigo-500'
-        >
-            <Element id={randValue} info={info} exId={`${randValue}t`} />
-            <div id={`${randValue}t`} style={{
-                width: info.width + 'px',
-                height: info.height + 'px',
-                background: info.color,
-                opacity: info.opacity,
-                clipPath: 'polygon(50% 0,100% 100%,0 100%)'
-
-            }}>
-
-            </div>
         </div>
     }
 
@@ -242,6 +195,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                 }}
                 className="absolute group hover:border-[2px] hover:border-indigo-500"
             >
+                <Element id={randValue} info={info} exId="" />
                 <h2 className={`w-full h-full font-bold text-m`}>{info.title}</h2>
                 <List
                     initialItems={info.listItems || []}
