@@ -42,14 +42,9 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
             </div>
 
             {
-                current_component && <div className='h-full w-[280px] bg-white/10 shadow-lg rounded-xl px-4 py-4 text-gray-700'>
+                current_component && current_component.name !== "main_frame" &&  <div className='h-full w-[280px] bg-white/10 shadow-lg rounded-xl px-4 py-4 text-gray-700'>
 
                     <div className='flex flex-col gap-4 h-full'>
-                        <div className='flex items-center gap-3'>
-                            <span className="text-gray-800 font-medium">Color: </span>
-                            <label className='w-8 h-8 rounded-md border border-gray-300 cursor-pointer transition-transform transform hover:scale-110' style={{ background: `${current_component.color && current_component.color !== '#fff' ? current_component.color : 'gray'}` }} htmlFor="color"></label>
-                            <input onChange={(e) => handleSetAttributes('color', e.target.value)} type="color" className='invisible' id='color' />
-                        </div>
                         {
                             current_component.name !== 'main_frame' && <div
                                 className='flex flex-col gap-4 p-4'>

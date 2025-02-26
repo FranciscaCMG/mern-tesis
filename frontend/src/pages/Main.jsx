@@ -9,7 +9,7 @@ import { MdKeyboardArrowLeft } from 'react-icons/md'
 
 import Header from '../components/Header'
 import Projects from '../components/Projects'
-import MyImages from '../components/MyImages'
+import MyImages from '../components/Myimages'
 import InitialImage from '../components/InitialImage'
 import ViewSlide from '../components/slide/ViewSlide'
 import ActivePause from '../components/ActivePause'
@@ -257,8 +257,8 @@ const Main = () => {
             case 3:
                 components.push(createComponent({}, 'titulo', null, null, "Titulo", "text-6xl", 2, 5, flagFirstSlide, 1, numberTemplate));
                 components.push(createComponent({}, 'text', null, null, "Agregar 1", "text-lg", 1, 1, flagFirstSlide, 2, numberTemplate));
-                components.push(createComponent({}, 'text', null, null, "Agregar 2", "text-lg", 1, 3, flagFirstSlide, 3, numberTemplate));
                 components.push(createComponent({}, 'text', null, null, "Agregar 3", "text-lg", 3, 1, flagFirstSlide, 4, numberTemplate));
+                components.push(createComponent({}, 'text', null, null, "Agregar 2", "text-lg", 1, 3, flagFirstSlide, 3, numberTemplate));
                 components.push(createComponent({}, 'text', null, null, "Agregar 4", "text-lg", 3, 3, flagFirstSlide, 5, numberTemplate));
                 break;
             case 4:
@@ -373,12 +373,17 @@ const Main = () => {
         }
 
         const mouseUp = (e) => {
-            isMoving = false
-            window.removeEventListener('mousemove', mouseMove)
-            window.removeEventListener('mouseup', mouseUp)
-
-            handleSetAttributes('left', parseInt(currentDiv.style.left))
-            handleSetAttributes('top', parseInt(currentDiv.style.top))
+            window.removeEventListener('mousemove', mouseMove);
+            window.removeEventListener('mouseup', mouseUp);
+        
+            const finalLeft = parseInt(currentDiv.style.left);
+            const finalTop = parseInt(currentDiv.style.top);
+        
+            // Solo actualizar si cambió la posición
+            if (finalLeft !== limits[1][0] && finalTop !== limits[0][0]) {
+                handleSetAttributes('left', finalLeft);
+                handleSetAttributes('top', finalTop);
+            }
         }
 
         window.addEventListener('mousemove', mouseMove)

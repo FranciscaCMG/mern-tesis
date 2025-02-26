@@ -13,57 +13,112 @@ const Header = ({ slides, design_id, attributes }) => {
   const [loader, setLoader] = useState(false);
   const [loader2, setLoader2] = useState(false);
   const [title, setTitle] = useState("Ingresa el título");
-  const [check, setCheck] = useState(false); 
+  const [check, setCheck] = useState(false);
 
+  const handleCreateVideoClass = async () => {
+    try {
+      setLoader2(true);
+      const xml = await createXml(design_id);
+      if (!xml) throw new Error("Error al generar el XML");
 
-  const handleCreateVideoClass =  async () => {
-    setLoader2(true);
-    const xml = await createXml(design_id);
-    console.log(xml);
-    sendXml(xml, title, setLoader2);
+      console.log(xml);
+      await sendXml(xml, title, setLoader2);
+    } catch (error) {
+      console.error("Error en handleCreateVideoClass:", error);
+      toast.error("Error al crear la videoclase.");
+    } finally {
+      setLoader2(false);
+    }
   };
 
   useWarnOnExit(check);
 
   useEffect(() => {
-    if (attributes.audio_text ==! "" || attributes.color !== "" || attributes.image !== "" || attributes.text !== "" || attributes.top !== "" || attributes.left !== "" || slides.length > 0 ) {
+    if (
+      attributes.audio_text !== "" ||
+      attributes.color !== "" ||
+      attributes.image !== "" ||
+      attributes.text !== "" ||
+      attributes.top !== "" ||
+      attributes.left !== "" ||
+      slides.length > 0
+    ) {
       setCheck(true);
     }
   }, [attributes, slides]);
 
   const saveImage = async () => {
-    const getDiv = document.getElementById("photo-0");
-    const image = await htmlToImage.toBlob(getDiv);
+    try {
+        const getDiv = document.getElementById("photo-0");
+        if (!getDiv) throw new Error("No se encontró el div con ID 'photo-0'.");
 
-    if (image) {
-      const obj = { design: slides };
-      const formData = new FormData();
-      formData.append("design", JSON.stringify(obj));
-      formData.append("image", image);
-      formData.append("title", title);
+        const images = getDiv.getElementsByTagName("img");
 
-      try {
+        [...images].forEach((img) => {
+            if (!img.src.startsWith(window.location.origin)) {
+                img.setAttribute("crossorigin", "anonymous");
+            }
+        });
+
+        await Promise.allSettled(
+            [...images].map(
+                (img) =>
+                    new Promise((resolve, reject) => {
+                        if (img.complete) {
+                            resolve();
+                        } else {
+                            img.onload = resolve;
+                            img.onerror = () => {
+                                console.warn(`Error al cargar la imagen: ${img.src}`);
+                                resolve(); 
+                            };
+                        }
+                    })
+            )
+        );
+
+        const image = await htmlToImage.toBlob(getDiv);
+        if (!image) throw new Error("No se pudo generar la imagen.");
+
+        const obj = { design: slides };
+        const formData = new FormData();
+        formData.append("design", JSON.stringify(obj));
+        formData.append("image", image);
+        formData.append("title", title);
+
         setLoader(true);
         const { data } = await api.put(`/api/update-user-design/${design_id}`, formData);
         toast.success(data.message);
-        setLoader(false);
         setCheck(false);
-      } catch (error) {
+    } catch (error) {
+        console.error("Error en saveImage:", error);
+        toast.error(error.message || "Error al guardar la imagen.");
+    } finally {
         setLoader(false);
-        toast.error(error.response.data.message);
-      }
     }
-  };
+};
+
+
   const get_user_design = async () => {
     try {
-      const { data } = await api.get(`/api/user-design/${design_id}`)
+      const { data } = await api.get(`/api/user-design/${design_id}`);
       setTitle(data.design.title);
     } catch (error) {
-      console.error('Error fetching designs:', error);
+      console.error("Error fetching designs:", error);
+      toast.error("Error al cargar el diseño.");
     }
   };
+
   useEffect(() => {
-    get_user_design();
+    const fetchDesign = async () => {
+      try {
+        await get_user_design();
+      } catch (error) {
+        console.error("Error al obtener el diseño:", error);
+        toast.error("No se pudo cargar el diseño.");
+      }
+    };
+    fetchDesign();
   }, []);
 
   const handleLogoClick = () => {
@@ -71,7 +126,7 @@ const Header = ({ slides, design_id, attributes }) => {
       const confirmLeave = window.confirm("Tienes cambios sin guardar. ¿Seguro que quieres salir?");
       if (!confirmLeave) return;
     }
-    navigate("/"); 
+    navigate("/");
   };
 
   return (
@@ -107,8 +162,8 @@ const Header = ({ slides, design_id, attributes }) => {
           {!check && (
             <button
               disabled={loader2}
-              onClick={() => handleCreateVideoClass()}
-              className={"px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-md shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"}
+              onClick={handleCreateVideoClass}
+              className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-md shadow-md hover:from-blue-600 hover:to-blue-700 transition-all duration-300"
             >
               {loader2 ? "Cargando..." : "Crear la videoclase"}
             </button>

@@ -59,7 +59,6 @@ class authController {
                         }
                     );
     
-                    // Devolver también el email y el name
                     return res.status(200).json({
                         message: "Signin success",
                         token,

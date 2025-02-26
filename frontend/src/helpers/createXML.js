@@ -90,11 +90,8 @@ function generarDiapositivas(data) {
 
         if (disposicion === "interactivo-alternativas") {
             xml += generarDiapositivaInteractiva(slide);
-
-        } if (disposicion === "interactivo-alternativas") {
-            xml += generarDiapositivaInteractiva(slide);
         } else {
-            xml += `    <Diapositiva disposicion="${disposicion}" titulo="${titulo}">\n`;
+            xml += `    <Diapositiva disposicion="${disposicion}" titulo="${titulo[0]}" tts= "${titulo[1]}" >\n`;
 
             slide.components.forEach((component) => {
                 let region = determinarJustificacion(component);
@@ -133,6 +130,12 @@ function obtenerDisposicion(components) {
 }
 
 function obtenerTitulo(components) {
+    const titulo = components.find((c) => c.type === "titulo");
+    const title = titulo.title;
+    const tts = titulo.audio_text;
+    return [title, tts];
+}
+function obtenerTtsTitulo(components) {
     const titulo = components.find((c) => c.type === "titulo");
     return titulo ? titulo.title : "Sin título";
 }

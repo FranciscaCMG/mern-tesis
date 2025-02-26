@@ -93,11 +93,6 @@ const Layout = () => {
                                 </div>
 
                                 <ul className="text-[#555555] font-medium">
-                                    <li className="p-2 hover:bg-[#f8f8f8] rounded-md cursor-pointer">
-                                        <Link>
-                                            <span>Configuración</span>
-                                        </Link>
-                                    </li>
                                     <li
                                         onClick={logout}
                                         className="p-2 hover:bg-[#f8f8f8] rounded-md cursor-pointer"
@@ -150,16 +145,6 @@ const Layout = () => {
                             >
                                 <BsFolder className="text-xl" />
                                 <span className="font-medium">Proyectos</span>
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="/templates"
-                                className={`flex items-center gap-3 px-4 py-3 rounded-lg ${pathname === "/templates" ? "bg-[#e0e0e0]" : "hover:bg-[#f3f3f3]"
-                                    }`}
-                            >
-                                <BsGrid1X2 className="text-xl" />
-                                <span className="font-medium">Plantillas</span>
                             </Link>
                         </li>
                     </ul>

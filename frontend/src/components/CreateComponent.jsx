@@ -77,23 +77,6 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
         );
     }
 
-    if (info.name === 'shape' && info.type === 'rect') {
-        html = <div id={randValue} onClick={() => info.setCurrentComponent(info)} style={{
-            width: info.width + 'px',
-            height: info.height + 'px',
-            background: info.color,
-            opacity: info.opacity,
-            left: info.left + 'px',
-            top: info.top + 'px',
-            zIndex: info.z_index,
-            transform: info.rotate ? `rotate(${info.rotate}deg)` : 'rotate(0deg)',
-        }}
-            className='absolute group hover:border-[2px] hover:border-indigo-500'
-        >
-            <Element id={randValue} info={info} exId="" />
-        </div>
-    }
-
     if (info.name === 'text') {
         html = <div id={randValue} onClick={() => info.setCurrentComponent(info)} style={{
 
