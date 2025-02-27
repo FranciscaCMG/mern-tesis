@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { createXml, sendXml } from "../helpers/createXML";
 import { FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
 import useWarnOnExit from "../helpers/useWarnOnExit";
+import { token_decode } from '../utils/index';
 
 const Header = ({ slides, design_id, attributes }) => {
   const navigate = useNavigate();
@@ -43,17 +44,24 @@ const Header = ({ slides, design_id, attributes }) => {
       attributes.left !== "" ||
       slides.length > 0
     ) {
+      console.log("Atributo cambiado")
       setCheck(true);
     }
   }, [attributes, slides]);
 
   const saveImage = async () => {
     try {
+        setLoader(true);
+
+        const token = localStorage.getItem("canva_token");
+        if (!token) {
+            throw new Error("No se encontró el token. Inicia sesión nuevamente.");
+        }
+
         const getDiv = document.getElementById("photo-0");
         if (!getDiv) throw new Error("No se encontró el div con ID 'photo-0'.");
 
         const images = getDiv.getElementsByTagName("img");
-
         [...images].forEach((img) => {
             if (!img.src.startsWith(window.location.origin)) {
                 img.setAttribute("crossorigin", "anonymous");
@@ -80,14 +88,28 @@ const Header = ({ slides, design_id, attributes }) => {
         const image = await htmlToImage.toBlob(getDiv);
         if (!image) throw new Error("No se pudo generar la imagen.");
 
-        const obj = { design: slides };
         const formData = new FormData();
-        formData.append("design", JSON.stringify(obj));
+        formData.append("design", JSON.stringify({ design: slides }));
         formData.append("image", image);
         formData.append("title", title);
 
-        setLoader(true);
-        const { data } = await api.put(`/api/update-user-design/${design_id}`, formData);
+        const response = await fetch(`/api/update-user-design/${design_id}`, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`, 
+            },
+            body: formData,
+        });
+
+        if (response.status === 401) {
+            throw new Error("No tienes autorización para guardar. Inicia sesión nuevamente.");
+        }
+
+        if (!response.ok) {
+            throw new Error(`Error al guardar: ${response.status} - ${response.statusText}`);
+        }
+
+        const data = await response.json();
         toast.success("Presentación guardada con éxito.");
         setCheck(false);
     } catch (error) {
@@ -147,13 +169,12 @@ const Header = ({ slides, design_id, attributes }) => {
           <button
             disabled={loader}
             onClick={saveImage}
-            className={`px-4 py-2 rounded-md text-white font-semibold shadow-md flex items-center gap-2 transition-all duration-300 ${
-              loader
+            className={`px-4 py-2 rounded-md text-white font-semibold shadow-md flex items-center gap-2 transition-all duration-300 ${loader
                 ? "bg-gray-400 cursor-not-allowed"
                 : check
-                ? "bg-yellow-500 hover:bg-yellow-600"
-                : "bg-green-500 hover:bg-green-600"
-            }`}
+                  ? "bg-yellow-500 hover:bg-yellow-600"
+                  : "bg-green-500 hover:bg-green-600"
+              }`}
           >
             {loader ? "Cargando..." : check ? "Guardar" : "Guardado"}
             {loader ? null : check ? <FaExclamationTriangle /> : <FaCheckCircle />}

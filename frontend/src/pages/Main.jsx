@@ -557,7 +557,7 @@ const Main = () => {
             z_index: 10,
             padding: 6,
             font: 18,
-            title: "<Agregar código>",
+            title: "Agregar código",
             weight: 400,
             color: '#d1d1d1',
             audio_text: '',
