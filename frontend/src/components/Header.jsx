@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import { createXml, sendXml } from "../helpers/createXML";
 import { FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
 import useWarnOnExit from "../helpers/useWarnOnExit";
-import { token_decode } from '../utils/index';
 
 const Header = ({ slides, design_id, attributes }) => {
   const navigate = useNavigate();
@@ -15,6 +14,7 @@ const Header = ({ slides, design_id, attributes }) => {
   const [loader2, setLoader2] = useState(false);
   const [title, setTitle] = useState("Ingresa el título");
   const [check, setCheck] = useState(false);
+  
 
   const handleCreateVideoClass = async () => {
     try {
@@ -62,6 +62,7 @@ const Header = ({ slides, design_id, attributes }) => {
         if (!getDiv) throw new Error("No se encontró el div con ID 'photo-0'.");
 
         const images = getDiv.getElementsByTagName("img");
+        
         [...images].forEach((img) => {
             if (!img.src.startsWith(window.location.origin)) {
                 img.setAttribute("crossorigin", "anonymous");
@@ -85,7 +86,8 @@ const Header = ({ slides, design_id, attributes }) => {
             )
         );
 
-        const image = await htmlToImage.toBlob(getDiv);
+        const image = await htmlToImage.toBlob(getDiv, { useCORS: true });
+
         if (!image) throw new Error("No se pudo generar la imagen.");
 
         const formData = new FormData();

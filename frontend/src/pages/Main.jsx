@@ -731,8 +731,6 @@ const Main = () => {
                         <h2 className="text-lg font-semibold text-gray-700 mb-4">Menú</h2>
                         <div
                             onClick={() => {
-
-                                setElements("text", false);
                                 add_text("text");
 
 
@@ -751,7 +749,6 @@ const Main = () => {
                         <div
                             onClick={() => {
 
-                                setElements("code", "code");
                                 add_code("code", "code");
 
                             }}
