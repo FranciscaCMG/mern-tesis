@@ -1,9 +1,26 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import { FaAlignLeft, FaAlignCenter, FaAlignRight } from "react-icons/fa";
+
 
 import CreateComponent from "../CreateComponent";
 
 const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttributes, setCurrentComponent, setCurrentSlideId, setShowModal, duplicateSlide, setUpdateList }) => {
+
+    const [highlight, setHighlight] = useState(false);
+
+    useEffect(() => {
+        if (current_component && current_component.name !== "main_frame") {
+            setHighlight(true);
+
+            // Quitar la animación después de 5 segundos
+            const timer = setTimeout(() => {
+                setHighlight(false);
+            }, 5000);
+
+            return () => clearTimeout(timer); // Limpiar el timeout si cambia antes de los 5 segundos
+        }
+    }, [current_component]);
     return (
         <div className="flex w-full h-full">
             <div className={`flex flex-col items-center h-full overflow-y-auto ${!current_component ? "w-full" : "w-[calc(100%-250px)]"}`}>
@@ -42,7 +59,8 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
             </div>
 
             {
-                current_component && current_component.name !== "main_frame" &&  <div className='h-full w-[280px] bg-white/10 shadow-lg rounded-xl px-4 py-4 text-gray-700'>
+                current_component && current_component.name !== "main_frame" &&
+                <div className='h-full w-[280px] bg-white/10 shadow-lg rounded-xl px-4 py-4 text-gray-700'>
 
                     <div className='flex flex-col gap-4 h-full'>
                         {
@@ -85,7 +103,13 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
                                         </div>
                                     }
                                     <div>
-                                        <h3 className="text-m font-semibold text-gray-800 mb-1">Texto</h3>
+                                        <h3 className="text-m font-semibold text-gray-800 mb-1">
+                                            {current_component.name === "table"
+                                                ? "Título de la tabla"
+                                                : current_component.name === "list"
+                                                    ? "Descripción de la lista"
+                                                    : "Texto"}
+                                        </h3>
                                         <textarea
                                             onChange={(e) =>
                                                 setCurrentComponent({
@@ -98,7 +122,8 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
                                                 const newHeight = Math.min(e.target.scrollHeight, 100);
                                                 e.target.style.height = `${newHeight}px`;
                                             }}
-                                            className="border border-gray-300 bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:border-blue-400 outline-none p-3 rounded-lg w-full resize-none transition-all duration-300 min-h-[50px] max-h-[300px] overflow-auto"
+                                            className={`border-2 bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-400 outline-none p-3 rounded-lg w-full resize-none transition-all duration-300 min-h-[50px] max-h-[300px] overflow-auto 
+                                ${highlight ? "animate-flash" : ""}`}
                                             value={current_component.title}
                                             placeholder="Escribe aquí..."
                                         ></textarea>
@@ -112,7 +137,7 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
                                     </div>
 
                                     <div>
-                                        <h3 className="text-m font-semibold text-gray-800 mb-1">Texto hablado</h3>
+                                        <h3 className="text-m font-semibold text-gray-800 mb-1">Explicación</h3>
 
                                         <textarea
                                             onChange={(e) =>
@@ -126,7 +151,8 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
                                                 const newHeight = Math.min(e.target.scrollHeight, 100);
                                                 e.target.style.height = `${newHeight}px`;
                                             }}
-                                            className="border border-gray-300 bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none p-3 rounded-lg w-full resize-none transition-all duration-300"
+                                            className={`border-2 bg-blue-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-400 outline-none p-3 rounded-lg w-full resize-none transition-all duration-300 min-h-[50px] max-h-[300px] overflow-auto 
+                                                ${highlight ? "animate-flash" : ""}`}
                                             value={current_component.audio_text}
                                             placeholder="Escribe aquí..."
                                         ></textarea>
@@ -178,7 +204,7 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
                                                     const newHeight = Math.min(e.target.scrollHeight, 100);
                                                     e.target.style.height = `${newHeight}px`;
                                                 }}
-                                                className="border border-gray-300 bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none p-3 rounded-lg w-full resize-none transition-all duration-300"
+                                                className="border border-gray-300 bg-gray-100 focus:ring-2 focus:ring-blue-500 outline-none p-3 rounded-lg w-full resize-none transition-all duration-200"
                                                 value={current_component.description}
                                                 placeholder="Escribe aquí..."
                                             ></textarea>
@@ -191,7 +217,6 @@ const ViewSlide = ({ current_component, slides, removeComponent, handleSetAttrib
                                             </button>
                                         </>
                                     )}
-
 
 
                                 </div>

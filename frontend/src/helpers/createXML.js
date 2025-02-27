@@ -49,9 +49,9 @@ function generarListaO(listItems, subtitulo) {
     xml += `        </listaOrdenada>\n`;
     return xml;
 }
-    function generarListaD(listItems, subtitulo) {
+function generarListaD(listItems, subtitulo) {
     if (!listItems || listItems.length === 0) return "";
-let xml = `<subtitulo>${subtitulo}</subtitulo> `;
+    let xml = `<subtitulo>${subtitulo}</subtitulo> `;
     xml += `       <listaNoOrdenada>\n`;
     listItems.forEach((item) => {
         xml += `            <item>${item}</item>\n`;
@@ -61,9 +61,9 @@ let xml = `<subtitulo>${subtitulo}</subtitulo> `;
 }
 
 function generarDiapositivaInteractiva(slide) {
-    let pregunta = slide.components.find(c => c.type === "titulo")?.title || "Pregunta no definida";
-    let alternativas = slide.components.filter(c => c.type === "alternative");
-    let retroalimentacion = slide.components.find(c => c.type === "Retroalimentacion")?.title || "No hay retroalimentación";
+    let pregunta = slide.components.find(c => c.name === "titulo")?.title || "Pregunta no definida";
+    let alternativas = slide.components.filter(c => c.name === "alternative");
+    let retroalimentacion = slide.components.find(c => c.name === "Retroalimentacion")?.title || "No hay retroalimentación";
 
     let xml = `    <Diapositiva disposicion="interactivo-alternativas">\n`;
     xml += `        <pregunta>\n            ${pregunta}\n        </pregunta>\n`;
@@ -130,34 +130,30 @@ function obtenerDisposicion(components) {
 }
 
 function obtenerTitulo(components) {
-    const titulo = components.find((c) => c.type === "titulo");
+    const titulo = components.find((c) => c.name === "titulo");
     const title = titulo.title;
     const tts = titulo.audio_text;
     return [title, tts];
 }
-function obtenerTtsTitulo(components) {
-    const titulo = components.find((c) => c.type === "titulo");
-    return titulo ? titulo.title : "Sin título";
-}
 
 function determinarJustificacion(components) {
-    const textAlign= components.textAlign;
-    if (textAlign=== "left"){
+    const textAlign = components.textAlign;
+    if (textAlign === "left") {
         return "izquierda";
     }
-    if (textAlign=== "right"){
+    if (textAlign === "right") {
         return "derecha";
     }
-    else{
+    else {
         return "centro";
     }
-    
+
 }
 
 function generarContenido(component) {
     let xml = "";
 
-    switch (component.type) {
+    switch (component.name) {
         case "text":
             xml += `            <texto>${component.title}</texto>\n`;
             break;
@@ -173,11 +169,15 @@ function generarContenido(component) {
         case "code":
             xml += `            <codigo>${component.title}</codigo>\n`;
             break;
-        case "unordered":
-            xml += `${generarListaD(component.listItems, component.title)}\n`;
-            break;
-        case "ordered":
-            xml += `${generarListaO(component.listItems, component.title)}\n`;
+        case "list":
+            if (component.isOrdered === false) {
+                xml += `${generarListaD(component.listItems, component.title)}\n`;
+                break;
+            }
+            else {
+                xml += `${generarListaO(component.listItems, component.title)}\n`;
+                break;
+            }
             break;
         case "table":
             xml += `${generarTabla(component.tableData, component.title, component.description)}\n`;

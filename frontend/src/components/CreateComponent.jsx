@@ -3,6 +3,8 @@ import Element from './Element'
 import Table from './Table'
 import List from './List'
 
+import { FaVolumeUp } from "react-icons/fa";
+
 const CreateComponent = ({ info, current_component, removeComponent, duplicateSlide, setUpdateList }) => {
 
     const randValue = Math.floor(Math.random() * 100)
@@ -29,6 +31,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                 )}
 
                 <Element id={randValue} info={info} exId="" />
+                
 
                 {current_component.id === info.id && (
                     <div className="flex space-x-2 mt-2 justify-end">
@@ -76,17 +79,13 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             </div>
         );
     }
-
     if (info.name === 'text') {
         html = <div id={randValue} onClick={() => info.setCurrentComponent(info)} style={{
 
             left: info.left + 'px',
             top: info.top + 'px',
             zIndex: info.z_index,
-            transform: info.rotate ? `rotate(${info.rotate}deg)` : 'rotate(0deg)',
-            padding: info.padding + 'px',
-            color: info.color,
-            opacity: info.opacity,
+
         }}
             className={ current_component.id === info.id ? 'absolute group border-[2px] border-indigo-500' : 'absolute group hover:border-[2px] hover:border-indigo-500'}
         >
@@ -108,7 +107,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             opacity: info.opacity,
             backgroundColor: info.alternative ? "#22c55e" : info.background,
         }}
-            className='absolute group hover:border-[2px] hover:border-indigo-500'
+        className={ current_component.id === info.id ? 'absolute group border-[2px] border-indigo-500' : 'absolute group hover:border-[2px] hover:border-indigo-500'}
         >
             <Element id={randValue} info={info} exId="" />
 
@@ -130,7 +129,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             fontFamily: 'Source Code Pro',
             opacity: info.opacity,
         }}
-            className='absolute group hover:border-[2px] hover:border-indigo-500'
+        className={ current_component.id === info.id ? 'absolute group border-[2px] border-indigo-500' : 'absolute group hover:border-[2px] hover:border-indigo-500'}
         >
             <Element id={randValue} info={info} exId="" />
             <div className='w-full h-full overflow-auto border-8 border-[#2a2b2c]'>
@@ -152,7 +151,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             color: info.color,
             opacity: info.opacity,
         }}
-            className='absolute group hover:border-[2px] hover:border-indigo-500'
+        className={ current_component.id === info.id ? 'absolute group border-[2px] border-indigo-500' : 'absolute group hover:border-[2px] hover:border-indigo-500'}
         >
             <Element id={randValue} info={info} exId="" />
 
@@ -176,7 +175,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                     fontFamily: 'Source Code Pro',
                     opacity: info.opacity,
                 }}
-                className="absolute group hover:border-[2px] hover:border-indigo-500"
+                className={ current_component.id === info.id ? 'absolute group border-[2px] border-indigo-500' : 'absolute group hover:border-[2px] hover:border-indigo-500'}
             >
                 <Element id={randValue} info={info} exId="" />
                 <h2 className={`w-full h-full font-bold text-m`}>{info.title}</h2>
@@ -205,7 +204,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
                     fontFamily: 'Source Code Pro',
                     opacity: info.opacity,
                 }}
-                className="absolute group hover:border-[2px] hover:border-indigo-500"
+                className={ current_component.id === info.id ? 'absolute group border-[2px] border-indigo-500' : 'absolute group hover:border-[2px] hover:border-indigo-500'}
             >
                 <Element id={randValue} info={info} exId="" />
 
@@ -239,7 +238,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             transform: info.rotate ? `rotate(${info.rotate}deg)` : 'rotate(0deg)',
             opacity: info.opacity,
         }}
-            className='absolute group hover:border-[2px] hover:border-indigo-500'
+        className={ current_component.id === info.id ? 'absolute group border-[2px] border-indigo-500' : 'absolute group hover:border-[2px] hover:border-indigo-500'}
         >
             <Element id={randValue} info={info} exId={`${randValue}img`} />
             <div id={`${randValue}img`} style={{
@@ -250,7 +249,7 @@ const CreateComponent = ({ info, current_component, removeComponent, duplicateSl
             }}>
 
                 <img className='w-full h-full' src={info.image} alt="image" />
-
+                
             </div>
         </div>
     }

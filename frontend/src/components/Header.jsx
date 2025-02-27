@@ -88,7 +88,7 @@ const Header = ({ slides, design_id, attributes }) => {
 
         setLoader(true);
         const { data } = await api.put(`/api/update-user-design/${design_id}`, formData);
-        toast.success(data.message);
+        toast.success("Presentación guardada con éxito.");
         setCheck(false);
     } catch (error) {
         console.error("Error en saveImage:", error);

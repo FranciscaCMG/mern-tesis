@@ -77,7 +77,7 @@ const Main = () => {
             2: [baseTop, baseTop + 190],
             3: [baseTop + 190, baseTop + 190 + 190],
             4: [baseTop - 100, baseTop],
-            5: [baseTop - 100,baseTop],
+            5: [baseTop - 100, baseTop],
             default: [baseTop - 100, baseTop - 100 + 480]
         };
 
@@ -128,8 +128,14 @@ const Main = () => {
     };
 
     const replaceComponentInSlide = (component) => {
-        if (!current_component || current_component.type === "titulo") {
-            toast.error("No puedes reemplazar el titulo");
+        if (!current_component || current_component.name === "titulo") {
+            toast.error("No puedes reemplazar el título");
+            setCurrentComponent('');
+            return;
+        }
+
+        if (current_component.name === "alternative") {
+            toast.error("No puedes reemplazar la alternativa");
             setCurrentComponent('');
             return;
         }
@@ -179,19 +185,13 @@ const Main = () => {
             id: Date.now() + Math.floor(Math.random() * 1000),
             slide_id: slides.length,
             name: text,
-            type: text,
             numberPosition: numberPosition,
             left: positionLeft[leftPosition],
             top: topPositions[topPosition](flagFirstSlide ? 0 : slides.length),
-            opacity: 1,
             z_index: 10,
-            padding: 6,
             font: 36,
             title: title,
-            titleId: title,
             titleSize: fontSize,
-            weight: 400,
-            color: '#3c3c3d',
             audio_text: '',
             type_slide: typeSlide,
             textAlign: "center",
@@ -375,10 +375,10 @@ const Main = () => {
         const mouseUp = (e) => {
             window.removeEventListener('mousemove', mouseMove);
             window.removeEventListener('mouseup', mouseUp);
-        
+
             const finalLeft = parseInt(currentDiv.style.left);
             const finalTop = parseInt(currentDiv.style.top);
-        
+
             // Solo actualizar si cambió la posición
             if (finalLeft !== limits[1][0] && finalTop !== limits[0][0]) {
                 handleSetAttributes('left', finalLeft);
@@ -482,25 +482,19 @@ const Main = () => {
     };
 
 
-    const add_text = (name, titleName, titleSize, font) => {
+    const add_text = (name) => {
         setCurrentComponent('')
         const id = Date.now();
         const style = {
             id: id,
             slide_id: currentSlideId,
             name: name,
-            type: titleName,
             left: current_component.left,
             top: current_component.top,
-            opacity: 1,
             z_index: 10,
-            padding: 6,
-            font: font,
-            title: titleName,
-            titleId: titleName,
-            titleSize: titleSize,
-            weight: 400,
-            color: '#3c3c3d',
+            font: 36,
+            title: 'Texto',
+            titleSize: 'text-lg',
             audio_text: '',
             textAlign: "center",
             setCurrentComponent: (a) => setCurrentComponent(a),
@@ -580,7 +574,7 @@ const Main = () => {
 
     }
 
-    const add_list = (name, type, isOrdered = false) => {
+    const add_list = (name, isOrdered = false) => {
         setCurrentComponent('');
         const id = Date.now();
 
@@ -588,7 +582,6 @@ const Main = () => {
             id: id,
             slide_id: currentSlideId,
             name: name,
-            type: type,
             left: current_component.left,
             top: current_component.top,
             opacity: 1,
@@ -720,6 +713,7 @@ const Main = () => {
         get_design()
     }, [design_id])
 
+
     return (
         <div className="min-w-screen min-h-screen bg-[#f8f8f8] overflow-hidden">
             <Header
@@ -730,37 +724,52 @@ const Main = () => {
 
             <div className="flex w-[100vw] h-[100vh] pt-[10px] overflow-hidden">
                 {/* Barra lateral */}
+
+
                 <div className="fixed top-[65px] left-0 w-[80px] h-[calc(100%-60px)] bg-white shadow-md z-50 overflow-y-auto">
                     <div className='flex flex-col gap-4 px-2 items-center'>
                         <h2 className="text-lg font-semibold text-gray-700 mb-4">Menú</h2>
                         <div
-                            onClick={() => setElements("text", "text")}
-                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "text" ? `bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md`
-                                : "hover:bg-gray-100"
-                                } `}
+                            onClick={() => {
+
+                                setElements("text", false);
+                                add_text("text");
+
+
+                            }}
+                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 
+        ${show.name === "text" ? `bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md` : "hover:bg-gray-100"}
+    `}
                         >
-                            <span className="text-xs font-medium">
-                                Texto
+                            <span className="text-xs font-medium">Texto</span>
+                            <span className="text-2xl text-white p-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600">
+                                <TfiText />
                             </span>
-                            <span className="text-2xl text-white p-2 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600"><TfiText /></span>
                         </div>
 
+
                         <div
-                            onClick={() => setElements("code", "code")}
-                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "code" ? `bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-md`
-                                : "hover:bg-gray-100"
-                                } `}
+                            onClick={() => {
+
+                                setElements("code", "code");
+                                add_code("code", "code");
+
+                            }}
+                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 
+        ${show.name === "code" ? `bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-md` : "hover:bg-gray-100"}
+    `}
                         >
-                            <span className="text-xs font-medium">
-                                Código
+                            <span className="text-xs font-medium">Código</span>
+                            <span className="text-2xl text-white p-2 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600">
+                                <FaCode />
                             </span>
-                            <span className="text-2xl text-white p-2 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600"><FaCode /></span>
                         </div>
+
 
                         <div
                             onClick={() => setElements("list", "list")}
-                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "list" ?  `bg-gradient-to-r from-green-500 to-green-600 text-white shadow-md`
-                : "hover:bg-gray-100"
+                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "list" ? `bg-gradient-to-r from-green-500 to-green-600 text-white shadow-md`
+                                : "hover:bg-gray-100"
                                 }`}
                         >
                             <span className="text-xs font-medium">
@@ -771,8 +780,8 @@ const Main = () => {
 
                         <div
                             onClick={() => setElements("table", "table")}
-                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "table" ?  `bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md`
-                : "hover:bg-gray-100"
+                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "table" ? `bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md`
+                                : "hover:bg-gray-100"
                                 }`}
                         >
                             <span className="text-xs font-medium">
@@ -783,8 +792,8 @@ const Main = () => {
 
                         <div
                             onClick={() => setElements("activepause", "activepause")}
-                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "activepause" ?  `bg-gradient-to-r from-red-500 to-red-600 text-white shadow-md`
-                : "hover:bg-gray-100"
+                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "activepause" ? `bg-gradient-to-r from-red-500 to-red-600 text-white shadow-md`
+                                : "hover:bg-gray-100"
                                 }`}
                         >
                             <span className="text-xs font-medium text-center">
@@ -795,8 +804,8 @@ const Main = () => {
 
                         <div
                             onClick={() => setElements("image", "uploadImage")}
-                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "uploadImage" ?  `bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow-md`
-                : "hover:bg-gray-100"
+                            className={`flex flex-col items-center justify-center gap-1 px-3 py-1 w-full rounded-lg cursor-pointer transition-all duration-300 text-gray-700 ${show.name === "uploadImage" ? `bg-gradient-to-r from-blue-400 to-blue-500 text-white shadow-md`
+                                : "hover:bg-gray-100"
                                 }`}
                         >
                             <span className="text-xs font-medium">
@@ -810,7 +819,7 @@ const Main = () => {
 
                 {/* Contenido principal */}
                 <div className="ml-[80px] w-[calc(100vw-80px)] h-[calc(100vh-70px)] overflow-hidden py-[0px]">
-                <div
+                    <div
                         className={`${show.status ? "p-0 -left-[350px]" : "px-8 left-[80px] py-1"
                             } bg-[#f0f0f0] h-full fixed transition-all w-[300px] z-30 duration-700 shadow-md`}
                     >
@@ -821,31 +830,6 @@ const Main = () => {
                             <MdKeyboardArrowLeft />
                         </div>
 
-                        {stateComponent === "text" && (
-                            <div className="space-y-4">
-                                {titles.map((title) => (
-                                    <div
-                                        key={title.id}
-                                        onClick={() =>
-                                            add_text("text", title.label, title.size, title.font)
-                                        }
-                                        className="bg-white border border-gray-300 cursor-pointer p-3 text-gray-700 text-lg rounded-lg shadow-sm hover:bg-gray-100 transition-all duration-300"
-                                    >
-                                        <h2 className={title.size}>{title.label}</h2>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        {
-                            stateComponent === 'code' && <div>
-                                <div className='grid grid-cols-1 gap-2'>
-                                    <div onClick={() => add_code('code', 'code')} className='bg-gray-900 cursor-pointer text-white p-3 text-lg font-semibold rounded-lg shadow-sm hover:bg-gray-800 transition-all duration-300'>
-                                        <h2>Código</h2>
-                                    </div>
-                                </div>
-                            </div>
-                        }
 
                         {
                             stateComponent === 'list' && (
@@ -853,14 +837,14 @@ const Main = () => {
                                     <div className="grid grid-cols-1 gap-2">
 
                                         <div
-                                            onClick={() => add_list('list', 'unordered', false)}
+                                            onClick={() => add_list('list', false)}
                                             className="bg-gray-900 cursor-pointer text-white p-3 text-lg font-semibold rounded-lg shadow-sm hover:bg-gray-800 transition-all duration-300"
                                         >
                                             <h2>Lista Desordenada</h2>
                                         </div>
 
                                         <div
-                                            onClick={() => add_list('list', 'ordered', true)}
+                                            onClick={() => add_list('list', true)}
                                             className="bg-gray-900 cursor-pointer text-white p-3 text-lg font-semibold rounded-lg shadow-sm hover:bg-gray-800 transition-all duration-300"
                                         >
                                             <h2>Lista Ordenada</h2>
@@ -948,8 +932,8 @@ const Main = () => {
                         )}
                     </div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }
 export default Main

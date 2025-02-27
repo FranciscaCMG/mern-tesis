@@ -4,8 +4,31 @@
 @tailwind components;
 @tailwind utilities;
 
-@media (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    * {
-      forced-color-adjust: auto !important;
-    }
+@media (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+  * {
+    forced-color-adjust: auto !important;
   }
+}
+
+
+@keyframes flash {
+  0% {
+    background-color: #ede9fe;
+    color: #000000;
+  }
+
+  50% {
+    background-color: #dbd9fd;
+    color: #000000;
+  }
+
+  100% {
+    background-color: #ede9fe;
+    color: #000000;
+  }
+}
+
+.animate-flash {
+  animation: flash 1s infinite alternate ease-in-out;
+}
